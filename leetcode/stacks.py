@@ -1,4 +1,18 @@
 class Solution:
+    # 20. Valid Parentheses
+    def isValid(self, s: str) -> bool:
+        stack = []
+        valid = ['()', '[]', '{}']
+        for c in s:
+            if c in '([{':
+                stack.append(c)
+            elif (
+                    not stack
+                    or stack.pop() + c not in valid
+            ):
+                return False
+        return not stack
+
     # 71. Simplify Path
     def simplifyPath(self, path: str) -> str:
         stack = []

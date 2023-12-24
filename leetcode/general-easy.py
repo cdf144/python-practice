@@ -13,33 +13,17 @@ class ListNode:
 
 
 class Solution:
-    # 1582. Special Positions in a Binary Matrix
-    def num_special(self, mat: List[List[int]]) -> int:
-        result = 0
-        special_rows = []
+    # 206. Reverse Linked List
+    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        prev, curr, nxt = None, head, None
 
-        for i in range(len(mat)):
-            curr_row = mat[i]
-            one_count = curr_row.count(1)
-            if one_count == 1:
-                j = curr_row.index(1)
-                special_rows.append([i, j])
+        while curr:
+            nxt = curr.next
+            curr.next = prev
+            prev = curr
+            curr = nxt
 
-        for x, y in special_rows:
-            is_special_column = True
-            for i in range(len(mat[0])):
-                if i != x and mat[i][y] == 1:
-                    is_special_column = False
-                    break
-
-            if is_special_column:
-                result += 1
-
-        return result
-
-    # 796. Rotate String
-    def rotateString(self, s: str, goal: str) -> bool:
-        return len(s) == len(goal) and goal in s + s
+        return prev
 
     # 661. Image Smoother
     def imageSmoother(self, img: List[List[int]]) -> List[List[int]]:
@@ -58,54 +42,9 @@ class Solution:
 
         return smoothed_img
 
-    # 2706. Buy Two Chocolates
-    def buyChoco(self, prices: List[int], money: int) -> int:
-        min1, min2 = math.inf, math.inf
-
-        for price in prices:
-            if price < min1:
-                min2 = min1
-                min1 = price
-            elif price < min2:
-                min2 = price
-
-        min_cost = min1 + min2
-        return money - min_cost if min_cost <= money else money
-
-    # 206. Reverse Linked List
-    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        prev, curr, nxt = None, head, None
-
-        while curr:
-            nxt = curr.next
-            curr.next = prev
-            prev = curr
-            curr = nxt
-
-        return prev
-
-    # 1716. Calculate Money in Leetcode Bank
-    def totalMoney(self, n: int) -> int:
-        """
-        Simulation
-        """
-        # day = day_amount = 1
-        # total = 0
-        # for _ in range(n):
-        #     total += day_amount
-        #     day += 1
-        #     day_amount += 1
-        #     if day % 7 == 0:
-        #         day_amount -= 6  # -7 + 1
-        # return total
-
-        """
-        Math
-        """
-        weeks_num = n // 7
-        days_left = n % 7
-        return 28*weeks_num + (7*weeks_num*(weeks_num - 1))//2 + \
-            (days_left*weeks_num + (days_left*(days_left + 1))//2)
+    # 796. Rotate String
+    def rotateString(self, s: str, goal: str) -> bool:
+        return len(s) == len(goal) and goal in s + s
 
     # 1422. Maximum Score After Splitting a String
     def maxScore(self, s: str) -> int:
@@ -142,19 +81,66 @@ class Solution:
 
         return False
 
-    # 20. Valid Parentheses
-    def isValid(self, s: str) -> bool:
-        stack = []
-        valid = ['()', '[]', '{}']
-        for c in s:
-            if c in '([{':
-                stack.append(c)
-            elif (
-                not stack
-                or stack.pop() + c not in valid
-            ):
-                return False
-        return not stack
+    # 1582. Special Positions in a Binary Matrix
+    def num_special(self, mat: List[List[int]]) -> int:
+        result = 0
+        special_rows = []
+
+        for i in range(len(mat)):
+            curr_row = mat[i]
+            one_count = curr_row.count(1)
+            if one_count == 1:
+                j = curr_row.index(1)
+                special_rows.append([i, j])
+
+        for x, y in special_rows:
+            is_special_column = True
+            for i in range(len(mat[0])):
+                if i != x and mat[i][y] == 1:
+                    is_special_column = False
+                    break
+
+            if is_special_column:
+                result += 1
+
+        return result
+
+    # 1716. Calculate Money in Leetcode Bank
+    def totalMoney(self, n: int) -> int:
+        """
+        Simulation
+        """
+        # day = day_amount = 1
+        # total = 0
+        # for _ in range(n):
+        #     total += day_amount
+        #     day += 1
+        #     day_amount += 1
+        #     if day % 7 == 0:
+        #         day_amount -= 6  # -7 + 1
+        # return total
+
+        """
+        Math
+        """
+        weeks_num = n // 7
+        days_left = n % 7
+        return 28 * weeks_num + (7 * weeks_num * (weeks_num - 1)) // 2 + \
+            (days_left * weeks_num + (days_left * (days_left + 1)) // 2)
+
+    # 2706. Buy Two Chocolates
+    def buyChoco(self, prices: List[int], money: int) -> int:
+        min1, min2 = math.inf, math.inf
+
+        for price in prices:
+            if price < min1:
+                min2 = min1
+                min1 = price
+            elif price < min2:
+                min2 = price
+
+        min_cost = min1 + min2
+        return money - min_cost if min_cost <= money else money
 
 
 if __name__ == '__main__':

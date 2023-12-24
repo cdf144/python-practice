@@ -41,19 +41,41 @@ class Solution:
             return x * self.my_pow(x, n - 1)
         return self.my_pow(x * x, n // 2)
 
-    # 2482. Difference Between Ones and Zeros in Row and Column
-    def onesMinusZeros(self, grid: List[List[int]]) -> List[List[int]]:
-        h, w = len(grid), len(grid[0])
+    # 238. Product of Array Except Self
+    def productExceptSelf(self, nums: List[int]) -> List[int]:
+        """
+        Extra space
+        """
+        # length = len(nums)
+        # left_products = [1] * length
+        # right_products = [1] * length
+        #
+        # for i in range(1, length):
+        #     left_products[i] = left_products[i-1] * nums[i-1]
+        # for i in range(length - 2, -1, -1):
+        #     right_products[i] = right_products[i+1] * nums[i+1]
+        #
+        # result = [0] * length
+        # for i in range(length):
+        #     result[i] = left_products[i] * right_products[i]
+        #
+        # return result
 
-        ones_row = [row.count(1) for row in grid]
-        ones_col = [col.count(1) for col in zip(*grid)]
+        """
+        Constant space
+        """
+        length = len(nums)
+        result = [1] * length
 
-        diff = [[0 for x in range(w)] for y in range(h)]
-        for i in range(h):
-            for j in range(w):
-                diff[i][j] = 2 * ones_row[i] + 2 * ones_col[j] - w - h
+        for i in range(1, length):
+            result[i] = result[i - 1] * nums[i - 1]
 
-        return diff
+        curr_right_product = 1
+        for i in range(length - 2, -1, -1):
+            curr_right_product *= nums[i + 1]
+            result[i] *= curr_right_product
+
+        return result
 
     # 274. H-Index
     def hIndex(self, citations: List[int]) -> int:
@@ -64,10 +86,28 @@ class Solution:
             count_citation_num[min(citation, max_h)] += 1
 
         accumulative_citation = 0
-        for i, citation_count in reversed(list(enumerate(count_citation_num))):
+        for i, citation_count in reversed(
+                list(enumerate(count_citation_num))):
             accumulative_citation += citation_count
             if accumulative_citation >= i:
                 return i
+
+    # 684. Redundant Connection
+    def findRedundantConnection(self, edges: List[List[int]]) -> List[int]:
+        size = 0
+        for edge in edges:
+            size = max(size, edge[0], edge[1])
+
+        uf = UF(size)
+        result = [0] * 2
+        for edge in edges:
+            if not uf.connected(edge[0] - 1, edge[1] - 1):
+                uf.union(edge[0] - 1, edge[1] - 1)
+            else:
+                result[0] = edge[0]
+                result[1] = edge[1]
+
+        return result
 
     # 1637. Widest Vertical Area Between Two Points Containing No Points
     def maxWidthOfVerticalArea(self, points: List[List[int]]) -> int:
@@ -99,55 +139,16 @@ class Solution:
             default=0
         )
 
-    # 684. Redundant Connection
-    def findRedundantConnection(self, edges: List[List[int]]) -> List[int]:
-        size = 0
-        for edge in edges:
-            size = max(size, edge[0], edge[1])
+    # 2482. Difference Between Ones and Zeros in Row and Column
+    def onesMinusZeros(self, grid: List[List[int]]) -> List[List[int]]:
+        h, w = len(grid), len(grid[0])
 
-        uf = UF(size)
-        result = [0] * 2
-        for edge in edges:
-            if not uf.connected(edge[0] - 1, edge[1] - 1):
-                uf.union(edge[0] - 1, edge[1] - 1)
-            else:
-                result[0] = edge[0]
-                result[1] = edge[1]
+        ones_row = [row.count(1) for row in grid]
+        ones_col = [col.count(1) for col in zip(*grid)]
 
-        return result
+        diff = [[0 for x in range(w)] for y in range(h)]
+        for i in range(h):
+            for j in range(w):
+                diff[i][j] = 2 * ones_row[i] + 2 * ones_col[j] - w - h
 
-    # 238. Product of Array Except Self
-    def productExceptSelf(self, nums: List[int]) -> List[int]:
-        """
-        Extra space
-        """
-        # length = len(nums)
-        # left_products = [1] * length
-        # right_products = [1] * length
-        #
-        # for i in range(1, length):
-        #     left_products[i] = left_products[i-1] * nums[i-1]
-        # for i in range(length - 2, -1, -1):
-        #     right_products[i] = right_products[i+1] * nums[i+1]
-        #
-        # result = [0] * length
-        # for i in range(length):
-        #     result[i] = left_products[i] * right_products[i]
-        #
-        # return result
-
-        """
-        Constant space
-        """
-        length = len(nums)
-        result = [1] * length
-
-        for i in range(1, length):
-            result[i] = result[i-1] * nums[i-1]
-
-        curr_right_product = 1
-        for i in range(length - 2, -1, -1):
-            curr_right_product *= nums[i+1]
-            result[i] *= curr_right_product
-
-        return result
+        return diff

@@ -11,6 +11,10 @@ class Solution:
                 return [i, dict_num_to_index[target - num]]
             dict_num_to_index[num] = i
 
+    # 205. Isomorphic Strings
+    def isIsomorphic(self, s: str, t: str) -> bool:
+        return list(map(s.index, s)) == list(map(t.index, t))
+
     # 242. Valid Anagram
     def isAnagram(self, s: str, t: str) -> bool:
         if len(s) != len(t):
@@ -28,7 +32,3 @@ class Solution:
             if ransom_char_counter[c] > magazine_char_counter[c]:
                 return False
         return True
-
-    # 205. Isomorphic Strings
-    def isIsomorphic(self, s: str, t: str) -> bool:
-        return list(map(s.index, s)) == list(map(t.index, t))

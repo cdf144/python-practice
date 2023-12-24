@@ -2,6 +2,18 @@ from typing import List
 
 
 class Solution:
+    # 55. Jump Game
+    def canJump(self, nums: List[int]) -> bool:
+        can_reach = 0
+        curr_index = 0
+        length = len(nums)
+
+        while curr_index <= can_reach < length - 1:
+            can_reach = max(can_reach, curr_index + nums[curr_index])
+            curr_index += 1
+
+        return can_reach >= length - 1
+
     # 122. Best Time to Buy and Sell Stock II
     def maxProfit(self, prices: List[int]) -> int:
         total = 0
@@ -29,18 +41,6 @@ class Solution:
                 curr_gas = 0
 
         return start if gas_cost >= 0 else -1
-
-    # 55. Jump Game
-    def canJump(self, nums: List[int]) -> bool:
-        can_reach = 0
-        curr_index = 0
-        length = len(nums)
-
-        while curr_index <= can_reach < length - 1:
-            can_reach = max(can_reach, curr_index + nums[curr_index])
-            curr_index += 1
-
-        return can_reach >= length - 1
 
     # 1903. Largest Odd Number in String
     def largestOddNumber(self, num: str) -> str:
