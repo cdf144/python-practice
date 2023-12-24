@@ -3,6 +3,33 @@ from operator import sub
 from typing import List
 
 
+class UF:
+    def __init__(self, n: int):
+        self.parent = [i for i in range(n)]
+        self.size = [1] * n
+
+    def root(self, p: int) -> int:
+        while p != self.parent[p]:
+            self.parent[p] = self.parent[self.parent[p]]
+            p = self.parent[p]
+        return p
+
+    def connected(self, p: int, q: int) -> bool:
+        return self.root(p) == self.root(q)
+
+    def union(self, p: int, q: int) -> None:
+        p_root = self.root(p)
+        q_root = self.root(q)
+        if p_root == q_root:
+            return
+        if self.size[p_root] <= self.size[q_root]:
+            self.parent[p_root] = q_root
+            self.size[q_root] += self.size[p_root]
+        else:
+            self.parent[q_root] = p_root
+            self.size[p_root] += self.size[q_root]
+
+
 class Solution:
     # 50. Pow(x,n)
     def my_pow(self, x: float, n: int) -> float:
@@ -71,3 +98,56 @@ class Solution:
             ),
             default=0
         )
+
+    # 684. Redundant Connection
+    def findRedundantConnection(self, edges: List[List[int]]) -> List[int]:
+        size = 0
+        for edge in edges:
+            size = max(size, edge[0], edge[1])
+
+        uf = UF(size)
+        result = [0] * 2
+        for edge in edges:
+            if not uf.connected(edge[0] - 1, edge[1] - 1):
+                uf.union(edge[0] - 1, edge[1] - 1)
+            else:
+                result[0] = edge[0]
+                result[1] = edge[1]
+
+        return result
+
+    # 238. Product of Array Except Self
+    def productExceptSelf(self, nums: List[int]) -> List[int]:
+        """
+        Extra space
+        """
+        # length = len(nums)
+        # left_products = [1] * length
+        # right_products = [1] * length
+        #
+        # for i in range(1, length):
+        #     left_products[i] = left_products[i-1] * nums[i-1]
+        # for i in range(length - 2, -1, -1):
+        #     right_products[i] = right_products[i+1] * nums[i+1]
+        #
+        # result = [0] * length
+        # for i in range(length):
+        #     result[i] = left_products[i] * right_products[i]
+        #
+        # return result
+
+        """
+        Constant space
+        """
+        length = len(nums)
+        result = [1] * length
+
+        for i in range(1, length):
+            result[i] = result[i-1] * nums[i-1]
+
+        curr_right_product = 1
+        for i in range(length - 2, -1, -1):
+            curr_right_product *= nums[i+1]
+            result[i] *= curr_right_product
+
+        return result

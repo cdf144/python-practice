@@ -349,3 +349,28 @@ class Solution:
                 return tortoise
 
         return None
+
+    # 82. Remove Duplicates from Sorted List II
+    def deleteDuplicates(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        dummy = ListNode(0, head)
+        itr = dummy
+
+        while head:
+            while head.next and head.val == head.next.val:
+                head = head.next
+            if itr.next != head:
+                itr.next = head.next
+            else:
+                itr = itr.next
+            head = head.next
+
+        return dummy.next
+
+    # 160. Intersection of Two Linked Lists
+    def getIntersectionNode(self, headA: ListNode,
+                            headB: ListNode) -> Optional[ListNode]:
+        a, b = headA, headB
+        while a != b:
+            a = a.next if a else headB.next
+            b = b.next if b else headA.next
+        return a

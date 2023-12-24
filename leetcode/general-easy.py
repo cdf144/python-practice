@@ -107,6 +107,55 @@ class Solution:
         return 28*weeks_num + (7*weeks_num*(weeks_num - 1))//2 + \
             (days_left*weeks_num + (days_left*(days_left + 1))//2)
 
+    # 1422. Maximum Score After Splitting a String
+    def maxScore(self, s: str) -> int:
+        left = 0
+        right = s.count('1')
+        max_score = 0
+        for c in s:
+            if c == '0':
+                left += 1
+            else:
+                right -= 1
+            max_score = max(max_score, left + right)
+        return max_score
+
+    # 1496. Path Crossing
+    def isPathCrossing(self, path: str) -> bool:
+        x, y = 0, 0
+        visited = {(x, y)}
+
+        for p in path:
+            if p == 'N':
+                y += 1
+            elif p == 'E':
+                x += 1
+            elif p == 'S':
+                y -= 1
+            elif p == 'W':
+                x -= 1
+
+            if (x, y) in visited:
+                return True
+            else:
+                visited.add((x, y))
+
+        return False
+
+    # 20. Valid Parentheses
+    def isValid(self, s: str) -> bool:
+        stack = []
+        valid = ['()', '[]', '{}']
+        for c in s:
+            if c in '([{':
+                stack.append(c)
+            elif (
+                not stack
+                or stack.pop() + c not in valid
+            ):
+                return False
+        return not stack
+
 
 if __name__ == '__main__':
     a = Solution()
