@@ -13,6 +13,27 @@ class ListNode:
 
 
 class Solution:
+    # 9. Palindrome Number
+    def isPalindrome(self, x: int) -> bool:
+        """
+        Without converting to string
+        """
+        # if x < 0:
+        #     return False
+        #
+        # reverse = 0
+        # y = x
+        # while y:
+        #     reverse = reverse * 10 + y % 10
+        #     y //= 10
+        #
+        # return reverse == x
+
+        """
+        Converting to string
+        """
+        return str(x)[::-1] == str(x)
+
     # 206. Reverse Linked List
     def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
         prev, curr, nxt = None, head, None
@@ -127,6 +148,26 @@ class Solution:
         days_left = n % 7
         return 28 * weeks_num + (7 * weeks_num * (weeks_num - 1)) // 2 + \
             (days_left * weeks_num + (days_left * (days_left + 1)) // 2)
+
+    # 1758. Minimum Changes To Make Alternating Binary String
+    def minOperations(self, s: str) -> int:
+        """
+        In an alternating binary string that starts with '0' ('010101'),
+        numbers at even indices must be '0', and odd indices must be '1'.
+        We count how many times this rule got violated to get the number
+        of changes needed to construct the string.
+
+        For alternate binary string that starts with '1' ('101010'),
+        the number of changes needed can be calculated using the same
+        method but with reversed rules. As such, the result is
+        len(s) - count_start_zero
+        """
+        # count_start_zero = list(
+        #     int(c) != i % 2 for i, c in enumerate(s)
+        # ).count(True)
+        count_start_zero = sum(int(c) != i % 2 for i, c in enumerate(s))
+        count_start_one = len(s) - count_start_zero
+        return min(count_start_zero, count_start_one)
 
     # 2706. Buy Two Chocolates
     def buyChoco(self, prices: List[int], money: int) -> int:
