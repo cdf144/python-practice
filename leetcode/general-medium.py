@@ -31,6 +31,18 @@ class UF:
 
 
 class Solution:
+    # 7. Reverse Integer
+    def reverse(self, x: int) -> int:
+        sign = 1 if x >= 0 else -1
+        x *= sign
+        reverse = 0
+
+        while x:
+            reverse = reverse*10 + x % 10
+            x //= 10
+
+        return sign*reverse
+
     # 50. Pow(x,n)
     def my_pow(self, x: float, n: int) -> float:
         if n == 0:
@@ -40,6 +52,70 @@ class Solution:
         if n & 1:
             return x * self.my_pow(x, n - 1)
         return self.my_pow(x * x, n // 2)
+
+    # 54. Spiral Matrix
+    def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
+        """
+        Shrinking walls
+        """
+        # top = left = 0
+        # bottom = len(matrix) - 1
+        # right = len(matrix[0]) - 1
+        #
+        # result = []
+        # while True:
+        #     for x in range(left, right + 1):
+        #         result.append(matrix[top][x])
+        #     top += 1
+        #     if top > bottom:
+        #         break
+        #
+        #     for y in range(top, bottom + 1):
+        #         result.append(matrix[y][right])
+        #     right -= 1
+        #     if right < left:
+        #         break
+        #
+        #     for x in range(right, left - 1, -1):
+        #         result.append(matrix[bottom][x])
+        #     bottom -= 1
+        #     if bottom < top:
+        #         break
+        #
+        #     for y in range(bottom, top - 1, -1):
+        #         result.append(matrix[y][left])
+        #     left += 1
+        #     if left > right:
+        #         break
+        #
+        # return result
+
+        """
+        Switching directions
+        """
+        dirs = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+        curr_dir = 0
+        m = len(matrix)
+        n = len(matrix[0])
+
+        x = y = 0
+        result = []
+        while len(result) < m * n:
+            result.append(matrix[y][x])
+
+            check_x, check_y = x + dirs[curr_dir][1], y + dirs[curr_dir][0]
+            if (
+                    check_x < 0 or check_x >= n
+                    or check_y < 0 or check_y >= m
+                    or matrix[check_y][check_x] == -101
+            ):
+                curr_dir = (curr_dir + 1) % 4
+
+            matrix[y][x] = -101
+            x += dirs[curr_dir][1]
+            y += dirs[curr_dir][0]
+
+        return result
 
     # 238. Product of Array Except Self
     def productExceptSelf(self, nums: List[int]) -> List[int]:

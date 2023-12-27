@@ -42,6 +42,28 @@ class Solution:
 
         return start if gas_cost >= 0 else -1
 
+    # 1578. Minimum Time to Make Rope Colorful
+    def minCost(self, colors: str, neededTime: List[int]) -> int:
+        curr_group_sum = group_max = neededTime[0]
+        count = 1
+        min_needed_time = 0
+
+        for i in range(1, len(colors)):
+            if colors[i] != colors[i - 1]:
+                if count != 1:
+                    min_needed_time += curr_group_sum - group_max
+                curr_group_sum = group_max = neededTime[i]
+                count = 1
+            else:
+                curr_group_sum += neededTime[i]
+                group_max = max(group_max, neededTime[i])
+                count += 1
+
+        if count != 1:
+            min_needed_time += curr_group_sum - group_max
+
+        return min_needed_time
+
     # 1903. Largest Odd Number in String
     def largestOddNumber(self, num: str) -> str:
         for i, c in enumerate(reversed(num)):

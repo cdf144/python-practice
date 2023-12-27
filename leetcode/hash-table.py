@@ -1,4 +1,6 @@
 import collections
+import heapq
+import itertools
 from typing import List
 
 
@@ -71,6 +73,40 @@ class Solution:
         counter = collections.Counter(s)
         counter.subtract(collections.Counter(t))
         return all(occurrence == 0 for occurrence in counter.values())
+
+    # 347. Top K Frequent Elements
+    def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+        """
+        Library function -> O(n) + O(k) + O((n - k) log k) + O(k log k)
+        """
+        # counter = collections.Counter(nums)
+        # return [num for num, freq in counter.most_common(k)]
+
+        """
+        Max Heap -> O(n) + O(n log n) + O(n log k)
+        """
+        # counter = collections.Counter(nums)
+        # heap = []
+        # for num, freq in counter.items():
+        #     heapq.heappush(heap, (-freq, num))
+        #
+        # result = []
+        # while heap and len(result) < k:
+        #     result.append(heapq.heappop(heap)[1])
+        # return result
+
+        """
+        Bucket sort -> O(n) + O(n)
+        """
+        # bucket of frequencies, max frequency is len(nums)
+        bucket = [[] for _ in nums]
+        for num, freq in collections.Counter(nums).items():
+            # We insert in -freq bucket, the thing is the higher
+            # the freq, the closer to the start it will be in our
+            # bucket. When we unpack and chain the bucket later,
+            # the highest freq group will appear first
+            bucket[-freq].append(num)
+        return list((itertools.chain(*bucket)))[:k]
 
     # 383. Ransom Note
     def canConstruct(self, ransomNote: str, magazine: str) -> bool:
