@@ -1,3 +1,7 @@
+import collections
+import functools
+import math
+from functools import lru_cache
 from typing import List
 
 
@@ -91,3 +95,74 @@ class Solution:
             dp = new_dp
 
         return dp[target]
+
+    # 1335. Minimum Difficulty of a Job Schedule
+    def minDifficulty(self, jobDifficulty: List[int], d: int) -> int:
+        length = len(jobDifficulty)
+        if length < d:
+            return -1
+
+        @functools.lru_cache(None)
+        def dp(i: int, d_remain: int, curr_day_max: int) -> int:
+            if i == length:
+                return 0 if d_remain == 0 else 2**32
+            if d_remain == 0:
+                return 2**32
+
+            curr_day_max = max(curr_day_max, jobDifficulty[i])
+
+            result = min(
+                curr_day_max + dp(i + 1, d_remain - 1, -1),  # end day now
+                dp(i + 1, d_remain, curr_day_max)  # continue day
+            )
+
+            return result
+
+        return dp(0, d, -1)
+
+    # 1531. String Compression II
+    def getLengthOfOptimalCompression(self, s: str, k: int) -> int:
+        def get_compressed_length(freq: int) -> int:
+            if freq == 1:
+                return 1
+            if freq < 10:
+                return 2
+            if freq < 100:
+                return 3
+            return 4
+
+        length = len(s)
+        lookup_table = {}
+
+        def dp(i: int, curr_k: int) -> int:
+            if (i, curr_k) in lookup_table:
+                return lookup_table[(i, curr_k)]
+            # Invalid call
+            if curr_k < 0:
+                return 101  # inf
+            # If substring is empty or its length is
+            # lower than k (can be all deleted)
+            if i == length or length - i <= curr_k:
+                return 0
+
+            # Our priority will be to keep letters with high frequency in the
+            # string and remove the singular letters with the goal of grouping
+            # the repeated letters together, making compression efficient
+            max_freq = 0
+            counter = collections.Counter()
+            result = math.inf
+
+            for j in range(i, length):
+                counter[s[j]] += 1
+                max_freq = max(max_freq, counter[s[j]])
+                result = min(
+                    result,
+                    get_compressed_length(max_freq) + dp(
+                        j + 1, curr_k - (j - i + 1 - max_freq)
+                    )
+                )
+
+            lookup_table[(i, curr_k)] = result
+            return result
+
+        return dp(0, k)

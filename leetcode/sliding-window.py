@@ -35,6 +35,28 @@ class Solution:
 
         return min_length if min_length != math.inf else 0
 
+    # 424. Longest Repeating Character Replacement
+    def characterReplacement(self, s: str, k: int) -> int:
+        counter = collections.Counter()
+        max_freq = 0
+        result = 0
+
+        # The longest substring will contain characters with max frequency
+        # plus k characters we will replace to get the target substring
+        left = 0
+        for right, c in enumerate(s):
+            counter[c] += 1
+            max_freq = max(max_freq, counter[c])
+            # While our window is invalid, whether because there is too many
+            # characters we have to replace (greater than k), or there is a
+            # new character that has higher frequency
+            while right - left + 1 > max_freq + k:
+                counter[s[left]] -= 1
+                left += 1
+            result = max(result, right - left + 1)
+
+        return result
+
     # 438. Find All Anagrams in a String
     def findAnagrams(self, s: str, p: str) -> List[int]:
         length_p = len(p)

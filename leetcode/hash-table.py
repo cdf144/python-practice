@@ -39,7 +39,6 @@ class Solution:
 
         return result
 
-
     # 36. Valid Sudoku
     def isValidSudoku(self, board: List[List[str]]) -> bool:
         seen = set()
