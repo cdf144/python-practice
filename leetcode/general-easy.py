@@ -1,3 +1,5 @@
+import collections
+import itertools
 import math
 from typing import List, Optional
 
@@ -182,6 +184,16 @@ class Solution:
 
         min_cost = min1 + min2
         return money - min_cost if min_cost <= money else money
+
+    # 1897. Redistribute Characters to Make All Strings Equal
+    def makeEqual(self, words: List[str]) -> bool:
+        length = len(words)
+        return all(
+            count % length == 0
+            for count in collections.Counter(
+                itertools.chain.from_iterable(words)
+            ).values()
+        )
 
 
 if __name__ == '__main__':
