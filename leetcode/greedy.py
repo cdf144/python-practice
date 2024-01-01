@@ -42,6 +42,22 @@ class Solution:
 
         return start if gas_cost >= 0 else -1
 
+    # 455. Assign Cookies
+    def findContentChildren(self, g: List[int], s: List[int]) -> int:
+        g.sort()
+        s.sort()
+        children = len(g)
+        cookies = len(s)
+
+        child = 0
+        cookie = 0
+        while cookie < cookies and child < children:
+            if g[child] <= s[cookie]:
+                child += 1
+            cookie += 1
+
+        return child
+
     # 1578. Minimum Time to Make Rope Colorful
     def minCost(self, colors: str, neededTime: List[int]) -> int:
         curr_group_sum = group_max = neededTime[0]
