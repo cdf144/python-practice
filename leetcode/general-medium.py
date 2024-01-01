@@ -1,3 +1,4 @@
+import collections
 from itertools import starmap, pairwise
 from operator import sub
 from typing import List
@@ -167,6 +168,28 @@ class Solution:
             accumulative_citation += citation_count
             if accumulative_citation >= i:
                 return i
+
+    # 395. Longest Substring with At Least K Repeating Characters
+    def longestSubstring(self, s: str, k: int) -> int:
+        # If the frequency k cannot be reached
+        if len(s) < k:
+            return 0
+
+        # Count the frequency of all characters in string
+        # If we find a character whose frequency is less than k, we know
+        # that that character cannot appear in *any* substring that
+        # satisfies the requirement, and so we split the original string
+        # with that character as separator, and do a recursive call for each
+        # split part
+        counter = collections.Counter(s)
+        for c, count in counter.items():
+            if count < k:
+                return max(
+                    self.longestSubstring(substr, k) for substr in s.split(c)
+                )
+
+        # If we reach here, all characters in string have frequency >= k
+        return len(s)
 
     # 684. Redundant Connection
     def findRedundantConnection(self, edges: List[List[int]]) -> List[int]:

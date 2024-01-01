@@ -19,6 +19,36 @@ class Solution:
 
         return longest
 
+    # 76. Minimum Window Substring
+    def minWindow(self, s: str, t: str) -> str:
+        requiring = len(t)
+        counter = collections.Counter(t)
+        curr_min_left = -1
+        curr_min_len = math.inf
+
+        l = 0
+        for r, c in enumerate(s):
+            counter[c] -= 1
+
+            if counter[c] >= 0:
+                requiring -= 1
+
+            while requiring == 0:
+                if r - l + 1 < curr_min_len:
+                    curr_min_len = r - l + 1
+                    curr_min_left = l
+
+                counter[s[l]] += 1
+                if counter[s[l]] > 0:
+                    requiring += 1
+                l += 1
+
+        return (
+            s[curr_min_left: curr_min_left + curr_min_len]
+            if curr_min_len != math.inf
+            else ''
+        )
+
     # 209. Minimum Size Subarray Sum
     def minSubArrayLen(self, target: int, nums: List[int]) -> int:
         min_length = math.inf
@@ -34,6 +64,55 @@ class Solution:
                     left += 1
 
         return min_length if min_length != math.inf else 0
+
+    # 239. Sliding Window Maximum
+    def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
+        # We use a queue to store the 'potential' max's in a window.
+        # The element at the top of the queue will be the current max,
+        # and when that max isn't in the window anymore, the 2nd top
+        # will be the max. This results in a monotonic decreasing queue.
+        monotonic_queue = collections.deque()
+        result = []
+
+        for i, num in enumerate(nums):
+            # If we find a new max, this max will invalidate all the
+            # previous max's that are smaller, and it will last until
+            # it is not in the sliding window anymore.
+            while monotonic_queue and monotonic_queue[-1] < num:
+                monotonic_queue.pop()
+            monotonic_queue.append(num)
+
+            # When the current max exits the window
+            if i >= k and monotonic_queue[0] == nums[i - k]:
+                monotonic_queue.popleft()
+
+            # When window reaches size k, that is when we start adding max's
+            if i >= k - 1:
+                result.append(monotonic_queue[0])
+
+        return result
+
+    # 424. Longest Repeating Character Replacement
+    def characterReplacement(self, s: str, k: int) -> int:
+        counter = collections.Counter()
+        max_freq = 0
+        result = 0
+
+        # The longest substring will contain characters with max frequency
+        # plus k characters we will replace to get the target substring
+        left = 0
+        for right, c in enumerate(s):
+            counter[c] += 1
+            max_freq = max(max_freq, counter[c])
+            # While our window is invalid, whether because there is too many
+            # characters we have to replace (greater than k), or there is a
+            # new character that has higher frequency
+            while right - left + 1 > max_freq + k:
+                counter[s[left]] -= 1
+                left += 1
+            result = max(result, right - left + 1)
+
+        return result
 
     # 438. Find All Anagrams in a String
     def findAnagrams(self, s: str, p: str) -> List[int]:
@@ -74,9 +153,9 @@ class Solution:
                 if right - left + 1 == s1_len:
                     return True
                 counter[s2[left]] += 1
-                left += 1
                 if counter[s2[left]] > 0:
                     requiring += 1
+                left += 1
 
         return False
 

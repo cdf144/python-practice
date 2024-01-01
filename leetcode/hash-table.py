@@ -39,7 +39,6 @@ class Solution:
 
         return result
 
-
     # 36. Valid Sudoku
     def isValidSudoku(self, board: List[List[str]]) -> bool:
         seen = set()
@@ -116,3 +115,27 @@ class Solution:
             if ransom_char_counter[c] > magazine_char_counter[c]:
                 return False
         return True
+
+    # 1624. Largest Substring Between Two Equal Characters
+    def maxLengthBetweenEqualCharacters(self, s: str) -> int:
+        # dict_char_index = {}
+        # for i, c in enumerate(s):
+        #     dict_char_index.setdefault(c, []).append(i)
+        #
+        # max_substr = -1
+        # for c, indices in dict_char_index.items():
+        #     if len(indices) > 1:
+        #         max_substr = max(max_substr, indices[-1] - indices[0] - 1)
+        #
+        # return max_substr
+
+        max_substr = -1
+        first_seen = {}
+
+        for i, c in enumerate(s):
+            if c not in first_seen:
+                first_seen[c] = i
+            else:
+                max_substr = max(max_substr, i - first_seen[c] - 1)
+
+        return max_substr
