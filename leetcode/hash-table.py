@@ -139,3 +139,46 @@ class Solution:
                 max_substr = max(max_substr, i - first_seen[c] - 1)
 
         return max_substr
+
+    # 2610. Convert an Array Into a 2D Array With Conditions
+    def findMatrix(self, nums: List[int]) -> List[List[int]]:
+        """
+        Brute force
+        """
+        # result = []
+        #
+        # for num in nums:
+        #     if not result:
+        #         result.append([num])
+        #     else:
+        #         inserted = False
+        #         for arr in result:
+        #             if num not in arr:
+        #                 arr.append(num)
+        #                 inserted = True
+        #                 break
+        #         if not inserted:
+        #             result.append([num])
+        #
+        # return result
+
+        """
+        Frequency hash table
+        """
+        result = []
+        count = collections.Counter()
+
+        # Each row contains distinct elements -> the total number of row we
+        # will end up with is the maximum frequency of a number in the given
+        # list.
+        # With a for loop, whenever a new max frequency is found, we will
+        # create a new row (on demand).
+        # If a number appears for the 1st time, it'll be in the 1st row.
+        # If it appears a 2nd time, it'll be in the 2nd row, and so on...
+        for num in nums:
+            count[num] += 1
+            if count[num] > len(result):
+                result.append([])
+            result[count[num] - 1].append(num)
+
+        return result

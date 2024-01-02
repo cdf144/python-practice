@@ -34,6 +34,45 @@ class Solution:
 
         return '/' + '/'.join(stack)
 
+    # 84. Largest Rectangle in Histogram
+    def largestRectangleArea(self, heights: List[int]) -> int:
+        stack = []
+        max_area = 0
+        length = len(heights)
+
+        # We are basically finding the nearest left smaller and right smaller
+        # column of each column in the histogram in an efficient manner.
+        # Then the maximum area that can be made with that column will be
+        # column_height * (r_smaller_idx - l_smaller_idx)
+        #
+        # Here, we're using a stack to keep track of the indices of the
+        # nearest left smaller column when we are iterating over the columns.
+        # This results in a stack where the columns corresponding to the
+        # indices in the stack forms a mono-increasing stack from top to bottom.
+        # When we find a column which is lower than the top of the stack, that
+        # will be the nearest right smaller column of the column at the top of
+        # stack, and we calculate the area using the formula above.
+        for i, height in enumerate(heights):
+            while stack and height < heights[stack[-1]]:
+                idx = stack.pop()
+                max_area = max(
+                    max_area,
+                    heights[idx] * (i - stack[-1] - 1) if stack
+                    else heights[idx] * i
+                )
+            stack.append(i)
+
+        # Exhausting the stack
+        while stack:
+            idx = stack.pop()
+            max_area = max(
+                max_area,
+                heights[idx] * (length - stack[-1] - 1) if stack
+                else heights[idx] * length
+            )
+
+        return max_area
+
     # 150. Evaluate Reverse Polish Notation
     def evalRPN(self, tokens: List[str]) -> int:
         operations = {
