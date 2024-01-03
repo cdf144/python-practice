@@ -238,6 +238,25 @@ class Solution:
             default=0
         )
 
+    # 2125. Number of Laser Beams in a Bank
+    def numberOfBeams(self, bank: List[str]) -> int:
+        above, below = -1, -1
+        result = 0
+
+        for row in bank:
+            if above == -1:
+                above = row.count('1')
+                continue
+
+            below = row.count('1')
+            if below == 0:
+                continue
+
+            result += above * below
+            above = below
+
+        return result
+
     # 2482. Difference Between Ones and Zeros in Row and Column
     def onesMinusZeros(self, grid: List[List[int]]) -> List[List[int]]:
         h, w = len(grid), len(grid[0])
