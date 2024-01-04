@@ -1,4 +1,3 @@
-import heapq
 from typing import Optional, List
 
 
@@ -41,6 +40,70 @@ class Solution:
             itr = itr.next
 
         return head
+
+    # 19. Remove Nth Node From End of List
+    def removeNthFromEnd(self, head: Optional[ListNode], n: int) \
+            -> Optional[ListNode]:
+        def list_length(h: Optional[ListNode]):
+            result = 0
+            ptr = h
+            while itr is not None:
+                result += 1
+                ptr = ptr.next
+            return result
+
+        length = list_length(head)
+        if n == length:
+            return head.next
+        if length == 1:
+            return None
+
+        itr = head
+        n = length - n
+        while n > 1:
+            itr = itr.next
+            n -= 1
+
+        nxt = itr.next.next
+        itr.next = nxt
+        return head
+
+    # 61. Rotate List
+    def rotateRight(self, head: Optional[ListNode],
+                    k: int) -> Optional[ListNode]:
+        if not head or not head.next or k == 0:
+            return head
+
+        tail = head
+        length = 0
+        while tail.next:
+            tail = tail.next
+            length += 1
+
+        last = length - (k % length)
+        tail.next = head
+        for _ in range(last):
+            tail = tail.next
+
+        new_head = tail.next
+        tail.next = None
+        return new_head
+
+    # 82. Remove Duplicates from Sorted List II
+    def deleteDuplicates(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        dummy = ListNode(0, head)
+        itr = dummy
+
+        while head:
+            while head.next and head.val == head.next.val:
+                head = head.next
+            if itr.next != head:
+                itr.next = head.next
+            else:
+                itr = itr.next
+            head = head.next
+
+        return dummy.next
 
     # 138. Copy List with Random Pointer
     # map_old_to_copy = {}
@@ -109,6 +172,7 @@ class Solution:
         """
         Reverse 2nd half of Linked List then merge, O(1) space
         """
+
         def reverse(old_head: Optional[ListNode]) -> Optional[ListNode]:
             prev, curr = None, old_head
 

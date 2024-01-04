@@ -178,27 +178,6 @@ class Solution:
 
         return total_water
 
-    # 61. Rotate List
-    def rotateRight(self, head: Optional[ListNode],
-                    k: int) -> Optional[ListNode]:
-        if not head or not head.next or k == 0:
-            return head
-
-        tail = head
-        length = 0
-        while tail.next:
-            tail = tail.next
-            length += 1
-
-        last = length - (k % length)
-        tail.next = head
-        for _ in range(last):
-            tail = tail.next
-
-        new_head = tail.next
-        tail.next = None
-        return new_head
-
     # 75. Sort Colors
     def sortColors(self, nums: List[int]) -> None:
         """
@@ -229,22 +208,6 @@ class Solution:
                 right -= 1
             else:
                 i += 1
-
-    # 82. Remove Duplicates from Sorted List II
-    def deleteDuplicates(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        dummy = ListNode(0, head)
-        itr = dummy
-
-        while head:
-            while head.next and head.val == head.next.val:
-                head = head.next
-            if itr.next != head:
-                itr.next = head.next
-            else:
-                itr = itr.next
-            head = head.next
-
-        return dummy.next
 
     # 142. Linked List Cycle II
     def detectCycle(self, head: Optional[ListNode]) -> Optional[ListNode]:
