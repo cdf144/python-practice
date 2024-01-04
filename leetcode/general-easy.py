@@ -36,18 +36,6 @@ class Solution:
         """
         return str(x)[::-1] == str(x)
 
-    # 206. Reverse Linked List
-    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        prev, curr, nxt = None, head, None
-
-        while curr:
-            nxt = curr.next
-            curr.next = prev
-            prev = curr
-            curr = nxt
-
-        return prev
-
     # 661. Image Smoother
     def imageSmoother(self, img: List[List[int]]) -> List[List[int]]:
         h, w = len(img), len(img[0])

@@ -1,4 +1,5 @@
-from typing import Optional
+import heapq
+from typing import Optional, List
 
 
 class ListNode:
@@ -43,7 +44,6 @@ class Solution:
 
     # 138. Copy List with Random Pointer
     # map_old_to_copy = {}
-
     def copyRandomList(self, head: 'Optional[Node]') -> 'Optional[Node]':
         """
         Recursive
@@ -78,3 +78,48 @@ class Solution:
             itr = itr.next
 
         return map_old_to_copy[head]
+
+    # 206. Reverse Linked List
+    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        prev, curr, nxt = None, head, None
+
+        while curr:
+            nxt = curr.next
+            curr.next = prev
+            prev = curr
+            curr = nxt
+
+        return prev
+
+    # 234. Palindrome Linked List
+    def isPalindrome(self, head: Optional[ListNode]) -> bool:
+        def reverse_llist(h: Optional[ListNode]) -> Optional[ListNode]:
+            prev, curr, nxt = None, h, None
+
+            while curr:
+                nxt = curr.next
+                curr.next = prev
+                prev = curr
+                curr = nxt
+
+            return prev
+
+        if not head.next:
+            return True
+
+        # Slow will reach the start of the 2nd half of llist
+        slow, fast = head, head
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+        if fast:
+            slow = slow.next
+
+        slow = reverse_llist(slow)
+        while slow:
+            if slow.val != head.val:
+                return False
+            slow = slow.next
+            head = head.next
+
+        return True

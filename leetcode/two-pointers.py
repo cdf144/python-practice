@@ -288,39 +288,6 @@ class Solution:
                     high = mid - 1
         return []
 
-    # 234. Palindrome Linked List
-    def isPalindrome(self, head: Optional[ListNode]) -> bool:
-        def reverse_llist(h: Optional[ListNode]) -> Optional[ListNode]:
-            prev, curr, nxt = None, h, None
-
-            while curr:
-                nxt = curr.next
-                curr.next = prev
-                prev = curr
-                curr = nxt
-
-            return prev
-
-        if not head.next:
-            return True
-
-        # Slow will reach the start of the 2nd half of llist
-        slow, fast = head, head
-        while fast and fast.next:
-            slow = slow.next
-            fast = fast.next.next
-        if fast:
-            slow = slow.next
-
-        slow = reverse_llist(slow)
-        while slow:
-            if slow.val != head.val:
-                return False
-            slow = slow.next
-            head = head.next
-
-        return True
-
     # 392. Is Subsequence
     def isSubsequence(self, s: str, t: str) -> bool:
         length = len(s)
