@@ -79,6 +79,63 @@ class Solution:
 
         return map_old_to_copy[head]
 
+    # 143. Reorder List
+    def reorderList(self, head: Optional[ListNode]) -> None:
+        # Slow is pointer to middle of Linked List
+        slow = fast = head
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+        if fast:
+            slow = slow.next
+
+        """
+        Stack, O(N) space
+        """
+        # stack = []
+        # while slow:
+        #     stack.append(slow)
+        #     slow = slow.next
+
+        # slow = head
+        # while stack:
+        #     node = stack.pop()
+        #     nxt = slow.next
+        #     slow.next = node
+        #     node.next = nxt
+        #     slow = slow.next.next
+        # slow.next = None
+
+        """
+        Reverse 2nd half of Linked List then merge, O(1) space
+        """
+        def reverse(old_head: Optional[ListNode]) -> Optional[ListNode]:
+            prev, curr = None, old_head
+
+            while curr:
+                nxt = curr.next
+                curr.next = prev
+                prev = curr
+                curr = nxt
+
+            return prev
+
+        def merge(head1: Optional[ListNode], head2: Optional[List]) -> None:
+            while head2:
+                nxt_1 = head1.next
+                nxt_2 = head2.next
+
+                head1.next = head2
+                head2.next = nxt_1
+
+                head1 = nxt_1
+                head2 = nxt_2
+
+            head1.next = None
+
+        slow = reverse(slow)
+        merge(head, slow)
+
     # 206. Reverse Linked List
     def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
         prev, curr, nxt = None, head, None
