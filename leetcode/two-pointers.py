@@ -251,6 +251,25 @@ class Solution:
                     high = mid - 1
         return []
 
+    # 287. Find the Duplicate Number
+    def findDuplicate(self, nums: List[int]) -> int:
+        """
+        Detailed explanation:
+        https://keithschwarz.com/interesting/code/?dir=find-duplicate
+        """
+        slow = nums[nums[0]]
+        fast = nums[nums[nums[0]]]
+        while slow != fast:
+            slow = nums[slow]
+            fast = nums[nums[fast]]
+
+        slow = nums[0]
+        while slow != fast:
+            slow = nums[slow]
+            fast = nums[fast]
+
+        return slow
+
     # 392. Is Subsequence
     def isSubsequence(self, s: str, t: str) -> bool:
         length = len(s)
