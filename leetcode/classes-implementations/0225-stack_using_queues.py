@@ -3,8 +3,6 @@ import collections
 
 # 225. Implement Stack using Queues
 class MyStack:
-    queue = None
-
     def __init__(self):
         self.queue = collections.deque()
 
