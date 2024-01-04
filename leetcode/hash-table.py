@@ -182,3 +182,24 @@ class Solution:
             result[count[num] - 1].append(num)
 
         return result
+
+    # 2870. Minimum Number of Operations to Make Array Empty
+    def minOperations(self, nums: List[int]) -> int:
+        counter = collections.Counter(nums)
+        result = 0
+
+        for freq in counter.values():
+            if freq % 3 == 0:
+                result += freq // 3
+                continue
+            count = 0
+            while freq > 4:
+                freq -= 3
+                count += 1
+            if freq % 3 == 0 or freq % 2 == 0:
+                count += max(freq // 3, freq // 2)
+                result += count
+            else:
+                return -1
+
+        return result
