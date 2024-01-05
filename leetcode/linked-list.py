@@ -1,3 +1,4 @@
+import heapq
 from typing import Optional, List
 
 
@@ -67,6 +68,53 @@ class Solution:
         nxt = itr.next.next
         itr.next = nxt
         return head
+
+    # 23. Merge K Sorted Lists
+    def mergeKLists(self, lists: List[Optional[ListNode]]) \
+            -> Optional[ListNode]:
+        """
+        Simple but inefficient Heapsort and create new Linked List
+        Time: O(N*K*log(N*K))
+        Space: O(N*K)
+        """
+        # dummy = ListNode()
+        # itr = dummy
+        # heap = []
+        #
+        # for linkedlist in lists:
+        #     while linkedlist:
+        #         heapq.heappush(heap, linkedlist.val)
+        #         linkedlist = linkedlist.next
+        #
+        # while heap:
+        #     itr.next = ListNode(heapq.heappop(heap))
+        #     itr = itr.next
+        #
+        # return dummy.next
+
+        """
+        Optimized
+        Time: O(N*K*log(K))
+        Space: O(K)
+        """
+        heap = []
+        # Since tuple comparison breaks for (priority, obj) if priorities are
+        # equal and the objects do not have a default comparison order, we
+        # have to add an entry count as a tie-breaker.
+        for i, head in enumerate(lists):
+            if head:
+                heapq.heappush(heap, (head.val, i, head))
+
+        dummy = ListNode()
+        itr = dummy
+        while heap:
+            val, entry, node = heapq.heappop(heap)
+            itr.next = node
+            itr = itr.next
+            if node.next:
+                heapq.heappush(heap, (node.next.val, entry, node.next))
+
+        return dummy.next
 
     # 61. Rotate List
     def rotateRight(self, head: Optional[ListNode],
