@@ -118,6 +118,53 @@ class Solution:
 
         return result
 
+    # 73. Set Matrix Zeroes
+    def setZeroes(self, matrix: List[List[int]]) -> None:
+        """
+        Straightforward O(mn) space
+        """
+        # m = len(matrix)
+        # n = len(matrix[0])
+        # zeroes = []
+        # for i, row in enumerate(matrix):
+        #     for j, val in enumerate(row):
+        #         if val == 0:
+        #             zeroes.append((i, j))
+        #
+        # for i, j in zeroes:
+        #     matrix[i] = [0] * n
+        #     for k in range(m):
+        #         matrix[k][j] = 0
+
+        """
+        Constant space
+        """
+        # We are going to use the first row and first column as our marker to
+        # indicate that certain rows and columns must be filled with 0.
+        # As such, we have to figure out if the first row and column needs to
+        # be filled beforehand, because when we update the matrix later, there
+        # might be discrepancies.
+        fill_first_row = 0 in matrix[0]
+        fill_first_col = 0 in zip(*matrix)[0]
+
+        for i, row in enumerate(matrix):
+            for j, val in enumerate(row):
+                if val == 0:
+                    matrix[i][0] = 0
+                    matrix[0][j] = 0
+
+        for i, row in enumerate(matrix):
+            for j, val in enumerate(row):
+                if matrix[i][0] == 0 or matrix[0][j] == 0:
+                    matrix[i][j] = 0
+
+        if fill_first_row:
+            matrix[0] = [0] * len(matrix[0])
+
+        if fill_first_col:
+            for row in matrix:
+                row[0] = 0
+
     # 238. Product of Array Except Self
     def productExceptSelf(self, nums: List[int]) -> List[int]:
         """
