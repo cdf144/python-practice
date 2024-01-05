@@ -144,17 +144,19 @@ class Solution:
         # As such, we have to figure out if the first row and column needs to
         # be filled beforehand, because when we update the matrix later, there
         # might be discrepancies.
+        m = len(matrix)
+        n = len(matrix[0])
         fill_first_row = 0 in matrix[0]
-        fill_first_col = 0 in zip(*matrix)[0]
+        fill_first_col = 0 in list(zip(*matrix))[0]
 
-        for i, row in enumerate(matrix):
-            for j, val in enumerate(row):
-                if val == 0:
+        for i in range(1, m):
+            for j in range(1, n):
+                if matrix[i][j] == 0:
                     matrix[i][0] = 0
                     matrix[0][j] = 0
 
-        for i, row in enumerate(matrix):
-            for j, val in enumerate(row):
+        for i in range(1, m):
+            for j in range(1, n):
                 if matrix[i][0] == 0 or matrix[0][j] == 0:
                     matrix[i][j] = 0
 
