@@ -52,6 +52,53 @@ class Solution:
 
         return dp[-1]
 
+    # 300. Longest Increasing Subsequence
+    def lengthOfLIS(self, nums: List[int]) -> int:
+        """
+        Memoization, Memory Limit Exceeded
+        """
+        # length = len(nums)
+        #
+        # @functools.lru_cache(None)
+        # def dp(i: int, prev: int) -> int:
+        #     if i >= length:
+        #         return 0
+        #
+        #     result = max(
+        #         1 + dp(i + 1, i)
+        #         if (prev == -1 or nums[i] > nums[prev])
+        #         else 0,
+        #         dp(i + 1, prev)
+        #     )
+        #
+        #     return result
+        #
+        # return dp(0, -1)
+
+        """
+        Tabulation
+        """
+        # dp[i] will be the length of the Longest Increasing Subsequence that
+        # ends with nums[i] (in other words, with nums[i] being the greatest
+        # number in the subsequence)
+        dp = [1] * len(nums)
+
+        # dp[i] = max(dp[j]) + 1
+        # for all j preceding i and nums[j] < nums[i]
+        for i in range(1, len(nums)):
+            for j in range(i):
+                if nums[j] < nums[i]:
+                    dp[i] = max(dp[i], dp[j] + 1)
+
+        # Alternative top-down approach
+        # length = len(nums)
+        # for i in range(length -1, -1, -1):
+        #     for j in range(i + 1, length):
+        #         if nums[i] < nums[j]:
+        #             dp[i] = max(dp[i], 1 + dp[j])
+
+        return max(dp)
+
     # 1155. Number of Dice Rolls With Target Sum
     MOD = 10**9 + 7
 
