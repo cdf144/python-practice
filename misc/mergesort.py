@@ -1,6 +1,6 @@
 from time import time
 from random import randint
-from typing import List, Iterable, Any
+from typing import List, Any
 
 MERGE_SORT_THRESHOLD = 8
 

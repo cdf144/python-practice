@@ -1,7 +1,7 @@
 import collections
 import itertools
 import math
-from typing import List, Optional
+from typing import List
 
 
 def ceil_div(x, y):

@@ -1,5 +1,5 @@
 import collections
-from typing import Optional, List
+from typing import Optional
 
 
 class TreeNode:
