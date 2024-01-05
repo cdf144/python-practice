@@ -303,6 +303,44 @@ class Solution:
 
         return result
 
+    # 1089. Duplicate Zeros
+    def duplicateZeros(self, arr: List[int]) -> None:
+        # Without any zeroes in the array, the mapping relationship between
+        # the initial array and the resulting array would be an identity map,
+        # in other words the array stays the same:
+        # i = j and A[i] = B[j] -> A[] = B[]
+        # For each appearance of a zero in the initial array, the mapping would
+        # deviate by 1:
+        # (1st zero) A[i] = B[j] = 0 -> A[i] = B[j+1] -> A[i+1] = B[j+2]
+        # (2nd zero) A[i] = B[j+1] = 0 -> A[i] = B[j+2] -> A[i+1] = B[j+3]
+        # ...
+        # We will do the mapping in-place with 2 pointers:
+        # i points to initial array
+        # j points to (imaginary) resulting array
+        # To do it in-place, we have to traverse backwards to prevent
+        # discrepancies when we modify the array.
+        length = len(arr)
+        zeroes = arr.count(0)
+        i = length - 1
+        j = length + zeroes - 1
+
+        # The loop stops when there are no deviation left; basically the array
+        # stays the same until the first occurrence of a zero, so there's no
+        # point doing the remapping
+        while i < j:
+            # Since elements beyond the initial array are not written, we only
+            # begin mapping when j points to a valid index in the initial array
+            if j < length:
+                arr[j] = arr[i]
+            # If we encounter a zero, since we are travelling backwards, our
+            # deviation decreases by 1
+            if arr[i] == 0:
+                j -= 1
+                if j < length:
+                    arr[j] = arr[i]
+            i -= 1
+            j -= 1
+
     # 1913. Maximum Product Difference Between Two Pairs
     def maxProductDifference(self, nums: List[int]) -> int:
         max1 = -math.inf
