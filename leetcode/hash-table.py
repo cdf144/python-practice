@@ -140,6 +140,23 @@ class Solution:
 
         return max_substr
 
+    # 2244. Minimum Rounds to Complete All Tasks
+    def minimumRounds(self, tasks: List[int]) -> int:
+        # Same as 2870
+        counter = collections.Counter(tasks)
+        result = 0
+
+        for freq in counter.values():
+            if freq < 2:
+                return -1
+
+            if freq % 3 == 0:
+                result += freq // 3
+            else:
+                result += freq // 3 + 1
+
+        return result
+
     # 2610. Convert an Array Into a 2D Array With Conditions
     def findMatrix(self, nums: List[int]) -> List[List[int]]:
         """
@@ -185,6 +202,7 @@ class Solution:
 
     # 2870. Minimum Number of Operations to Make Array Empty
     def minOperations(self, nums: List[int]) -> int:
+        # Same as 2244
         counter = collections.Counter(nums)
         result = 0
 
