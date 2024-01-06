@@ -1,4 +1,8 @@
+import math
 from typing import List
+
+# Helpful guide to Binary Search
+# https://leetcode.com/discuss/study-guide/786126/Python-Powerful-Ultimate-Binary-Search-Template.-Solved-many-problems
 
 
 class Solution:
@@ -54,6 +58,41 @@ class Solution:
             else:
                 high = mid - 1
         return False
+
+    # 875. Koko Eating Bananas
+    def minEatingSpeed(self, piles: List[int], h: int) -> int:
+        """
+        Naive linear search, TLE
+        """
+        # speed = max(piles)
+        # hours_finish = len(piles)
+        #
+        # while hours_finish <= h:
+        #     speed -= 1
+        #     hours_finish = 0
+        #     for pile in piles:
+        #         hours_finish += math.ceil(pile / speed)
+        #
+        # return speed + 1
+
+        """
+        Binary search
+        """
+        low, high = 1, max(piles)
+
+        # There can be cases where there are multiple speeds which Koko can eat
+        # to finish in h hours. We want to find the lowest speed in that bunch.
+        while low < high:
+            speed = low + (high - low) // 2
+            hours_finish = 0
+            for pile in piles:
+                hours_finish += math.ceil(pile / speed)
+            if hours_finish > h:
+                low = speed + 1
+            else:
+                high = speed
+
+        return low
 
     # 704. Binary Search
     def search(self, nums: List[int], target: int) -> int:
