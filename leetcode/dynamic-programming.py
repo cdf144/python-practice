@@ -1,3 +1,4 @@
+import bisect
 import collections
 import math
 import functools
@@ -186,6 +187,47 @@ class Solution:
             dp = new_dp
 
         return dp[target]
+
+    # 1235. Maximum Profit in Job Scheduling
+    def jobScheduling(self, startTime: List[int], endTime: List[int],
+                      profit: List[int]) -> int:
+        # dp[i] will be the maximum profit we can make doing jobs starting
+        # from time (interval) i
+        job_intervals = sorted(zip(startTime, endTime, profit))
+        num_intervals = len(job_intervals)
+
+        """
+        Memoization
+        """
+        # @functools.lru_cache(None)
+        # def dp(i: int) -> int:
+        #     # No job left
+        #     if i == num_intervals:
+        #         return 0
+        #
+        #     # At each interval, we have 2 choices
+        #     # Not taking the job that is at this interval:
+        #     result = dp(i + 1)
+        #
+        #     # Taking the job:
+        #     # Find the next job that does not overlap with current job
+        #     j = bisect.bisect(job_intervals, (job_intervals[i][1], -1, -1))
+        #     result = max(result, job_intervals[i][2] + dp(j))
+        #
+        #     return result
+        #
+        # return dp(0)
+
+        """
+        Tabulation
+        """
+        dp = [0] * (num_intervals + 1)
+
+        for i in range(num_intervals - 1, -1, -1):
+            j = bisect.bisect(job_intervals, (job_intervals[i][1], -1, -1))
+            dp[i] = max(dp[i + 1], job_intervals[i][2] + dp[j])
+
+        return dp[0]
 
     # 1335. Minimum Difficulty of a Job Schedule
     def minDifficulty(self, jobDifficulty: List[int], d: int) -> int:
