@@ -99,6 +99,51 @@ class Solution:
 
         return max(dp)
 
+    # 322. Coin Change
+    def coinChange(self, coins: List[int], amount: int) -> int:
+        # dp[i] is the fewest number of coins needed to make up i money
+        """
+        Memoization / Top-Down
+        """
+        # @functools.lru_cache(None)
+        # def dp(i: int) -> int:
+        #     if i == 0:
+        #         return 0
+        #
+        #     result = -1
+        #     for coin in coins:
+        #         if coin <= i:
+        #             coin_needed = dp(i - coin) + 1
+        #             if coin_needed <= 0:
+        #                 continue
+        #             if result == -1:
+        #                 result = coin_needed
+        #             else:
+        #                 result = min(result, coin_needed)
+        #
+        #     return result
+        #
+        # return dp(amount)
+
+        """
+        Tabulation / Bottom-Up
+        """
+        dp = [-1] * (amount + 1)
+        dp[0] = 0
+
+        for i in range(1, amount + 1):
+            for coin in coins:
+                if coin <= i:
+                    coin_needed = dp[i - coin] + 1
+                    if coin_needed <= 0:
+                        continue
+                    if dp[i] == -1:
+                        dp[i] = coin_needed
+                    else:
+                        dp[i] = min(dp[i], coin_needed)
+
+        return dp[amount]
+
     # 1155. Number of Dice Rolls With Target Sum
     MOD = 10**9 + 7
 
