@@ -145,6 +145,38 @@ class Solution:
 
         return dp[amount]
 
+    # 413. Arithmetic Slices
+    def numberOfArithmeticSlices(self, nums: List[int]) -> int:
+        length = len(nums)
+        if length < 3:
+            return 0
+        # dp[i] is the number of arithmetic slices ending with nums[i]
+        """
+        O(n) space
+        """
+        # dp = [0] * length
+        #
+        # for i in range(2, length):
+        #     if nums[i] - nums[i - 1] == nums[i - 1] - nums[i - 2]:
+        #         dp[i] = dp[i - 1] + 1
+        #
+        # return sum(dp)
+
+        """
+        O(1) space
+        """
+        result = 0
+        dp = 0
+
+        for i in range(2, length):
+            if nums[i] - nums[i - 1] == nums[i - 1] - nums[i - 2]:
+                dp += 1
+            else:
+                dp = 0
+            result += dp
+
+        return result
+
     # 1155. Number of Dice Rolls With Target Sum
     MOD = 10**9 + 7
 
