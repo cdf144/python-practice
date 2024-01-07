@@ -116,6 +116,41 @@ class Solution:
 
         return dummy.next
 
+    # 25. Reverse Nodes in k-Group
+    def reverseKGroup(self, head: Optional[ListNode], k: int) \
+            -> Optional[ListNode]:
+        def get_kth_node(node: Optional[ListNode], k: int):
+            while node and k > 0:
+                node = node.next
+                k -= 1
+            return node
+
+        dummy = ListNode(0, head)
+        # prev_group is the last node of the previous group after being reversed
+        prev_group = dummy
+
+        while True:
+            kth_node = get_kth_node(prev_group, k)
+            if not kth_node:
+                break
+            # next_group points to first node of next group
+            next_group = kth_node.next
+
+            # After reversing, head of group points to next_group, and last node
+            # in group (or the kth node) gets pointed to by prev_group
+            prev = kth_node.next
+            original_group_head = curr = prev_group.next
+            while curr != next_group:
+                nxt = curr.next
+                curr.next = prev
+                prev = curr
+                curr = nxt
+
+            prev_group.next = prev
+            prev_group = original_group_head
+
+        return dummy.next
+
     # 61. Rotate List
     def rotateRight(self, head: Optional[ListNode],
                     k: int) -> Optional[ListNode]:
