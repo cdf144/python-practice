@@ -146,7 +146,7 @@ class Solution:
         return dp[amount]
 
     # 413. Arithmetic Slices
-    def numberOfArithmeticSlices(self, nums: List[int]) -> int:
+    def numberOfArithmeticSlicesI(self, nums: List[int]) -> int:
         length = len(nums)
         if length < 3:
             return 0
@@ -176,6 +176,51 @@ class Solution:
             result += dp
 
         return result
+
+    # 446. Arithmetic Slices II - Subsequence
+    MIN_DIFF = -2**31
+    MAX_DIFF = 2**31 - 1
+
+    def numberOfArithmeticSlices(self, nums: List[int]) -> int:
+        # dp[i][diff] will be the number of arithmetic subsequences that ends
+        # with nums[i] and have a difference between elements of diff
+        length = len(nums)
+        # Since i is bounded 0 <= i < len(nums), we can store dp[i] as an array,
+        # but for diff, it is unbounded and sparse, so we store each dp[i][diff]
+        # as a map diff to number of subsequences
+        dp = [collections.defaultdict(int) for _ in range(length)]
+        total_subsequence = 0
+
+        for i in range(length):
+            for j in range(i):
+                # Since any arithmetic subsequence can't have a difference that
+                # is other than in the range (-2^31, 2^31 - 1), since that would
+                # mean the subsequence can only have 2 elements, we have to
+                # check for this edge case
+                diff = nums[i] - nums[j]
+                if not self.MIN_DIFF < diff < self.MAX_DIFF:
+                    continue
+
+                # Since a subsequence is only valid when it has >= 3 elements,
+                # we do a trick to add dp[j][diff] instead, because every
+                # first access of dp[i][diff] marks it as the 2nd element in
+                # the subsequence. When we access dp[i][diff] a second time,
+                # it will be the 3rd element in the subsequence, and only then
+                # do we add it to the total.
+                total_subsequence += dp[j][diff]
+                dp[i][diff] += dp[j][diff] + 1
+
+        return total_subsequence
+        # Another way to calculate the total number of arithmetic subsequences
+        # would be to, instead of doing:
+        # total_subsequence += dp[j][diff]
+        # We do:
+        # dp[i][diff] += dp[j][diff] + 1
+        # total_subsequence += dp[i][diff]
+        # Which effectively also include subsequences of length 2 in our result.
+        # To subtract those, we subtract total_subsequence by
+        # (length * (length - 1)) // 2 as per Combinatorics (number of ways
+        # to Choose 2 elements from n elements)
 
     # 1155. Number of Dice Rolls With Target Sum
     MOD = 10**9 + 7
