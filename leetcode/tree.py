@@ -8,6 +8,7 @@ class TreeNode:
         self.left = left
         self.right = right
 
+
 class Solution:
     def isSameTree(self, p: Optional[TreeNode], q: Optional[TreeNode]) -> bool:
         if not p or not q:
@@ -47,4 +48,43 @@ class Solution:
             p.val == q.val
             and self.isSameTree(p.left, q.left)
             and self.isSameTree(p.right, q.right)
+        )
+
+    # 938. Range Sum of BST
+    def rangeSumBST(self, root: Optional[TreeNode], low: int, high: int) -> int:
+        """
+        BFS
+        """
+        # queue = collections.deque()
+        # result = 0
+        # queue.append(root)
+        #
+        # while queue:
+        #     node = queue.popleft()
+        #     if not node:
+        #         continue
+        #     if node.val > high:
+        #         queue.append(node.left)
+        #     elif node.val < low:
+        #         queue.append(node.right)
+        #     else:
+        #         result += node.val
+        #         queue.append(node.left)
+        #         queue.append(node.right)
+        #
+        # return result
+
+        """
+        DFS
+        """
+        if not root:
+            return 0
+        if root.val > high:
+            return self.rangeSumBST(root.left, low, high)
+        if root.val < low:
+            return self.rangeSumBST(root.right, low, high)
+        return (
+            root.val
+            + self.rangeSumBST(root.left, low, high)
+            + self.rangeSumBST(root.right, low, high)
         )
