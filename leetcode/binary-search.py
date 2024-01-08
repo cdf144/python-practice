@@ -73,6 +73,45 @@ class Solution:
                 high = mid - 1
         return False
 
+    # 153. Find Minimum in Rotated Sorted Array
+    def findMin(self, nums: List[int]) -> int:
+        low, high = 0, len(nums) - 1
+
+        # The main idea is to see that there is a 'pivot' after rotating the
+        # array.
+        # low will be indices in the range < pivot
+        # high will be indices in the range >= pivot
+        # So when the loop ends, low will be the minimal index in the range
+        # >= pivot
+        while low < high:
+            mid = low + (high - low) // 2
+            if nums[mid] <= nums[high]:
+                # The pivot must have occurred at mid or to the left of mid.
+                # It can't be to the right of middle, because then the values
+                # would wrap around and nums[mid] > nums[high]
+                high = mid
+            else:
+                # The pivot must have occurred to the right of mid, which is
+                # why the values wrapped around and nums[mid] > nums[high]
+                low = mid + 1
+
+        return nums[low]
+
+    # 704. Binary Search
+    def search(self, nums: List[int], target: int) -> int:
+        low, high = 0, len(nums) - 1
+
+        while low <= high:
+            mid = low + (high - low) // 2
+            if nums[mid] == target:
+                return mid
+            elif nums[mid] < target:
+                low = mid + 1
+            else:
+                high = mid - 1
+
+        return -1
+
     # 875. Koko Eating Bananas
     def minEatingSpeed(self, piles: List[int], h: int) -> int:
         """
@@ -107,21 +146,6 @@ class Solution:
                 high = speed
 
         return low
-
-    # 704. Binary Search
-    def search(self, nums: List[int], target: int) -> int:
-        low, high = 0, len(nums) - 1
-
-        while low <= high:
-            mid = low + (high - low) // 2
-            if nums[mid] == target:
-                return mid
-            elif nums[mid] < target:
-                low = mid + 1
-            else:
-                high = mid - 1
-
-        return -1
 
     # 1011. Capacity To Ship Packages Within D Days
     def shipWithinDays(self, weights: List[int], days: int) -> int:
