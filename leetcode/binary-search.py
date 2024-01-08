@@ -1,5 +1,6 @@
 import bisect
 import math
+import statistics
 from typing import List
 
 # Helpful guide to Binary Search
@@ -7,6 +8,51 @@ from typing import List
 
 
 class Solution:
+    # 4. Median of Two Sorted Arrays
+    def findMedianSortedArrays(self, nums1: List[int],
+                               nums2: List[int]) -> float:
+        """
+        Easy way (Can also manually merge two lists instead of sorting which
+        would be O(n) time)
+        """
+        # return statistics.median(sorted(nums1 + nums2))
+
+        """
+        Binary search (O(log(min(m, n)) time)
+        """
+        len1, len2 = len(nums1), len(nums2)
+        if len1 > len2:
+            return self.findMedianSortedArrays(nums2, nums1)
+
+        MAX = 1000001
+        MIN = -1000001
+        total_half = (len1 + len2) // 2  # half partition of merged array
+        low, high = 0, len1 - 1
+
+        # A bit risky if input arrays are not actually sorted, but since test
+        # cases are all valid, it is guaranteed that a solution is found.
+        while True:
+            # For other languages, '//' in Python is the floor division
+            # operator, not integer division. So -1 // 2 == -1, not 0.
+            partition1 = low + (high - low) // 2
+            partition2 = total_half - (partition1 + 1) - 1
+
+            max_l1 = nums1[partition1] if partition1 >= 0 else MIN
+            max_l2 = nums2[partition2] if partition2 >= 0 else MIN
+
+            min_r1 = nums1[partition1 + 1] if (partition1 + 1) < len1 else MAX
+            min_r2 = nums2[partition2 + 1] if (partition2 + 1) < len2 else MAX
+
+            if max_l1 <= min_r2 and max_l2 <= min_r1:
+                return (
+                    min(min_r1, min_r2) if (len1 + len2) % 2 == 1
+                    else (max(max_l1, max_l2) + min(min_r1, min_r2)) / 2
+                )
+            elif max_l1 > min_r2:
+                high = partition1 - 1
+            else:
+                low = partition1 + 1
+
     # 35. Search Insert Position
     def searchInsert(self, nums: List[int], target: int) -> int:
         low, high = 0, len(nums)
