@@ -1,3 +1,4 @@
+import bisect
 import math
 from typing import List
 
@@ -121,3 +122,48 @@ class Solution:
                 high = mid - 1
 
         return -1
+
+    # 1011. Capacity To Ship Packages Within D Days
+    def shipWithinDays(self, weights: List[int], days: int) -> int:
+        """
+        Manual Binary Search
+        """
+        # low, high = max(weights), sum(weights)
+        #
+        # while low < high:
+        #     capacity = low + (high - low) // 2
+        #
+        #     days_needed = 1
+        #     curr_weight = 0
+        #     for weight in weights:
+        #         curr_weight += weight
+        #         if curr_weight > capacity:
+        #             days_needed += 1
+        #             curr_weight = weight
+        #
+        #     if days_needed <= days:
+        #         high = capacity
+        #     else:
+        #         low = capacity + 1
+        #
+        # return low
+
+        """
+        Library (bisect)
+        """
+        def can_ship(capacity: int) -> bool:
+            days_needed = 1
+            curr_weight = 0
+            for weight in weights:
+                curr_weight += weight
+                if curr_weight > capacity:
+                    days_needed += 1
+                    curr_weight = weight
+            return days_needed <= days
+
+        low, high = max(weights), sum(weights)
+        return bisect.bisect_left(
+            range(low, high),
+            True,
+            key=lambda mid: can_ship(mid)
+        ) + low
