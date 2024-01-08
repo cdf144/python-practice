@@ -9,21 +9,16 @@ from typing import List
 class Solution:
     # 35. Search Insert Position
     def searchInsert(self, nums: List[int], target: int) -> int:
-        low, high = 0, len(nums) - 1
-        mid = 0
+        low, high = 0, len(nums)
 
-        while low <= high:
-            mid = low + (high - low)//2
-            if nums[mid] == target:
-                return mid
-            elif nums[mid] < target:
-                low = mid + 1
+        while low < high:
+            mid = low + (high - low) // 2
+            if nums[mid] >= target:
+                high = mid
             else:
-                high = mid - 1
+                low = mid + 1
 
-        if nums[mid] < target:
-            return mid + 1
-        return mid
+        return low
 
     # 69. Sqrt(x)
     def mySqrt(self, x: int) -> int:
@@ -101,16 +96,14 @@ class Solution:
     def search(self, nums: List[int], target: int) -> int:
         low, high = 0, len(nums) - 1
 
-        while low <= high:
+        while low < high:
             mid = low + (high - low) // 2
-            if nums[mid] == target:
-                return mid
-            elif nums[mid] < target:
-                low = mid + 1
+            if nums[mid] >= target:
+                high = mid
             else:
-                high = mid - 1
+                low = mid + 1
 
-        return -1
+        return low if nums[low] == target else -1
 
     # 875. Koko Eating Bananas
     def minEatingSpeed(self, piles: List[int], h: int) -> int:
