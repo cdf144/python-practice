@@ -1,5 +1,8 @@
-# created by virtualenv automatically
+# Created by virtualenv automatically
 .venv/*
 
 # Files created by PyCharm
 .idea/*
+
+# Testing/Debugging files
+**/*test*
