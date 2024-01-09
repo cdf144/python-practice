@@ -1,5 +1,5 @@
 import collections
-from typing import Optional
+from typing import Optional, List, Generator
 
 
 class TreeNode:
@@ -10,6 +10,7 @@ class TreeNode:
 
 
 class Solution:
+    # 100. Same Tree
     def isSameTree(self, p: Optional[TreeNode], q: Optional[TreeNode]) -> bool:
         if not p or not q:
             return p == q
@@ -49,6 +50,39 @@ class Solution:
             and self.isSameTree(p.left, q.left)
             and self.isSameTree(p.right, q.right)
         )
+
+    # 872. Leaf-Similar Trees
+    def leafSimilar(self, root1: Optional[TreeNode],
+                    root2: Optional[TreeNode]) -> bool:
+        """
+        Append to List
+        """
+        # def dfs(root: Optional[TreeNode], leaf: List[int]) -> None:
+        #     if root:
+        #         if not root.left and not root.right:
+        #             leaf.append(root.val)
+        #             return
+        #         dfs(root.left, leaf)
+        #         dfs(root.right, leaf)
+        #
+        # leaf1, leaf2 = [], []
+        # dfs(root1, leaf1)
+        # dfs(root2, leaf2)
+        # return leaf1 == leaf2
+
+        """
+        Generator
+        """
+        def dfs(root: Optional[TreeNode]) -> Generator[int, TreeNode, None]:
+            if root:
+                if not root.left and not root.right:
+                    yield root.val
+                    return
+
+                yield from dfs(root.left)
+                yield from dfs(root.right)
+
+        return list(dfs(root1)) == list(dfs(root2))
 
     # 938. Range Sum of BST
     def rangeSumBST(self, root: Optional[TreeNode], low: int, high: int) -> int:
