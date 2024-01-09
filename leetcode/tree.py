@@ -107,6 +107,15 @@ class Solution:
 
         return root
 
+    # 235. Lowest Common Ancestor of a Binary Search Tree
+    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode',
+                             q: 'TreeNode') -> 'TreeNode':
+        if root.val > max(p.val, q.val):
+            return self.lowestCommonAncestor(root.left, p, q)
+        if root.val < min(p.val, q.val):
+            return self.lowestCommonAncestor(root.right, p, q)
+        return root
+
     # 872. Leaf-Similar Trees
     def leafSimilar(self, root1: Optional[TreeNode],
                     root2: Optional[TreeNode]) -> bool:
