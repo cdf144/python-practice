@@ -74,6 +74,39 @@ class Solution:
 
         return max_depth
 
+    # 226. Invert Binary Tree
+    def invertTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
+        """
+        BFS
+        """
+        # queue = collections.deque()
+        # if root:
+        #     queue.append(root)
+        #
+        # while queue:
+        #     node = queue.popleft()
+        #     node.left, node.right = node.right, node.left
+        #     if node.left:
+        #         queue.append(node.left)
+        #     if node.right:
+        #         queue.append(node.right)
+        #
+        # return root
+
+        """
+        DFS
+        """
+        if not root:
+            return
+
+        left = root.left
+        right = root.right
+
+        root.left = self.invertTree(right)
+        root.right = self.invertTree(left)
+
+        return root
+
     # 872. Leaf-Similar Trees
     def leafSimilar(self, root1: Optional[TreeNode],
                     root2: Optional[TreeNode]) -> bool:
