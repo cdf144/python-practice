@@ -1,3 +1,4 @@
+import collections
 from typing import Optional
 
 
@@ -93,3 +94,18 @@ class BST:
             self.__postorder(x.left)
             self.__postorder(x.right)
             print(x.val)
+
+    def levelorder(self) -> None:
+        self.__levelorder(self.__root)
+
+    def __levelorder(self, x: Optional[_Node]) -> None:
+        queue = collections.deque()
+        queue.append(x)
+        while queue:
+            node = queue.popleft()
+            print(node.val)
+
+            if node.left:
+                queue.append(node.left)
+            if node.right:
+                queue.append(node.right)
