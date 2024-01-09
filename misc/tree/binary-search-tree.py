@@ -33,6 +33,40 @@ class BST:
             return -1
         return 1 + max(self.__height(x.left), self.__height(x.right))
 
+    def min(self) -> int | str:
+        return self.__min(self.__root).val
+
+    def __min(self, x: Optional[_Node]) -> _Node:
+        if not x.left:
+            return x
+        return self.__min(x.left)
+
+    def max(self) -> int | str:
+        return self.__max(self.__root).val
+
+    def __max(self, x: Optional[_Node]) -> _Node:
+        if not x.right:
+            return x
+        return self.__max(x.right)
+
+    def del_max(self) -> None:
+        self.__root = self.__del_max(self.__root)
+
+    def __del_max(self, x: Optional[_Node]) -> _Node:
+        if not x.right:
+            return x.left
+        x.right = self.__del_max(x.right)
+        return x
+
+    def del_min(self) -> None:
+        self.__root = self.__del_min(self.__root)
+
+    def __del_min(self, x: Optional[_Node]) -> _Node:
+        if not x.left:
+            return x.right
+        x.left = self.__del_min(x.left)
+        return x
+
     def preorder(self) -> None:
         self.__preorder(self.__root)
 
