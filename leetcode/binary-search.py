@@ -53,6 +53,32 @@ class Solution:
             else:
                 low = partition1 + 1
 
+    # 33. Search in Rotated Sorted Array
+    def search_rotated(self, nums: List[int], target: int) -> int:
+        length = len(nums)
+        low, high = 0, length - 1
+
+        while low < high:
+            mid = low + (high - low) // 2
+            if nums[mid] <= nums[high]:
+                high = mid
+            else:
+                low = mid + 1
+
+        pivot = low
+        low, high = 0, length - 1
+
+        while low < high:
+            mid = low + (high - low) // 2
+            real_mid = (pivot + mid) % length
+            if nums[real_mid] >= target:
+                high = mid
+            else:
+                low = mid + 1
+
+        result = (pivot + low) % length
+        return result if nums[result] == target else -1
+
     # 35. Search Insert Position
     def searchInsert(self, nums: List[int], target: int) -> int:
         low, high = 0, len(nums)
