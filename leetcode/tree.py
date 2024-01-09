@@ -51,6 +51,29 @@ class Solution:
             and self.isSameTree(p.right, q.right)
         )
 
+    # 104. Maximum Depth of Binary Tree
+    def maxDepth(self, root: Optional[TreeNode]) -> int:
+        """
+        Recursive DFS
+        """
+        # if not root:
+        #     return 0
+        # return 1 + max(self.maxDepth(root.left), self.maxDepth(root.right))
+
+        """
+        Iterative DFS
+        """
+        stack = [(root, 1)]
+        max_depth = 0
+        while stack:
+            node, depth = stack.pop()
+            if node:
+                max_depth = max(max_depth, depth)
+                stack.append((node.right, 1 + depth))
+                stack.append((node.left, 1 + depth))
+
+        return max_depth
+
     # 872. Leaf-Similar Trees
     def leafSimilar(self, root1: Optional[TreeNode],
                     root2: Optional[TreeNode]) -> bool:
