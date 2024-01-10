@@ -74,6 +74,50 @@ class Solution:
 
         return max_depth
 
+    # 106. Construct Binary Tree from Inorder and Postorder Traversal
+    def buildTree(self, inorder: List[int],
+                  postorder: List[int]) -> Optional[TreeNode]:
+        # Some insights:
+        # With Postorder traversal, the root node is always the last node to be
+        # visited.
+        # With Inorder traversal, the nodes on the left of a node (or in other
+        # words, the nodes which are visited before a node) are all in the left
+        # subtree of that node.
+
+        # # Simple but inefficient O(n^2) time and extra space
+        # if not inorder:
+        #     # No need to check if postorder is empty, because due to how this
+        #     # algorithm runs, postorder list will always run out last.
+        #     return None
+        #
+        # root = TreeNode(postorder.pop())
+        # root_index = inorder.index(root.val)
+        #
+        # root.right = self.buildTree(inorder[root_index + 1:], postorder)
+        # root.left = self.buildTree(inorder[:root_index], postorder)
+        #
+        # return root
+
+        # Optimized O(n) time and extra space using HashMap
+        map_inorder_indices = {}
+        for i, node_val in enumerate(inorder):
+            map_inorder_indices[node_val] = i
+
+        def build(low: int, high: int) -> Optional[TreeNode]:
+            if low > high:
+                return None
+
+            root = TreeNode(postorder.pop())
+            root_index = map_inorder_indices[root.val]
+
+            root.right = build(root_index + 1, high)
+            root.left = build(low, root_index - 1)
+
+            return root
+
+        return build(0, len(inorder) - 1)
+
+
     # 226. Invert Binary Tree
     def invertTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
         """
