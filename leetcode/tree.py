@@ -1,4 +1,5 @@
 import collections
+import functools
 from typing import Optional, List, Generator, Dict
 
 
@@ -147,7 +148,6 @@ class Solution:
 
         return build(0, len(inorder) - 1)
 
-
     # 226. Invert Binary Tree
     def invertTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
         """
@@ -189,6 +189,43 @@ class Solution:
         if root.val < min(p.val, q.val):
             return self.lowestCommonAncestor(root.right, p, q)
         return root
+
+    # 543. Diameter of Binary Tree
+    def diameterOfBinaryTree(self, root: Optional[TreeNode]) -> int:
+        # # Inefficient
+        # def height(node: Optional[TreeNode]) -> int:
+        #     if not node:
+        #         return -1
+        #     return 1 + max(height(node.left), height(node.right))
+        #
+        # if not root:
+        #     return 0
+        #
+        # left_height = height(root.left)
+        # right_height = height(root.right)
+        #
+        # return max(
+        #     2 + left_height + right_height,
+        #     max(
+        #         self.diameterOfBinaryTree(root.left),
+        #         self.diameterOfBinaryTree(root.right)
+        #     )
+        # )
+
+        diameter = 0
+
+        def max_depth(node: Optional[TreeNode]) -> int:
+            nonlocal diameter
+            if not node:
+                return 0
+
+            left = max_depth(node.left)
+            right = max_depth(node.right)
+            diameter = max(diameter, left + right)
+            return 1 + max(left, right)
+
+        max_depth(root)
+        return diameter
 
     # 872. Leaf-Similar Trees
     def leafSimilar(self, root1: Optional[TreeNode],
