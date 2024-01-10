@@ -72,11 +72,9 @@ class Solution:
     # 23. Merge K Sorted Lists
     def mergeKLists(self, lists: List[Optional[ListNode]]) \
             -> Optional[ListNode]:
-        """
-        Simple but inefficient Heapsort and create new Linked List
-        Time: O(N*K*log(N*K))
-        Space: O(N*K)
-        """
+        # # Simple but inefficient Heapsort and create new Linked List
+        # # Time: O(N*K*log(N*K))
+        # # Space: O(N*K)
         # dummy = ListNode()
         # itr = dummy
         # heap = []
@@ -92,11 +90,9 @@ class Solution:
         #
         # return dummy.next
 
-        """
-        Optimized
-        Time: O(N*K*log(K))
-        Space: O(K)
-        """
+        # Optimized
+        # Time: O(N*K*log(K))
+        # Space: O(K)
         heap = []
         # Since tuple comparison breaks for (priority, obj) if priorities are
         # equal and the objects do not have a default comparison order, we
@@ -191,9 +187,7 @@ class Solution:
     # 138. Copy List with Random Pointer
     # map_old_to_copy = {}
     def copyRandomList(self, head: 'Optional[Node]') -> 'Optional[Node]':
-        """
-        Recursive
-        """
+        # # Recursive
         # if not head:
         #     return None
         # if head in self.map_old_to_copy:
@@ -206,9 +200,7 @@ class Solution:
         #
         # return new_head
 
-        """
-        Iterative
-        """
+        # Iterative
         map_old_to_copy = {None: None}
         itr = head
 
@@ -235,9 +227,7 @@ class Solution:
         if fast:
             slow = slow.next
 
-        """
-        Stack, O(N) space
-        """
+        # # Stack, O(N) space
         # stack = []
         # while slow:
         #     stack.append(slow)
@@ -252,10 +242,7 @@ class Solution:
         #     slow = slow.next.next
         # slow.next = None
 
-        """
-        Reverse 2nd half of Linked List then merge, O(1) space
-        """
-
+        # Reverse 2nd half of Linked List then merge, O(1) space
         def reverse(old_head: Optional[ListNode]) -> Optional[ListNode]:
             prev, curr = None, old_head
 

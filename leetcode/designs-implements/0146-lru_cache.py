@@ -47,9 +47,7 @@ class LRUCache:
         self.key_to_node[key] = self.head.next
 
     def move_to_head(self, node: Node):
-        """
-        This effectively makes the node the most recently used key
-        """
+        """Effectively makes the node the most recently used key"""
         self.join(node, self.head.next)
         self.join(self.head, node)
 
@@ -57,8 +55,6 @@ class LRUCache:
         self.join(node.prev, node.next)
 
     def join(self, n1: Node, n2: Node) -> None:
-        """
-        Make 2 nodes bound to each other
-        """
+        """Make 2 nodes bound to each other"""
         n1.next = n2
         n2.prev = n1

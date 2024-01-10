@@ -15,9 +15,7 @@ class TimeMap:
         if key not in self.timestamps:
             return ''
 
-        """
-        Manual binary search
-        """
+        # # Manual binary search
         # low, high = 0, len(self.timestamps[key]) - 1
         #
         # while low < high:
@@ -27,9 +25,7 @@ class TimeMap:
         #     else:
         #         low = mid + 1
 
-        """
-        Library (bisect)
-        """
+        # Library (bisect)
         low = bisect.bisect(self.timestamps[key], timestamp)
 
         return self.values[key][low - 1] if low > 0 else ''

@@ -17,9 +17,7 @@ class ListNode:
 class Solution:
     # 9. Palindrome Number
     def isPalindrome(self, x: int) -> bool:
-        """
-        Without converting to string
-        """
+        # # Without converting to string
         # if x < 0:
         #     return False
         #
@@ -31,9 +29,7 @@ class Solution:
         #
         # return reverse == x
 
-        """
-        Converting to string
-        """
+        # Converting to string
         return str(x)[::-1] == str(x)
 
     # 661. Image Smoother
@@ -118,9 +114,7 @@ class Solution:
 
     # 1716. Calculate Money in Leetcode Bank
     def totalMoney(self, n: int) -> int:
-        """
-        Simulation
-        """
+        # # Simulation
         # day = day_amount = 1
         # total = 0
         # for _ in range(n):
@@ -131,9 +125,7 @@ class Solution:
         #         day_amount -= 6  # -7 + 1
         # return total
 
-        """
-        Math
-        """
+        # Math
         weeks_num = n // 7
         days_left = n % 7
         return 28 * weeks_num + (7 * weeks_num * (weeks_num - 1)) // 2 + \
@@ -141,17 +133,16 @@ class Solution:
 
     # 1758. Minimum Changes To Make Alternating Binary String
     def minOperations(self, s: str) -> int:
-        """
-        In an alternating binary string that starts with '0' ('010101'),
-        numbers at even indices must be '0', and odd indices must be '1'.
-        We count how many times this rule got violated to get the number
-        of changes needed to construct the string.
+        # In an alternating binary string that starts with '0' ('010101'),
+        # numbers at even indices must be '0', and odd indices must be '1'.
+        # We count how many times this rule got violated to get the number
+        # of changes needed to construct the string.
+        #
+        # For alternate binary string that starts with '1' ('101010'),
+        # the number of changes needed can be calculated using the same
+        # method but with reversed rules. As such, the result is
+        # len(s) - count_start_zero
 
-        For alternate binary string that starts with '1' ('101010'),
-        the number of changes needed can be calculated using the same
-        method but with reversed rules. As such, the result is
-        len(s) - count_start_zero
-        """
         # count_start_zero = list(
         #     int(c) != i % 2 for i, c in enumerate(s)
         # ).count(True)
@@ -182,7 +173,3 @@ class Solution:
                 itertools.chain.from_iterable(words)
             ).values()
         )
-
-
-if __name__ == '__main__':
-    a = Solution()

@@ -117,9 +117,7 @@ class Solution:
 
     # 739. Daily Temperatures
     def dailyTemperatures(self, temperatures: List[int]) -> List[int]:
-        """
-        Right to left
-        """
+        # # Right to left
         # result = [0] * len(temperatures)
         # stack = []
         #
@@ -135,9 +133,7 @@ class Solution:
         #
         # return result
 
-        """
-        Left to right
-        """
+        # Left to right
         result = [0] * len(temperatures)
         stack = []
 
@@ -152,17 +148,15 @@ class Solution:
     # 853. Car Fleet
     def carFleet(self, target: int, position: List[int],
                  speed: List[int]) -> int:
-        """
-        First model this problem on an integer number line with each car 'i'
-        being a point starting at 'position[i]' with velocity 'speed[i]'
-        moving towards the 'target' point, then see how faster cars get
-        'speed limited' by the slower cars in front of them, forming a fleet.
-
-        Then model again viewing the cars as a system of linear equations
-        y = position[i] + x*speed[i], see how on the Cartesian plane, the
-        lines with more slope gets 'limited' by ones with less slope once
-        they intersect, and this solution will make sense.
-        """
+        # First model this problem on an integer number line with each car 'i'
+        # being a point starting at 'position[i]' with velocity 'speed[i]'
+        # moving towards the 'target' point, then see how faster cars get
+        # 'speed limited' by the slower cars in front of them, forming a fleet.
+        #
+        # Then model again viewing the cars as a system of linear equations
+        # y = position[i] + x*speed[i], see how on the Cartesian plane, the
+        # lines with more slope gets 'limited' by ones with less slope once
+        # they intersect, and this solution will make sense.
         times_to_reach_target = [
             (target - p) / s
             for p, s in sorted(zip(position, speed), reverse=True)

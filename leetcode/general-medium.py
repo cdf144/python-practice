@@ -59,9 +59,7 @@ class Solution:
 
     # 54. Spiral Matrix
     def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
-        """
-        Shrinking walls
-        """
+        # # Shrinking walls
         # top = left = 0
         # bottom = len(matrix) - 1
         # right = len(matrix[0]) - 1
@@ -94,9 +92,7 @@ class Solution:
         #
         # return result
 
-        """
-        Switching directions
-        """
+        # Switching directions
         dirs = [(0, 1), (1, 0), (0, -1), (-1, 0)]
         curr_dir = 0
         m = len(matrix)
@@ -123,9 +119,7 @@ class Solution:
 
     # 73. Set Matrix Zeroes
     def setZeroes(self, matrix: List[List[int]]) -> None:
-        """
-        Straightforward O(mn) space
-        """
+        # # Straightforward O(mn) space
         # m = len(matrix)
         # n = len(matrix[0])
         # zeroes = []
@@ -139,9 +133,7 @@ class Solution:
         #     for k in range(m):
         #         matrix[k][j] = 0
 
-        """
-        Constant space
-        """
+        # Constant space
         # We are going to use the first row and first column as our marker to
         # indicate that certain rows and columns must be filled with 0.
         # As such, we have to figure out if the first row and column needs to
@@ -172,9 +164,7 @@ class Solution:
 
     # 238. Product of Array Except Self
     def productExceptSelf(self, nums: List[int]) -> List[int]:
-        """
-        Extra space
-        """
+        # # Extra space
         # length = len(nums)
         # left_products = [1] * length
         # right_products = [1] * length
@@ -190,9 +180,7 @@ class Solution:
         #
         # return result
 
-        """
-        Constant space
-        """
+        # Constant space
         length = len(nums)
         result = [1] * length
 
@@ -262,9 +250,7 @@ class Solution:
 
     # 1637. Widest Vertical Area Between Two Points Containing No Points
     def maxWidthOfVerticalArea(self, points: List[List[int]]) -> int:
-        """
-        Sorted set
-        """
+        # # Sorted set
         # x_set = SortedSet()
         # for point in points:
         #     x_set.add(point[0])
@@ -277,9 +263,7 @@ class Solution:
         #
         # return max_diff
 
-        """
-        Starmap with tuple of adjacent pairs in sorted list
-        """
+        # Starmap with tuple of adjacent pairs in sorted list
         return -min(
             starmap(
                 sub,

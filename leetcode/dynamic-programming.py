@@ -8,9 +8,7 @@ from typing import List
 class Solution:
     # 53. Maximum Subarray
     def maxSubArray(self, nums: List[int]) -> int:
-        """
-        Extra space
-        """
+        # # Extra space
         # length = len(nums)
         # dp = [0] * length
         #
@@ -20,9 +18,7 @@ class Solution:
         #
         # return max(dp)
 
-        """
-        Constant space
-        """
+        # Constant space
         length = len(nums)
         curr = nums[0]
         max_sum = curr
@@ -55,9 +51,7 @@ class Solution:
 
     # 300. Longest Increasing Subsequence
     def lengthOfLIS(self, nums: List[int]) -> int:
-        """
-        Memoization, Memory Limit Exceeded
-        """
+        # # Memoization, Memory Limit Exceeded
         # length = len(nums)
         #
         # @functools.lru_cache(None)
@@ -76,9 +70,7 @@ class Solution:
         #
         # return dp(0, -1)
 
-        """
-        Tabulation
-        """
+        # Tabulation
         # dp[i] will be the length of the Longest Increasing Subsequence that
         # ends with nums[i] (in other words, with nums[i] being the greatest
         # number in the subsequence)
@@ -103,9 +95,8 @@ class Solution:
     # 322. Coin Change
     def coinChange(self, coins: List[int], amount: int) -> int:
         # dp[i] is the fewest number of coins needed to make up i money
-        """
-        Memoization / Top-Down
-        """
+
+        # # Memoization / Top-Down
         # @functools.lru_cache(None)
         # def dp(i: int) -> int:
         #     if i == 0:
@@ -126,9 +117,7 @@ class Solution:
         #
         # return dp(amount)
 
-        """
-        Tabulation / Bottom-Up
-        """
+        # Tabulation / Bottom-Up
         dp = [-1] * (amount + 1)
         dp[0] = 0
 
@@ -151,9 +140,8 @@ class Solution:
         if length < 3:
             return 0
         # dp[i] is the number of arithmetic slices ending with nums[i]
-        """
-        O(n) space
-        """
+
+        # # O(n) space
         # dp = [0] * length
         #
         # for i in range(2, length):
@@ -162,9 +150,7 @@ class Solution:
         #
         # return sum(dp)
 
-        """
-        O(1) space
-        """
+        # O(1) space
         result = 0
         dp = 0
 
@@ -226,9 +212,7 @@ class Solution:
     MOD = 10**9 + 7
 
     def numRollsToTarget(self, n: int, k: int, target: int) -> int:
-        """
-        Memoization / Top-Down
-        """
+        # # Memoization / Top-Down
         # lookup_table = {}
         #
         # def count_ways(die_remain: int, target_remain: int) -> int:
@@ -248,9 +232,7 @@ class Solution:
         #
         # return count_ways(n, target)
 
-        """
-        Tabulation / Bottom-Up
-        """
+        # Tabulation / Bottom-Up
         dp = [0] * (target + 1)  # dp[i] = number of ways to roll target=i
         dp[0] = 1
 
@@ -273,9 +255,7 @@ class Solution:
         job_intervals = sorted(zip(startTime, endTime, profit))
         num_intervals = len(job_intervals)
 
-        """
-        Memoization
-        """
+        # # Memoization
         # @functools.lru_cache(None)
         # def dp(i: int) -> int:
         #     # No job left
@@ -295,9 +275,7 @@ class Solution:
         #
         # return dp(0)
 
-        """
-        Tabulation
-        """
+        # Tabulation
         dp = [0] * (num_intervals + 1)
 
         for i in range(num_intervals - 1, -1, -1):

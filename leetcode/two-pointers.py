@@ -130,9 +130,7 @@ class Solution:
 
     # 42. Trapping Rain Water
     def trap(self, height: List[int]) -> int:
-        """
-        Auxiliary array
-        """
+        # # Auxiliary array
         # length = len(height)
         # max_left_h, max_right_h = [0] * length, [0] * length
         #
@@ -154,9 +152,7 @@ class Solution:
         #
         # return total_water
 
-        """
-        Two pointers
-        """
+        # Two pointers
         left, right = 0, len(height) - 1
         l_max, r_max = 0, 0
         total_water = 0
@@ -180,9 +176,7 @@ class Solution:
 
     # 75. Sort Colors
     def sortColors(self, nums: List[int]) -> None:
-        """
-        Counting sort
-        """
+        # # Counting sort
         # count = [0] * 3
         # for num in nums:
         #     count[num] += 1
@@ -193,9 +187,7 @@ class Solution:
         #         nums[itr] = i
         #         itr += 1
 
-        """
-        Two pointers
-        """
+        # Two pointers
         left, right = 0, len(nums) - 1
         i = 0
         while i <= right:
@@ -253,10 +245,8 @@ class Solution:
 
     # 287. Find the Duplicate Number
     def findDuplicate(self, nums: List[int]) -> int:
-        """
-        Detailed explanation:
-        https://keithschwarz.com/interesting/code/?dir=find-duplicate
-        """
+        # Detailed explanation:
+        # https://keithschwarz.com/interesting/code/?dir=find-duplicate
         slow = nums[nums[0]]
         fast = nums[nums[nums[0]]]
         while slow != fast:

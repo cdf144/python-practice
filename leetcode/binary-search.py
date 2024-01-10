@@ -11,15 +11,11 @@ class Solution:
     # 4. Median of Two Sorted Arrays
     def findMedianSortedArrays(self, nums1: List[int],
                                nums2: List[int]) -> float:
-        """
-        Easy way (Can also manually merge two lists instead of sorting which
-        would be O(n) time)
-        """
+        # # Easy way (Can also manually merge two lists instead of sorting
+        # # which would be O(n) time)
         # return statistics.median(sorted(nums1 + nums2))
 
-        """
-        Binary search (O(log(min(m, n)) time)
-        """
+        # Binary search (O(log(min(m, n)) time)
         len1, len2 = len(nums1), len(nums2)
         if len1 > len2:
             return self.findMedianSortedArrays(nums2, nums1)
@@ -179,9 +175,7 @@ class Solution:
 
     # 875. Koko Eating Bananas
     def minEatingSpeed(self, piles: List[int], h: int) -> int:
-        """
-        Naive linear search, TLE
-        """
+        # # Naive linear search, TLE
         # speed = max(piles)
         # hours_finish = len(piles)
         #
@@ -193,9 +187,7 @@ class Solution:
         #
         # return speed + 1
 
-        """
-        Binary search
-        """
+        # Binary search
         low, high = 1, max(piles)
 
         # There can be cases where there are multiple speeds which Koko can eat
@@ -214,9 +206,7 @@ class Solution:
 
     # 1011. Capacity To Ship Packages Within D Days
     def shipWithinDays(self, weights: List[int], days: int) -> int:
-        """
-        Manual Binary Search
-        """
+        # # Manual Binary Search
         # low, high = max(weights), sum(weights)
         #
         # while low < high:
@@ -237,10 +227,15 @@ class Solution:
         #
         # return low
 
-        """
-        Library (bisect)
-        """
+        # Library (bisect)
         def can_ship(capacity: int) -> bool:
+            """
+            Calculate if it is possible to ship within the number of days
+            required with the given capacity.
+            :param capacity: The capacity given.
+            :return: A Boolean value indicating if it is possible to ship
+            within the number of days required with the given capacity.
+            """
             days_needed = 1
             curr_weight = 0
             for weight in weights:

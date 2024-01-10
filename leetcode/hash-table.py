@@ -75,15 +75,11 @@ class Solution:
 
     # 347. Top K Frequent Elements
     def topKFrequent(self, nums: List[int], k: int) -> List[int]:
-        """
-        Library function -> O(n) + O(k) + O((n - k) log k) + O(k log k)
-        """
+        # # Library function -> O(n) + O(k) + O((n - k) log k) + O(k log k)
         # counter = collections.Counter(nums)
         # return [num for num, freq in counter.most_common(k)]
 
-        """
-        Max Heap -> O(n) + O(n log n) + O(n log k)
-        """
+        # # Max Heap -> O(n) + O(n log n) + O(n log k)
         # counter = collections.Counter(nums)
         # heap = []
         # for num, freq in counter.items():
@@ -94,9 +90,7 @@ class Solution:
         #     result.append(heapq.heappop(heap)[1])
         # return result
 
-        """
-        Bucket sort -> O(n) + O(n)
-        """
+        # Bucket sort -> O(n) + O(n)
         # bucket of frequencies, max frequency is len(nums)
         bucket = [[] for _ in nums]
         for num, freq in collections.Counter(nums).items():
@@ -159,9 +153,7 @@ class Solution:
 
     # 2610. Convert an Array Into a 2D Array With Conditions
     def findMatrix(self, nums: List[int]) -> List[List[int]]:
-        """
-        Brute force
-        """
+        # # Brute force
         # result = []
         #
         # for num in nums:
@@ -179,9 +171,7 @@ class Solution:
         #
         # return result
 
-        """
-        Frequency hash table
-        """
+        # Frequency hash table
         result = []
         count = collections.Counter()
 
