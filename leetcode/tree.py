@@ -1,5 +1,5 @@
 import collections
-from typing import Optional, List, Generator
+from typing import Optional, List, Generator, Dict
 
 
 class TreeNode:
@@ -187,3 +187,52 @@ class Solution:
             + self.rangeSumBST(root.left, low, high)
             + self.rangeSumBST(root.right, low, high)
         )
+
+    # 2385. Amount of Time for Binary Tree to Be Infected
+    def amountOfTime(self, root: Optional[TreeNode], start: int) -> int:
+        # Main idea: Convert to an undirected graph, then use BFS to find the
+        # max distance between 'start' node and other nodes in the graph.
+        def convert_to_graph(r: Optional[TreeNode]) -> Dict[int, List[int]]:
+            """
+            Convert from binary tree to a Map between a Node and Adjacency List
+            :param r: root node
+            :return: a Map (Dict) of Nodes and its Adjacency List
+            """
+            g = collections.defaultdict(list)
+            q = collections.deque()
+
+            q.append(r)
+            while q:
+                node = q.popleft()
+                if node.left:
+                    g[node.val].append(node.left.val)
+                    g[node.left.val].append(node.val)
+                    q.append(node.left)
+                if node.right:
+                    g[node.val].append(node.right.val)
+                    g[node.right.val].append(node.val)
+                    q.append(node.right)
+
+            return g
+
+        max_dist = -1
+        graph = convert_to_graph(root)
+        queue = collections.deque()
+        visited = set()
+
+        queue.append(start)
+        visited.add(start)
+        while queue:
+            max_dist += 1
+            for _ in range(len(queue)):
+                # pop every node that has the previous distance to 'start'
+                # and append nodes with next (+1) distance
+                v = queue.popleft()
+                visited.add(v)
+                for adj in graph[v]:
+                    if adj in visited:
+                        continue
+                    queue.append(adj)
+                    visited.add(adj)
+
+        return max_dist
