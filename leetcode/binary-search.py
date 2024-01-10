@@ -160,6 +160,27 @@ class Solution:
 
         return nums[low]
 
+    # 278. First Bad Version
+    def firstBadVersion(self, n: int) -> int:
+        # The isBadVersion API is already defined for you.
+        def isBadVersion(version: int) -> bool:
+            """
+            Fake isBadVersion API to stop Linter from warning. Do not
+            include this on LeetCode.
+            """
+            return True
+
+        low, high = 1, n
+
+        while low < high:
+            mid = low + (high - low) // 2
+            if isBadVersion(mid):
+                high = mid
+            else:
+                low = mid + 1
+
+        return low
+
     # 704. Binary Search
     def search(self, nums: List[int], target: int) -> int:
         low, high = 0, len(nums) - 1
