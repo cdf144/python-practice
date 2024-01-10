@@ -51,6 +51,28 @@ class Solution:
             and self.isSameTree(p.right, q.right)
         )
 
+    # 102. Binary Tree Level Order Traversal
+    def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
+        queue = collections.deque()
+        result = []
+
+        if root:
+            queue.append(root)
+        while queue:
+            curr_level = []
+
+            for _ in range(len(queue)):
+                node = queue.popleft()
+                curr_level.append(node.val)
+                if node.left:
+                    queue.append(node.left)
+                if node.right:
+                    queue.append(node.right)
+
+            result.append(curr_level)
+
+        return result
+
     # 104. Maximum Depth of Binary Tree
     def maxDepth(self, root: Optional[TreeNode]) -> int:
         """
@@ -104,6 +126,14 @@ class Solution:
             map_inorder_indices[node_val] = i
 
         def build(low: int, high: int) -> Optional[TreeNode]:
+            """
+            Recursively rebuild a Binary Tree.
+            :param low: Inclusive lower bound of the working area in
+                inorder list.
+            :param high: Inclusive higher bound of the working area in
+                inorder list.
+            :return: A built node with defined left and right subtree.
+            """
             if low > high:
                 return None
 
