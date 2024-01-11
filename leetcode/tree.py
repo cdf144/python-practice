@@ -1,5 +1,6 @@
 import collections
 import hashlib
+from numbers import Number
 from typing import Optional, List, Generator, Dict
 
 
@@ -11,6 +12,38 @@ class TreeNode:
 
 
 class Solution:
+    # 98. Validate Binary Search Tree
+    def isValidBST(self, root: Optional[TreeNode]) -> bool:
+        # # 1st idea: Inorder traversal of a valid binary tree results in a
+        # # strictly increasing list.
+        # node_list = []
+        #
+        # def inorder(node: Optional[TreeNode]) -> None:
+        #     if not node:
+        #         return
+        #     inorder(node.left)
+        #     node_list.append(node.val)
+        #     inorder(node.right)
+        #
+        # inorder(root)
+        # return all(x < y for x, y in zip(node_list, node_list[1:]))
+
+        # 2nd idea: In a valid BST, every node's left children are less than
+        # itself, while its right children are greater.
+        def dfs(node: Optional[TreeNode],
+                min_node, max_node) -> bool:
+            if not node:
+                return True
+            if not min_node < node.val < max_node:
+                return False
+
+            return (
+                dfs(node.left, min_node, node.val)
+                and dfs(node.right, node.val, max_node)
+            )
+
+        return dfs(root, float('-inf'), float('inf'))
+
     # 100. Same Tree
     def isSameTree(self, p: Optional[TreeNode], q: Optional[TreeNode]) -> bool:
         if not p or not q:
