@@ -148,6 +148,44 @@ class Solution:
 
         return build(0, len(inorder) - 1)
 
+    # 199. Binary Tree Right Side View
+    def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
+        # # BFS
+        # if not root:
+        #     return []
+        #
+        # queue = collections.deque([root])
+        # result = []
+        #
+        # while queue:
+        #     level_size = len(queue)
+        #     for i in range(level_size):
+        #         node = queue.popleft()
+        #         if i == level_size - 1:
+        #             result.append(node.val)
+        #         if node.left:
+        #             queue.append(node.left)
+        #         if node.right:
+        #             queue.append(node.right)
+        #
+        # return result
+
+        # DFS
+        result = []
+
+        def dfs(node: Optional[TreeNode], depth: int) -> None:
+            if not node:
+                return
+
+            if depth == len(result):
+                result.append(node.val)
+
+            dfs(node.right, depth + 1)
+            dfs(node.left, depth + 1)
+
+        dfs(root, 0)
+        return result
+
     # 226. Invert Binary Tree
     def invertTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
         """
