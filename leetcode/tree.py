@@ -497,6 +497,24 @@ class Solution:
 
         return max_diff(root, root.val, root.val)
 
+    # 1448. Count Good Nodes in Binary Tree
+    def goodNodes(self, root: TreeNode) -> int:
+        def dfs(node: TreeNode, curr_max) -> None:
+            if not node:
+                return
+
+            nonlocal count
+            if node.val >= curr_max:
+                count += 1
+                curr_max = max(curr_max, node.val)
+
+            dfs(node.left, curr_max)
+            dfs(node.right, curr_max)
+
+        count = 0
+        dfs(root, float('-inf'))
+        return count
+
     # 2385. Amount of Time for Binary Tree to Be Infected
     def amountOfTime(self, root: Optional[TreeNode], start: int) -> int:
         # Main idea: Convert to an undirected graph, then use BFS to find the
