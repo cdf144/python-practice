@@ -5,4 +5,4 @@
 .idea/*
 
 # Testing/Debugging files
-**/*test*
+**/test*
