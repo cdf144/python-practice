@@ -1,4 +1,5 @@
 import collections
+import hashlib
 from typing import Optional, List, Generator, Dict
 
 
@@ -15,9 +16,7 @@ class Solution:
         if not p or not q:
             return p == q
 
-        """
-        BFS + List
-        """
+        # # BFS + List
         # def bfs(x: Optional[TreeNode]) -> List[int]:
         #     queue = collections.deque()
         #     result = [x.val]
@@ -42,9 +41,7 @@ class Solution:
         #
         # return bfs(p) == bfs(q)
 
-        """
-        DFS in-place check
-        """
+        # DFS in-place check
         return (
             p.val == q.val
             and self.isSameTree(p.left, q.left)
@@ -75,16 +72,12 @@ class Solution:
 
     # 104. Maximum Depth of Binary Tree
     def maxDepth(self, root: Optional[TreeNode]) -> int:
-        """
-        Recursive DFS
-        """
+        # # Recursive DFS
         # if not root:
         #     return 0
         # return 1 + max(self.maxDepth(root.left), self.maxDepth(root.right))
 
-        """
-        Iterative DFS
-        """
+        # Iterative DFS
         stack = [(root, 1)]
         max_depth = 0
         while stack:
@@ -228,9 +221,7 @@ class Solution:
 
     # 226. Invert Binary Tree
     def invertTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
-        """
-        BFS
-        """
+        # # BFS
         # queue = collections.deque()
         # if root:
         #     queue.append(root)
@@ -245,9 +236,7 @@ class Solution:
         #
         # return root
 
-        """
-        DFS
-        """
+        # DFS
         if not root:
             return
 
@@ -305,12 +294,61 @@ class Solution:
         max_depth(root)
         return diameter
 
+    # 572. Subtree of Another Tree
+    def isSubtree(self, root: Optional[TreeNode],
+                  subRoot: Optional[TreeNode]) -> bool:
+        # # Naive, O(|root| * |subRoot|)
+        # def is_same_tree(root1: Optional[TreeNode],
+        #                  root2: Optional[TreeNode]) -> bool:
+        #     if not root1 or not root2:
+        #         return root1 == root2
+        #     return (
+        #         root1.val == root2.val
+        #         and is_same_tree(root1.left, root2.left)
+        #         and is_same_tree(root1.right, root2.right)
+        #     )
+        #
+        # if not root:
+        #     return False
+        # if is_same_tree(root, subRoot):
+        #     return True
+        # return (
+        #     self.isSubtree(root.left, subRoot)
+        #     or self.isSubtree(root.right, subRoot)
+        # )
+
+        # Merkle tree (hashing), O(|root| + |subRoot|)
+        def _hash(x: str) -> str:
+            hash_code = hashlib.sha256()
+            hash_code.update(x.encode())
+            return hash_code.hexdigest()
+
+        def merkle(node: Optional[TreeNode]) -> str:
+            if not node:
+                return '?'
+            merkle_left = merkle(node.left)
+            merkle_right = merkle(node.right)
+            node.merkle = _hash(merkle_left + str(node.val) + merkle_right)
+            return node.merkle
+
+        def dfs(node: Optional[TreeNode]) -> bool:
+            if not node:
+                return False
+            return (
+                node.merkle == subRoot.merkle
+                or dfs(node.left)
+                or dfs(node.right)
+            )
+
+        merkle(root)
+        merkle(subRoot)
+
+        return dfs(root)
+
     # 872. Leaf-Similar Trees
     def leafSimilar(self, root1: Optional[TreeNode],
                     root2: Optional[TreeNode]) -> bool:
-        """
-        Append to List
-        """
+        # # Append to List
         # def dfs(root: Optional[TreeNode], leaf: List[int]) -> None:
         #     if root:
         #         if not root.left and not root.right:
@@ -324,9 +362,7 @@ class Solution:
         # dfs(root2, leaf2)
         # return leaf1 == leaf2
 
-        """
-        Generator
-        """
+        # Generator
         def dfs(root: Optional[TreeNode]) -> Generator[int, TreeNode, None]:
             if root:
                 if not root.left and not root.right:
@@ -340,9 +376,7 @@ class Solution:
 
     # 938. Range Sum of BST
     def rangeSumBST(self, root: Optional[TreeNode], low: int, high: int) -> int:
-        """
-        BFS
-        """
+        # # BFS
         # queue = collections.deque()
         # result = 0
         # queue.append(root)
@@ -362,9 +396,7 @@ class Solution:
         #
         # return result
 
-        """
-        DFS
-        """
+        # DFS
         if not root:
             return 0
         if root.val > high:
