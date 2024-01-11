@@ -147,6 +147,47 @@ class Solution:
 
         return build(0, len(inorder) - 1)
 
+    # 110. Balanced Binary Tree
+    def isBalanced(self, root: Optional[TreeNode]) -> bool:
+        # # Straightforward Top-Down, O(nlogn)
+        # def height(node: Optional[TreeNode]) -> int:
+        #     if not node:
+        #         return -1
+        #     return 1 + max(height(node.left), height(node.right))
+        #
+        # if not root:
+        #     return True
+        # return (
+        #     abs(height(root.left) - height(root.right)) <= 1
+        #     and self.isBalanced(root.left)
+        #     and self.isBalanced(root.right)
+        # )
+
+        # Heuristic Bottom-Up, O(n)
+        def height(node: Optional[TreeNode]) -> int:
+            """
+            Return height of node (min height is 1 instead of traditional 0
+            for the heuristic approach to work) if node is balanced, else
+            return -1
+            """
+            if not node:
+                return 0
+
+            left_height = height(node.left)
+            if left_height == -1:
+                return -1
+
+            right_height = height(node.right)
+            if right_height == -1:
+                return -1
+
+            if abs(left_height - right_height) > 1:
+                return -1
+
+            return 1 + max(left_height, right_height)
+
+        return height(root) != -1
+
     # 199. Binary Tree Right Side View
     def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
         # # BFS
