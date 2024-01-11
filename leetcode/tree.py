@@ -1,5 +1,4 @@
 import collections
-import functools
 from typing import Optional, List, Generator, Dict
 
 
@@ -336,6 +335,61 @@ class Solution:
             + self.rangeSumBST(root.left, low, high)
             + self.rangeSumBST(root.right, low, high)
         )
+
+    # 1026. Maximum Difference Between Node and Ancestor
+    def maxAncestorDiff(self, root: Optional[TreeNode]) -> int:
+        # # Lengthy 2 HashMap 2-pass DFS, but somehow efficient
+        # map_ancestor_to_min = {}
+        # map_ancestor_to_max = {}
+        #
+        # def dfs_min(node: Optional[TreeNode]) -> int:
+        #     if not node:
+        #         return 100001
+        #
+        #     map_ancestor_to_min[node.val] = min(
+        #         node.val,
+        #         dfs_min(node.left),
+        #         dfs_min(node.right)
+        #     )
+        #
+        #     return map_ancestor_to_min[node.val]
+        #
+        # def dfs_max(node: Optional[TreeNode]) -> int:
+        #     if not node:
+        #         return -1
+        #
+        #     map_ancestor_to_max[node.val] = max(
+        #         node.val,
+        #         dfs_max(node.left),
+        #         dfs_max(node.right)
+        #     )
+        #
+        #     return map_ancestor_to_max[node.val]
+        #
+        # dfs_min(root)
+        # dfs_max(root)
+        # max_diff = 0
+        #
+        # for ancestor, min_descendant in map_ancestor_to_min.items():
+        #     max_diff = max(max_diff, ancestor - min_descendant)
+        #
+        # for ancestor, max_descendant in map_ancestor_to_max.items():
+        #     max_diff = max(max_diff, max_descendant - ancestor)
+        #
+        # return max_diff
+
+        # More concise 1-pass DFS
+        def max_diff(node: Optional[TreeNode],
+                     min_node: int, max_node: int) -> int:
+            if not node:
+                return 0
+            min_node = min(min_node, node.val)
+            max_node = max(max_node, node.val)
+            max_diff_left = max_diff(node.left, min_node, max_node)
+            max_diff_right = max_diff(node.right, min_node, max_node)
+            return max(max_node - min_node, max_diff_left, max_diff_right)
+
+        return max_diff(root, root.val, root.val)
 
     # 2385. Amount of Time for Binary Tree to Be Infected
     def amountOfTime(self, root: Optional[TreeNode], start: int) -> int:
