@@ -175,7 +175,7 @@ class Solution:
 
     # 110. Balanced Binary Tree
     def isBalanced(self, root: Optional[TreeNode]) -> bool:
-        # # Straightforward Top-Down, O(nlogn)
+        # # Straightforward Top-Down, O(n^2)
         # def height(node: Optional[TreeNode]) -> int:
         #     if not node:
         #         return -1
@@ -280,6 +280,25 @@ class Solution:
         root.right = self.invertTree(left)
 
         return root
+
+    # 230. Kth Smallest Element in a BST
+    def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:
+        rank = 0
+        result = 0
+
+        def inorder(node: Optional[TreeNode]) -> None:
+            nonlocal rank
+            nonlocal result
+            if node:
+                inorder(node.left)
+                rank += 1
+                if rank == k:
+                    result = node.val
+                    return
+                inorder(node.right)
+
+        inorder(root)
+        return result
 
     # 235. Lowest Common Ancestor of a Binary Search Tree
     def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode',
@@ -506,7 +525,7 @@ class Solution:
             nonlocal count
             if node.val >= curr_max:
                 count += 1
-                curr_max = max(curr_max, node.val)
+                curr_max = node.val
 
             dfs(node.left, curr_max)
             dfs(node.right, curr_max)
