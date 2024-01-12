@@ -112,6 +112,55 @@ class Solution:
 
         return result
 
+    # 1704. Determine if String Halves Are Alike
+    def halvesAreAlike(self, s: str) -> bool:
+        # # Straightforward counting (HashMap)
+        # vowels = 'aeiouAEIOU'
+        # half = len(s) // 2
+        #
+        # left_half = collections.Counter(s[:half])
+        # right_half = collections.Counter(s[half:])
+        #
+        # vowels_left = sum(
+        #     count for count in (left_half[vowel] for vowel in vowels)
+        # )
+        # vowels_right = sum(
+        #     count for count in (right_half[vowel] for vowel in vowels)
+        # )
+        #
+        # return vowels_left == vowels_right
+
+        # Two pointers
+        length = len(s)
+        left, right = 0, length - 1
+        vowels_left = vowels_right = 0
+
+        # Clever vowel check: (0x208222 >> (char & 0x1f)) & 1
+        # - (char & 0x1f) 'isolates' the first 5 bits of the character.
+        #   Regardless of whether the character is uppercase or not,
+        #   the resulting number will be in the range 1-26, which is the
+        #   position of the character in the alphabet.
+        # - (0x208222) is a 24-bit number that holds a pattern of 1's in
+        #   specific positions that correspond to vowel positions when shifted
+        #   right. Binary representation: 001000001000001000100010
+        # - (0x208222 >> (char & 0x1f)) shifts the special number right by
+        #   the position of the character computed earlier.
+        # - (...) & 1 is the final vowel check, 'isolating' the rightmost bit.
+        #   If the result is 1, this is a vowel, otherwise it is not.
+        #
+        # For example, for letter 'e', which is a vowel, 0x208222 will be
+        # shifted right by 5 places, which results in a number with its
+        # rightmost bit being 1 -> Vowel check successful
+        while left < right:
+            if (0x208222 >> (ord(s[left]) & 0x1f)) & 1:
+                vowels_left += 1
+            if (0x208222 >> (ord(s[right]) & 0x1f)) & 1:
+                vowels_right += 1
+            left += 1
+            right -= 1
+
+        return vowels_left == vowels_right
+
     # 1716. Calculate Money in Leetcode Bank
     def totalMoney(self, n: int) -> int:
         # # Simulation
@@ -150,6 +199,16 @@ class Solution:
         count_start_one = len(s) - count_start_zero
         return min(count_start_zero, count_start_one)
 
+    # 1897. Redistribute Characters to Make All Strings Equal
+    def makeEqual(self, words: List[str]) -> bool:
+        length = len(words)
+        return all(
+            count % length == 0
+            for count in collections.Counter(
+                itertools.chain.from_iterable(words)
+            ).values()
+        )
+
     # 2706. Buy Two Chocolates
     def buyChoco(self, prices: List[int], money: int) -> int:
         min1, min2 = math.inf, math.inf
@@ -163,13 +222,3 @@ class Solution:
 
         min_cost = min1 + min2
         return money - min_cost if min_cost <= money else money
-
-    # 1897. Redistribute Characters to Make All Strings Equal
-    def makeEqual(self, words: List[str]) -> bool:
-        length = len(words)
-        return all(
-            count % length == 0
-            for count in collections.Counter(
-                itertools.chain.from_iterable(words)
-            ).values()
-        )
