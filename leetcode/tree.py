@@ -214,6 +214,23 @@ class Solution:
 
         return height(root) != -1
 
+    # 124. Binary Tree Maximum Path Sum
+    def maxPathSum(self, root: Optional[TreeNode]) -> int:
+        def traverse(node: Optional[TreeNode]) -> int:
+            nonlocal max_sum
+            if not node:
+                return 0
+
+            left = max(0, traverse(node.left))
+            right = max(0, traverse(node.right))
+
+            max_sum = max(max_sum, left + node.val + right)
+            return node.val + max(left, right)
+
+        max_sum = -1001
+        traverse(root)
+        return max_sum
+
     # 199. Binary Tree Right Side View
     def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
         # # BFS
