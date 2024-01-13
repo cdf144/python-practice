@@ -133,6 +133,18 @@ class Solution:
         # If we reach here, all characters in string have frequency >= k
         return len(s)
 
+    # 1347. Minimum Number of Steps to Make Two Strings Anagram
+    def minSteps(self, s: str, t: str) -> int:
+        count_s = collections.Counter(s)
+        requiring = len(s)
+
+        count_t = collections.Counter(t)
+        for c, count in count_t.items():
+            if c in count_s:
+                requiring -= count_s[c] if count > count_s[c] else count
+
+        return requiring
+
     # 1496. Path Crossing
     def isPathCrossing(self, path: str) -> bool:
         x, y = 0, 0
