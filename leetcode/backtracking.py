@@ -29,6 +29,36 @@ class Solution:
 
         return result
 
+    # 39. Combination Sum
+    def combinationSum(self, candidates: List[int],
+                       target: int) -> List[List[int]]:
+        result = []
+        num_candidates = len(candidates)
+
+        def dfs(curr_comb: List[int], curr_sum: int, start: int) -> None:
+            """
+            Do a DFS on combination (with duplicate elements) decision tree.
+            :param curr_comb: The current list of combination made by previous
+                decisions
+            :param curr_sum: The current sum of the combinations in the list. If
+                the current sum is equal to target, the current list will be
+                appended as 1 correct combination sum; if this is larger than
+                target, we took the wrong decision and turn back.
+            :param start: The index at which to start considering all
+                possibilities of continuing to add the same candidate or add
+                one of the next candidates.
+            """
+            if curr_sum >= target:
+                if curr_sum == target:
+                    result.append(curr_comb)
+                return
+
+            for i in range(start, num_candidates):
+                dfs(curr_comb + [candidates[i]], curr_sum + candidates[i], i)
+
+        dfs([], 0, 0)
+        return result
+
     # 46. Permutations
     def permute(self, nums: List[int]) -> List[List[int]]:
         # # Library
