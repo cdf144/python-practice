@@ -1,3 +1,4 @@
+import itertools
 from typing import List
 
 
@@ -26,6 +27,31 @@ class Solution:
                     new_result.append(combination + c)
             result = new_result
 
+        return result
+
+    # 46. Permutations
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        # # Library
+        # return list(itertools.permutations(nums))
+
+        # Backtracking
+        result = []
+
+        def dfs(curr_perm: List[int]) -> None:
+            """
+            Do a DFS on permutation decision tree.
+            :param curr_perm: The current permutation built through making
+                previous choices
+            """
+            if len(curr_perm) == len(nums):
+                result.append(curr_perm)
+                return
+
+            for num in nums:
+                if num not in curr_perm:
+                    dfs(curr_perm + [num])
+
+        dfs([])
         return result
 
     # 78. Subsets
