@@ -110,6 +110,51 @@ class Solution:
                 return False
         return True
 
+    # 395. Longest Substring with At Least K Repeating Characters
+    def longestSubstring(self, s: str, k: int) -> int:
+        # If the frequency k cannot be reached
+        if len(s) < k:
+            return 0
+
+        # Count the frequency of all characters in string
+        # If we find a character whose frequency is less than k, we know
+        # that that character cannot appear in *any* substring that
+        # satisfies the requirement, and so we split the original string
+        # with that character as separator, and do a recursive call for each
+        # split part
+        counter = collections.Counter(s)
+        for c, count in counter.items():
+            if count < k:
+                return max(
+                    self.longestSubstring(substr, k) for substr in
+                    s.split(c)
+                )
+
+        # If we reach here, all characters in string have frequency >= k
+        return len(s)
+
+    # 1496. Path Crossing
+    def isPathCrossing(self, path: str) -> bool:
+        x, y = 0, 0
+        visited = {(x, y)}
+
+        for p in path:
+            if p == 'N':
+                y += 1
+            elif p == 'E':
+                x += 1
+            elif p == 'S':
+                y -= 1
+            elif p == 'W':
+                x -= 1
+
+            if (x, y) in visited:
+                return True
+            else:
+                visited.add((x, y))
+
+        return False
+
     # 1624. Largest Substring Between Two Equal Characters
     def maxLengthBetweenEqualCharacters(self, s: str) -> int:
         # dict_char_index = {}
@@ -133,6 +178,16 @@ class Solution:
                 max_substr = max(max_substr, i - first_seen[c] - 1)
 
         return max_substr
+
+    # 1897. Redistribute Characters to Make All Strings Equal
+    def makeEqual(self, words: List[str]) -> bool:
+        length = len(words)
+        return all(
+            count % length == 0
+            for count in collections.Counter(
+                itertools.chain.from_iterable(words)
+            ).values()
+        )
 
     # 2244. Minimum Rounds to Complete All Tasks
     def minimumRounds(self, tasks: List[int]) -> int:
