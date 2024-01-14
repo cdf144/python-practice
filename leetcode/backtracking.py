@@ -59,6 +59,34 @@ class Solution:
         dfs([], 0, 0)
         return result
 
+    # 40. Combination Sum II
+    def combinationSum2(self, candidates: List[int],
+                        target: int) -> List[List[int]]:
+        candidates.sort()
+        result = []
+        num_candidates = len(candidates)
+
+        def dfs(curr_comb: List[int], curr_sum: int, start: int) -> None:
+            if curr_sum >= target:
+                if curr_sum == target:
+                    result.append(curr_comb.copy())
+                return
+
+            for i in range(start, num_candidates):
+                # Avoiding making duplicating choices. When we did the
+                # DFS, all the possibilities of including duplicates are
+                # already explored on the leftmost branches. Hence, for the
+                # next branch that starts from here, we must choose another
+                # candidate that is different.
+                if i > start and candidates[i] == candidates[i - 1]:
+                    continue
+                curr_comb.append(candidates[i])
+                dfs(curr_comb, curr_sum + candidates[i], i + 1)
+                curr_comb.pop()
+
+        dfs([], 0, 0)
+        return result
+
     # 46. Permutations
     def permute(self, nums: List[int]) -> List[List[int]]:
         # # Library
@@ -103,4 +131,30 @@ class Solution:
                 dfs(i + 1, curr_set + [nums[i]])
 
         dfs(0, [])
+        return result
+
+    # 90. Subsets II
+    def subsetsWithDup(self, nums: List[int]) -> List[List[int]]:
+        nums.sort()
+        result = []
+        nums_len = len(nums)
+
+        def dfs(curr_set: List[int], start: int) -> None:
+            result.append(curr_set.copy())
+
+            for i in range(start, nums_len):
+                # The intuition is that for each path, we start with a unique
+                # number. Then DFS will go through all possibilities of sets
+                # having duplicates of that number in the leftmost branch, then
+                # we will consider the next branch that does not include that
+                # unique number at all, and we start with the next unique
+                # number, guaranteeing us getting all subsets without
+                # duplicates.
+                if i > start and nums[i] == nums[i - 1]:
+                    continue
+                curr_set.append(nums[i])
+                dfs(curr_set, i + 1)
+                curr_set.pop()
+
+        dfs([], 0)
         return result
