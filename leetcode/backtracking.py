@@ -1,3 +1,4 @@
+import collections
 import itertools
 from typing import List
 
@@ -132,6 +133,69 @@ class Solution:
 
         dfs(0, [])
         return result
+
+    # 79. Word Search
+    def exist(self, board: List[List[str]], word: str) -> bool:
+        m = len(board)
+        n = len(board[0])
+        if len(word) > m * n:
+            return False
+
+        count = collections.Counter(list(itertools.chain.from_iterable(board)))
+        for c, cnt in collections.Counter(word).items():
+            if cnt > count[c]:
+                return False
+
+        # Reduce the number of starting cells for DFS.
+        if count[word[0]] > count[word[-1]]:
+            word = word[::-1]
+
+        visited = set()
+        dirs = [(0, -1), (-1, 0), (0, 1), (1, 0)]
+
+        def dfs(i: int, curr_y: int, curr_x: int) -> bool:
+            """
+            Do a DFS through choices of characters to choose.
+            :param i: The current index of the character in the `word` we have
+                to match
+            :param curr_y: The row we are in
+            :param curr_x: The column we are in
+            :return: If the character at the current position does not match
+                the ith character in `word`, or we fail to find a matching
+                string no matter where we go down in the decision tree starting
+                from this point, this returns False. Else we will find the
+                matching string and return True
+            """
+            if i == len(word):
+                return True
+
+            if (
+                    not 0 <= curr_x < n
+                    or not 0 <= curr_y < m
+                    or (curr_y, curr_x) in visited
+            ):
+                return False
+
+            if word[i] != board[curr_y][curr_x]:
+                return False
+
+            visited.add((curr_y, curr_x))
+            choose = (
+                    dfs(i + 1, curr_y + dirs[0][0], curr_x + dirs[0][1])
+                    or dfs(i + 1, curr_y + dirs[1][0], curr_x + dirs[1][1])
+                    or dfs(i + 1, curr_y + dirs[2][0], curr_x + dirs[2][1])
+                    or dfs(i + 1, curr_y + dirs[3][0], curr_x + dirs[3][1])
+            )
+
+            visited.remove((curr_y, curr_x))  # Backtrack
+            return choose
+
+        for y in range(m):
+            for x in range(n):
+                if dfs(0, y, x):
+                    return True
+
+        return False
 
     # 90. Subsets II
     def subsetsWithDup(self, nums: List[int]) -> List[List[int]]:
