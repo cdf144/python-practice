@@ -187,6 +187,47 @@ class Solution:
             ).values()
         )
 
+    # 2225. Find Players With Zero or One Losses
+    def findWinners(self, matches: List[List[int]]) -> List[List[int]]:
+        # Counting Hash Table, O(nlogn) time but more space efficient if
+        # players are sparse
+        player_lose_count = collections.Counter()
+        for winner, loser in matches:
+            if winner not in player_lose_count:
+                player_lose_count[winner] = 0
+            player_lose_count[loser] += 1
+
+        result = [[] for _ in range(2)]
+        for player, lose_count in player_lose_count.items():
+            if lose_count < 2:
+                result[lose_count].append(player)
+
+        result[0].sort()
+        result[1].sort()
+        return result
+
+        # # Counting sort, O(m + n) time but less space efficient if players
+        # # are sparse
+        # max_player = max(itertools.chain(*matches))
+        # players = [0] * max_player
+        # for winner, loser in matches:
+        #     if players[winner - 1] >= 0:
+        #         players[winner - 1] = 1
+        #
+        #     if players[loser - 1] >= 0:
+        #         players[loser - 1] = -1
+        #     elif players[loser - 1] < 0:
+        #         players[loser - 1] -= 1
+        #
+        # result = [[] for _ in range(2)]
+        # for player, count in enumerate(players):
+        #     if count == 1:
+        #         result[0].append(player + 1)
+        #     elif count == -1:
+        #         result[1].append(player + 1)
+        #
+        # return result
+
     # 2244. Minimum Rounds to Complete All Tasks
     def minimumRounds(self, tasks: List[int]) -> int:
         # Same as 2870
