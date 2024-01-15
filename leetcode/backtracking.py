@@ -9,7 +9,7 @@ class Solution:
         if not digits:
             return []
 
-        dict_number_letter = {
+        number_letter = {
             '2': 'abc',
             '3': 'def',
             '4': 'ghi',
@@ -20,14 +20,37 @@ class Solution:
             '9': 'wxyz'
         }
 
-        result = ['']
-        for d in digits:
-            new_result = []
-            for combination in result:
-                for c in dict_number_letter[d]:
-                    new_result.append(combination + c)
-            result = new_result
+        # # Iterative BFS
+        # result = ['']
+        # for digit in digits:
+        #     new_result = []
+        #     for prev_combination in result:
+        #         for letter in number_letter[digit]:
+        #             new_result.append(prev_combination + letter)
+        #     result = new_result
+        #
+        # return result
 
+        # DFS
+        result = []
+        combination_length = len(digits)
+
+        def dfs(i: int, curr_comb: List[str]) -> None:
+            """
+            Do a DFS through the combination tree.
+            :param i: The current digit decision node
+            :param curr_comb: The current combination of letters
+            """
+            if len(curr_comb) == combination_length:
+                result.append(''.join(curr_comb))
+                return
+
+            for letter in number_letter[digits[i]]:
+                curr_comb.append(letter)
+                dfs(i + 1, curr_comb)
+                curr_comb.pop()
+
+        dfs(0, [])
         return result
 
     # 39. Combination Sum
