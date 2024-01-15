@@ -1,4 +1,5 @@
 import collections
+import functools
 import itertools
 from typing import List
 
@@ -244,4 +245,36 @@ class Solution:
                 curr_set.pop()
 
         dfs([], 0)
+        return result
+
+    # 131. Palindrome Partitioning
+    def partition(self, s: str) -> List[List[str]]:
+        result = []
+        s_len = len(s)
+
+        @functools.lru_cache(None)
+        def is_palindrome(t: str) -> bool:
+            if len(t) == 1:
+                return True
+            return all(t[i] == t[-i - 1] for i in range(len(t) // 2))
+
+        def dfs(start: int, partition: List[str]) -> None:
+            """
+            Do a DFS on the partitioning decision tree, whether to continue
+            partitioning with current part substring of length 1 or more.
+            """
+            if start == s_len:
+                result.append(partition.copy())
+                return
+
+            part = ''
+            for i in range(start, s_len):
+                part += s[i]
+                if not is_palindrome(part):
+                    continue
+                partition.append(part)
+                dfs(i + 1, partition)
+                partition.pop()
+
+        dfs(0, [])
         return result
