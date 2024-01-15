@@ -140,41 +140,35 @@ class Solution:
     # 51. N-Queens
     def solveNQueens(self, n: int) -> List[List[str]]:
         result = []
-        invalid_col = [False] * n
+        col = [False] * n
         # If a Queen will meet another Queen if she goes diagonally up right
-        invalid_diag_up = [False] * (2 * n - 1)
+        diag_up = [False] * (2 * n - 1)
         # If a Queen will meet another Queen if she goes diagonally down right
-        invalid_diag_down = [False] * (2 * n - 1)
+        diag_down = [False] * (2 * n - 1)
 
-        def dfs(row_num: int, curr_placement: List[str]) -> None:
-            if row_num == n:
+        def dfs(row: int, curr_placement: List[str]) -> None:
+            if row == n:
                 result.append(curr_placement.copy())
                 return
 
             curr_row = '.' * n
             for i in range(n):
-                # for j, row in enumerate(curr_placement):
+                # for j, r in enumerate(curr_placement):
                 #     if (
-                #         i - row_num + j >= 0 and row[i - row_num + j] == 'Q'
-                #         or i + row_num - j < n and row[i + row_num - j] == 'Q'
+                #         i - row + j >= 0 and r[i - row + j] == 'Q'
+                #         or i + row - j < n and r[i + row - j] == 'Q'
                 #     ):
                 #         invalid = True
                 #         break
-                if (
-                    invalid_col[i]
-                    or invalid_diag_up[i + row_num]
-                    or invalid_diag_down[i + (n - 1 - row_num)]
-                ):
+                if col[i] or diag_up[i + row] or diag_down[i + (n - 1 - row)]:
                     continue
 
                 curr_placement.append(curr_row[:i] + 'Q' + curr_row[i + 1:])
-                invalid_col[i] = invalid_diag_up[i + row_num] = \
-                    invalid_diag_down[i + (n - 1 - row_num)] = True
-                dfs(row_num + 1, curr_placement)
+                col[i] = diag_up[i + row] = diag_down[i + (n - 1 - row)] = True
+                dfs(row + 1, curr_placement)
 
                 curr_placement.pop()
-                invalid_col[i] = invalid_diag_up[i + row_num] = \
-                    invalid_diag_down[i + (n - 1 - row_num)] = False
+                col[i] = diag_up[i + row] = diag_down[i + (n - 1 - row)] = False
 
         dfs(0, [])
         return result
