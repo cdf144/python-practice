@@ -171,6 +171,7 @@ class Solution:
                 invalid_col[i] = invalid_diag_up[i + row_num] = \
                     invalid_diag_down[i + (n - 1 - row_num)] = True
                 dfs(row_num + 1, curr_placement)
+
                 curr_placement.pop()
                 invalid_col[i] = invalid_diag_up[i + row_num] = \
                     invalid_diag_down[i + (n - 1 - row_num)] = False
