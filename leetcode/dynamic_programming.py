@@ -240,6 +240,40 @@ class Solution:
         # (length * (length - 1)) // 2 as per Combinatorics (number of ways
         # to Choose 2 elements from n elements)
 
+    # 746. Min Cost Climbing Stairs
+    def minCostClimbingStairs(self, cost: List[int]) -> int:
+        top = len(cost)
+
+        # # Memoization
+        # @functools.lru_cache(None)
+        # def dp(i: int) -> int:
+        #     if i <= 1:
+        #         return 0
+        #
+        #     min_cost = min(cost[i - 1] + dp(i - 1), cost[i - 2] + dp(i - 2))
+        #     return min_cost
+        #
+        # return dp(top)
+
+        # Tabulation
+        # O(n) space
+        # dp = [0] * (top + 1)
+        # dp[0] = dp[1] = 0
+        #
+        # for i in range(2, top + 1):
+        #     dp[i] = min(cost[i - 1] + dp[i - 1], cost[i - 2] + dp[i - 2])
+        #
+        # return dp[-1]
+
+        # O(1) space
+        prev_1 = prev_2 = 0  # dp[i - 1] and dp[i - 2]
+        for i in range(2, top + 1):
+            dp = min(cost[i - 1] + prev_1, cost[i - 2] + prev_2)
+            prev_2 = prev_1
+            prev_1 = dp
+
+        return prev_1
+
     # 1155. Number of Dice Rolls With Target Sum
     MOD = 10**9 + 7
 
