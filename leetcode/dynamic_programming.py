@@ -118,19 +118,13 @@ class Solution:
         # return dp(amount)
 
         # Tabulation / Bottom-Up
-        dp = [-1] * (amount + 1)
+        dp = [amount + 1] * (amount + 1)
         dp[0] = 0
 
         for i in range(1, amount + 1):
             for coin in coins:
                 if coin <= i:
-                    coin_needed = dp[i - coin] + 1
-                    if coin_needed <= 0:
-                        continue
-                    if dp[i] == -1:
-                        dp[i] = coin_needed
-                    else:
-                        dp[i] = min(dp[i], coin_needed)
+                    dp[i] = min(dp[i], dp[i - coin] + 1)
 
         return dp[amount]
 
