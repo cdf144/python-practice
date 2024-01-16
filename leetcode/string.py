@@ -1,4 +1,29 @@
 class Solution:
+    # 8. String to Integer (atoi)
+    def myAtoi(self, s: str) -> int:
+        s = s.strip()
+        if not s:
+            return 0
+
+        int_min = -2**31
+        int_max = 2**31 - 1
+
+        sign = -1 if s[0] == '-' else 1
+        if s[0] in {'-', '+'}:
+            s = s[1:]
+
+        result = 0
+        for c in s:
+            if not c.isdigit():
+                break
+            result = result * 10 + ord(c) - ord('0')
+            if sign * result < int_min:
+                return int_min
+            if sign * result > int_max:
+                return int_max
+
+        return sign * result
+
     # 214. Shortest Palindrome
     def shortestPalindrome(self, s: str) -> str:
         # reversed string for checking
