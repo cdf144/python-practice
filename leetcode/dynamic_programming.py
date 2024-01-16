@@ -49,6 +49,44 @@ class Solution:
 
         return dp[-1]
 
+    # 198. House Robber
+    def rob(self, nums: List[int]) -> int:
+        house_num = len(nums)
+
+        # # Memoization
+        # @functools.lru_cache(None)
+        # def dp(i: int) -> int:
+        #     if i == house_num - 1:
+        #         return nums[i]
+        #     if i == house_num - 2:
+        #         return max(nums[i], nums[i + 1])
+        #
+        #     max_money = max(nums[i] + dp(i + 2), dp(i + 1))
+        #     return max_money
+        #
+        # return dp(0)
+
+        # Tabulation
+        # # O(n) space
+        # dp = [0] * (house_num + 1)
+        # dp[-2] = nums[-1]
+        #
+        # for i in range(house_num - 2, -1, -1):
+        #     dp[i] = max(nums[i] + dp[i + 2], dp[i + 1])
+        #
+        # return dp[0]
+
+        # O(1) space
+        prev_1 = nums[-1]  # dp[i + 1]
+        prev_2 = 0         # dp[i + 2]
+
+        for i in range(house_num - 2, -1, -1):
+            dp = max(nums[i] + prev_2, prev_1)
+            prev_2 = prev_1
+            prev_1 = dp
+
+        return prev_1
+
     # 300. Longest Increasing Subsequence
     def lengthOfLIS(self, nums: List[int]) -> int:
         # # Memoization, Memory Limit Exceeded
