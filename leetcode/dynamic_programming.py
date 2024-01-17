@@ -77,7 +77,7 @@ class Solution:
         return prev_1
 
     # 198. House Robber
-    def rob(self, nums: List[int]) -> int:
+    def rob1(self, nums: List[int]) -> int:
         house_num = len(nums)
 
         # # Memoization
@@ -113,6 +113,27 @@ class Solution:
             prev_1 = dp
 
         return prev_1
+
+    # 213. House Robber II
+    def rob(self, nums: List[int]) -> int:
+        # Basically the same as House Robber I, except we do 2 DP passes, one
+        # in range(0, end - 1) and one in range(1, end)
+        house_num = len(nums)
+        if house_num == 1:
+            return nums[0]
+
+        def rob_range(low: int, high: int) -> int:
+            prev_1 = nums[low]
+            prev_2 = 0
+
+            for i in range(low + 1, high):
+                dp = max(nums[i] + prev_2, prev_1)
+                prev_2 = prev_1
+                prev_1 = dp
+
+            return prev_1
+
+        return max(rob_range(0, house_num - 1), rob_range(1, house_num))
 
     # 300. Longest Increasing Subsequence
     def lengthOfLIS(self, nums: List[int]) -> int:
