@@ -33,21 +33,48 @@ class Solution:
     # 91. Decode Ways
     def numDecodings(self, s: str) -> int:
         length = len(s)
-        if length == 0 or s[0] == '0':
+        if s[0] == '0':
             return 0
+        # dp[i] will be the number of decoding ways of string length = i
+        # dp[0] = 1 for base case, dp[1] = 1 because for a single character
+        # '1' - '9' we can only decode one way.
 
-        dp = [1, 1]
+        # # O(n) space
+        # dp = [1, 1]
+        # for i in range(1, length):
+        #     curr_decode_way = 0
+        #     if s[i] != '0':
+        #         curr_decode_way += dp[-1]
+        #     if s[i - 1] != '0' and int(s[i - 1:i + 1]) <= 26:
+        #         curr_decode_way += dp[-2]
+        #     if curr_decode_way == 0:
+        #         return 0
+        #     dp.append(curr_decode_way)
+        #
+        # return dp[-1]
+
+        # O(1) space
+        prev_1 = prev_2 = 1
         for i in range(1, length):
-            curr_decode_way_count = 0
+            # If a 1-digit or 2-digit can be decoded by itself, it can be
+            # appended to another string and the number of ways to decode the
+            # joined string is the number of ways to decode the string that was
+            # appended to.
+            curr_decode_way = 0
+            # Valid digit that can be decoded by itself.
+            if s[i] != '0':
+                curr_decode_way += prev_1
+            # Valid 2-digit that can be decoded.
             if s[i - 1] != '0' and int(s[i - 1:i + 1]) <= 26:
-                curr_decode_way_count += dp[-2]
-            if s[i] != '0':  # 1 <= s[i] <= 9, can be individually decoded
-                curr_decode_way_count += dp[-1]
-            if curr_decode_way_count == 0:  # string having an invalid zero
+                curr_decode_way += prev_2
+            # If we reach here, it means we have encountered an invalid '0' in
+            # the middle of our string.
+            if curr_decode_way == 0:
                 return 0
-            dp.append(curr_decode_way_count)
+            prev_2 = prev_1
+            prev_1 = curr_decode_way
 
-        return dp[-1]
+        return prev_1
 
     # 198. House Robber
     def rob(self, nums: List[int]) -> int:
