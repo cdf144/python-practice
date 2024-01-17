@@ -107,6 +107,16 @@ class Solution:
         # If we reach here, all characters in string have frequency >= k
         return len(s)
 
+    # 1207. Unique Number of Occurrences
+    def uniqueOccurrences(self, arr: List[int]) -> bool:
+        # return all(
+        #     x != y for x, y in itertools.pairwise(
+        #         sorted(collections.Counter(arr))
+        #     )
+        # )
+        count = collections.Counter(arr)
+        return len(set(count.values())) == len(count.values())
+
     # 1347. Minimum Number of Steps to Make Two Strings Anagram
     def minSteps(self, s: str, t: str) -> int:
         count_s = collections.Counter(s)
