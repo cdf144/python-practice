@@ -98,6 +98,37 @@ class Solution:
 
         return max_sum
 
+    # 70. Climbing Stairs
+    def climbStairs(self, n: int) -> int:
+        # dp[i] will be the number of distinct ways to climb to i. This problem
+        # can also be thought of as calculating the nth Fibonacci
+
+        # # Memoization
+        # @functools.lru_cache(None)
+        # def dp(i: int) -> int:
+        #     if i == 1:
+        #         return 1
+        #     if i == 2:
+        #         return 2
+        #     return dp(i - 1) + dp(i - 2)
+        #
+        # return dp(n)
+
+        # Tabulation
+        if n == 1:
+            return 1
+        if n == 2:
+            return 2
+
+        dp_1 = 2  # dp[i - 1]
+        dp_2 = 1  # dp[i - 2]
+        for i in range(3, n + 1):
+            dp_i = dp_1 + dp_2
+            dp_2 = dp_1
+            dp_1 = dp_i
+
+        return dp_1
+
     # 91. Decode Ways
     def numDecodings(self, s: str) -> int:
         length = len(s)
