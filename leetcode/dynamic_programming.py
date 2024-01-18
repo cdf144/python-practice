@@ -2,10 +2,78 @@ import bisect
 import collections
 import math
 import functools
-from typing import List
+from typing import List, Tuple
 
 
 class Solution:
+    # 5. Longest Palindromic Substring
+    def longestPalindrome(self, s: str) -> str:
+        # # Naive, DP-like, O(n^2) time, O(1) space if return string don't count
+        # length = len(s)
+        #
+        # def search(left: int, right: int) -> Tuple[int, int]:
+        #     while left >= 0 and right < length and s[left] == s[right]:
+        #         right += 1
+        #         left -= 1
+        #     return left + 1, right - 1
+        #
+        # # [start, end] indices of the longest palindromic substring in s
+        # indices = [0, 0]
+        #
+        # for i in range(length):
+        #     l1, r1 = search(i, i)
+        #     if r1 - l1 > indices[1] - indices[0]:
+        #         indices[0] = l1
+        #         indices[1] = r1
+        #     if i + 1 < length and s[i] == s[i + 1]:
+        #         l2, r2 = search(i, i + 1)
+        #         if r2 - l2 > indices[1] - indices[0]:
+        #             indices[0] = l2
+        #             indices[1] = r2
+        #
+        # return s[indices[0]:indices[1] + 1]
+
+        # Manacher's Algorithm, O(n) time, O(n) space
+        # https://en.wikipedia.org/wiki/Longest_palindromic_substring#Manacher's_algorithm
+        t = '|'.join('|' + s + '|')
+        n = len(t)
+        palindrome_radii = [0] * n
+        center = 1
+        radius = 0
+
+        while center < n:
+            while (
+                    center + (radius + 1) < n
+                    and center - (radius + 1) >= 0
+                    and t[center + (radius + 1)] == t[center - (radius + 1)]
+            ):
+                radius += 1
+
+            palindrome_radii[center] = radius
+
+            old_center = center
+            old_radius = radius
+            center += 1
+            radius = 0
+            while center <= old_center + old_radius:
+                mirrored_center = old_center - (center - old_center)
+                max_mirrored_radius = old_center + old_radius - center
+
+                if palindrome_radii[mirrored_center] < max_mirrored_radius:
+                    palindrome_radii[center] = palindrome_radii[mirrored_center]
+                    center += 1
+                elif palindrome_radii[mirrored_center] > max_mirrored_radius:
+                    palindrome_radii[center] = max_mirrored_radius
+                    center += 1
+                else:  # palindrome_radii[mirrored_center] = max_mirrored_radius
+                    radius = max_mirrored_radius
+                    break
+
+        max_radius, best_center = max(
+            (radius, center) for center, radius in enumerate(palindrome_radii)
+        )
+        return s[(best_center - max_radius)//2:(best_center + max_radius)//2]
+
     # 53. Maximum Subarray
     def maxSubArray(self, nums: List[int]) -> int:
         # # Extra space
