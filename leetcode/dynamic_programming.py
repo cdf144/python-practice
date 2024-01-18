@@ -175,6 +175,26 @@ class Solution:
 
         return prev_1
 
+    # 152. Maximum Product Subarray
+    def maxProduct(self, nums: List[int]) -> int:
+        max_product = nums[0]
+        dp_min = nums[0]
+        dp_max = nums[0]
+
+        for i in range(1, len(nums)):
+            num = nums[i]
+            prev_min = dp_min
+            prev_max = dp_max
+            if num >= 0:
+                dp_min = min(prev_min * num, num)
+                dp_max = max(prev_max * num, num)
+            else:
+                dp_min = min(prev_max * num, num)
+                dp_max = max(prev_min * num, num)
+            max_product = max(max_product, dp_max)
+
+        return max_product
+
     # 198. House Robber
     def rob1(self, nums: List[int]) -> int:
         house_num = len(nums)
