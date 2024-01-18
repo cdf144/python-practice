@@ -38,14 +38,14 @@ class Solution:
         t = '|'.join('|' + s + '|')
         n = len(t)
         palindrome_radii = [0] * n
+
         center = 1
         radius = 0
-
         while center < n:
             while (
-                    center + (radius + 1) < n
-                    and center - (radius + 1) >= 0
-                    and t[center + (radius + 1)] == t[center - (radius + 1)]
+                center + (radius + 1) < n
+                and center - (radius + 1) >= 0
+                and t[center + (radius + 1)] == t[center - (radius + 1)]
             ):
                 radius += 1
 
@@ -386,6 +386,26 @@ class Solution:
         # To subtract those, we subtract total_subsequence by
         # (length * (length - 1)) // 2 as per Combinatorics (number of ways
         # to Choose 2 elements from n elements)
+
+    # 647. Palindromic Substrings
+    def countSubstrings(self, s: str) -> int:
+        # The same as Problem 5, except adding a counter.
+        length = len(s)
+
+        def search(low: int, high: int) -> None:
+            nonlocal count_palindrome
+            while low >= 0 and high < length and s[low] == s[high]:
+                low -= 1
+                high += 1
+                count_palindrome += 1
+
+        count_palindrome = 0
+        for i in range(length):
+            search(i, i)
+            if i + 1 < length and s[i] == s[i + 1]:
+                search(i, i + 1)
+
+        return count_palindrome
 
     # 746. Min Cost Climbing Stairs
     def minCostClimbingStairs(self, cost: List[int]) -> int:
