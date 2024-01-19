@@ -461,6 +461,55 @@ class Solution:
 
         return prev_1
 
+    # 931. Minimum Falling Path Sum
+    def minFallingPathSum(self, matrix: List[List[int]]) -> int:
+        # Since n == len(matrix) == len(matrix[i]), n is both row and col count.
+        n = len(matrix)
+        # dp[i][j] will be the min sum path ending at matrix[i][j]
+
+        # # Memoization, TLE
+        # @functools.lru_cache
+        # def dp(i: int, j: int) -> int:
+        #     if i == 0:
+        #         return matrix[i][j]
+        #
+        #     min_s = 10005
+        #     for k in range(max(0, j - 1), min(n, j + 2)):
+        #         min_s = min(min_s, matrix[i][j] + dp(i - 1, k))
+        #
+        #     return min_s
+        #
+        # min_sum = 10005
+        # for col in range(n):
+        #     min_sum = min(min_sum, dp(n - 1, col))
+        #
+        # return min_sum
+
+        # Tabulation
+        # # O(n) space
+        # dp = [[0] * n for _ in range(n)]
+        # for i in range(n):
+        #     dp[0][i] = matrix[0][i]
+        #
+        # for row in range(1, n):
+        #     for col in range(n):
+        #         prev_min_sum = 10005
+        #         for k in range(max(0, col - 1), min(n, col + 2)):
+        #             prev_min_sum = min(prev_min_sum, dp[row - 1][k])
+        #         dp[row][col] = prev_min_sum + matrix[row][col]
+        #
+        # return min(dp[n - 1])
+
+        # O(1) space
+        for row in range(1, n):
+            for col in range(n):
+                prev_min_sum = 10005
+                for k in range(max(0, col - 1), min(n, col + 2)):
+                    prev_min_sum = min(prev_min_sum, matrix[row - 1][k])
+                matrix[row][col] += prev_min_sum
+
+        return min(matrix[-1])
+
     # 1155. Number of Dice Rolls With Target Sum
     MOD = 10**9 + 7
 
