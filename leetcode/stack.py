@@ -169,3 +169,36 @@ class Solution:
                 stack.pop()
 
         return len(stack)
+
+    # 907. Sum of Subarray Minimums
+    def sumSubarrayMins(self, arr: List[int]) -> int:
+        # This problem is similar to 'Largest Rectangle in Histogram' problem,
+        # except for this, we compute the nearest smaller indices on the left
+        # and right of an element to determine how many sub-arrays will that
+        # element be a minimum in.
+        mod = 10**9 + 7
+        arr_len = len(arr)
+        # smaller_right[i] is the nearest index k such that arr[k] < arr[i]
+        smaller_left = [-1] * arr_len
+        # Similarly for min_right[i]
+        smaller_right = [arr_len] * arr_len
+        stack = []
+
+        for i, num in enumerate(arr):
+            while stack and arr[stack[-1]] > num:
+                idx = stack.pop()
+                smaller_right[idx] = i
+            if stack:
+                smaller_left[i] = stack[-1]
+            stack.append(i)
+
+        result = 0
+        for i, num in enumerate(arr):
+            # Think of this as 'How many ways to choose the length of the left
+            # side and the right side of the sub-array with i as the center
+            # index', then multiply the two together, and we get the number of
+            # sub-arrays that num appears in.
+            result += num * (i - smaller_left[i]) * (smaller_right[i] - i)
+            result %= mod
+
+        return result
