@@ -256,46 +256,58 @@ class Solution:
 
     # 300. Longest Increasing Subsequence
     def lengthOfLIS(self, nums: List[int]) -> int:
-        # # Memoization, Memory Limit Exceeded
-        # length = len(nums)
-        #
-        # @functools.lru_cache(None)
-        # def dp(i: int, prev: int) -> int:
-        #     if i >= length:
-        #         return 0
-        #
-        #     result = max(
-        #         1 + dp(i + 1, i)
-        #         if (prev == -1 or nums[i] > nums[prev])
-        #         else 0,
-        #         dp(i + 1, prev)
-        #     )
-        #
-        #     return result
-        #
-        # return dp(0, -1)
-
-        # Tabulation
         # dp[i] will be the length of the Longest Increasing Subsequence that
         # ends with nums[i] (in other words, with nums[i] being the greatest
         # number in the subsequence)
-        dp = [1] * len(nums)
+        # dp[i] = max(dp[j]) + 1 for all j preceding i and nums[j] < nums[i]
+        nums_len = len(nums)
 
-        # dp[i] = max(dp[j]) + 1
-        # for all j preceding i and nums[j] < nums[i]
-        for i in range(1, len(nums)):
-            for j in range(i):
-                if nums[j] < nums[i]:
-                    dp[i] = max(dp[i], dp[j] + 1)
+        # # Memoization, Memory Limit Exceeded
+        # @functools.lru_cache(None)
+        # def dp(i: int, nxt: int) -> int:
+        #     if i < 0:
+        #         return 0
+        #
+        #     result = max(
+        #         1 + dp(i - 1, i)
+        #         if nxt == nums_len or nums[i] < nums[nxt]
+        #         else 0,
+        #         dp(i - 1, nxt)
+        #     )
+        #     return result
+        #
+        # return dp(nums_len - 1, nums_len)
 
-        # Alternative top-down approach
-        # length = len(nums)
-        # for i in range(length -1, -1, -1):
-        #     for j in range(i + 1, length):
-        #         if nums[i] < nums[j]:
-        #             dp[i] = max(dp[i], 1 + dp[j])
+        # # Tabulation
+        # dp = [1] * nums_len
+        #
+        # for i in range(1, nums_len):
+        #     for j in range(i):
+        #         if nums[j] < nums[i]:
+        #             dp[i] = max(dp[i], dp[j] + 1)
+        #
+        # return max(dp)
 
-        return max(dp)
+        # DP + Binary Search
+        # dp[i] will be the ending value of Increasing Subsequence
+        # of length i + 1
+        dp = []
+
+        # To update dp, for each nums[i], we find the maximal index j in dp
+        # s. t. dp[j] < nums[i]. We then update dp[j + 1] = nums[i].
+        # This has the meaning of: For each nums[i], we find the LIS *before*
+        # i (suppose it is of length j), we can add nums[i] to that LIS,
+        # and when we do, we find the LIS ending with nums[i] of length j + 1.
+        # Hence, we update dp[j + 1].
+        # It is trivial to see that dp[i] > dp[i - 1] > dp[i - 2]... This is why
+        # we can use Binary Search to find dp[j], achieving O(n*log(n)) time.
+        for i in range(len(nums)):
+            if not dp or nums[i] > dp[-1]:
+                dp.append(nums[i])
+            else:
+                dp[bisect.bisect_left(dp, nums[i])] = nums[i]
+
+        return len(dp)
 
     # 322. Coin Change
     def coinChange(self, coins: List[int], amount: int) -> int:
