@@ -107,6 +107,26 @@ class Solution:
         # If we reach here, all characters in string have frequency >= k
         return len(s)
 
+    # 645. Set Mismatch
+    def findErrorNums(self, nums: List[int]) -> List[int]:
+        # # Hash Table Counting
+        # count = {i: 0 for i in range(1, len(nums) + 1)}
+        # result = [0, 0]
+        # for num in nums:
+        #     count[num] += 1
+        # for num, cnt in count.items():
+        #     if cnt == 0:
+        #         result[1] = num
+        #     if cnt == 2:
+        #         result[0] = num
+        # return result
+
+        # Math
+        n = len(nums)
+        A = n*(n + 1)//2 - sum(nums)
+        B = n*(n + 1)*(2*n + 1)//6 - sum(i*i for i in nums)
+        return [(B - A*A)//(2*A), (B + A*A)//(2*A)]
+
     # 1207. Unique Number of Occurrences
     def uniqueOccurrences(self, arr: List[int]) -> bool:
         # return all(
