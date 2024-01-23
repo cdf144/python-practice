@@ -314,3 +314,45 @@ class Solution:
 
         dfs(0, [])
         return result
+
+    # 1239. Maximum Length of a Concatenated String with Unique Characters
+    def maxLength(self, arr: List[str]) -> int:
+        # # Elegant, O(2^n) memory
+        # valid = []
+        # for s in arr:
+        #     t = set(s)
+        #     if len(t) == len(s):
+        #         valid.append(t)  # append sets for set operations later
+        #
+        # combi = [set()]
+        # for v in valid:
+        #     for c in combi.copy():
+        #         if not c & v:
+        #             combi.append(c | v)
+        #
+        # return max(len(s) for s in combi)
+
+        # DFS, O(n) memory
+        result = 0
+
+        def dfs(i: int, curr_combi: set) -> None:
+            nonlocal result
+            if i == len(arr):
+                result = max(result, len(curr_combi))
+                return
+
+            valid = True
+            s = arr[i]
+            t = set(s)
+            if len(t) != len(s) or curr_combi & t:
+                valid = False
+
+            if valid:
+                curr_combi |= t
+                dfs(i + 1, curr_combi)
+                curr_combi -= t
+
+            dfs(i + 1, curr_combi)
+
+        dfs(0, set())
+        return result
