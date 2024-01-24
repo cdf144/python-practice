@@ -551,6 +551,40 @@ class Solution:
         dfs(root, float('-inf'))
         return count
 
+    # 1457. Pseudo-Palindromic Paths in a Binary Tree
+    def pseudoPalindromicPaths(self, root: Optional[TreeNode]) -> int:
+        def dfs(node: Optional[TreeNode],
+                path: collections.defaultdict) -> None:
+            nonlocal count
+            path[node.val] += 1
+
+            if not node.left and not node.right:
+                count_odd = 0
+                is_palindrome = True
+                for cnt in path.values():
+                    if cnt % 2 == 1:
+                        count_odd += 1
+                    if count_odd > 1:
+                        is_palindrome = False
+                        break
+
+                if is_palindrome:
+                    count += 1
+                path[node.val] -= 1
+                return
+
+            if node.left:
+                dfs(node.left, path)
+            if node.right:
+                dfs(node.right, path)
+
+            path[node.val] -= 1
+            return
+
+        count = 0
+        dfs(root, collections.defaultdict(int))
+        return count
+
     # 2385. Amount of Time for Binary Tree to Be Infected
     def amountOfTime(self, root: Optional[TreeNode], start: int) -> int:
         # Main idea: Convert to an undirected graph, then use BFS to find the
