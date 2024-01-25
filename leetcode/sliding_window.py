@@ -171,6 +171,21 @@ class Solution:
 
         return max_sum / k
 
+    # 1004. Max Consecutive Ones III
+    def longestOnes(self, nums: List[int], k: int) -> int:
+        count = [0, 0]
+        result = 0
+
+        left = 0
+        for right, num in enumerate(nums):
+            count[num] += 1
+            while count[0] > k:
+                count[nums[left]] -= 1
+                left += 1
+            result = max(result, right - left + 1)
+
+        return result
+
     # 1876. Substrings of Size Three with Distinct Characters
     def countGoodSubstrings(self, s: str) -> int:
         good_substr_count = 0
