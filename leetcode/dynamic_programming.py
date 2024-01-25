@@ -374,6 +374,31 @@ class Solution:
 
         return result
 
+    # 416. Partition Equal Subset Sum
+    def canPartition(self, nums: List[int]) -> bool:
+        sum_total = sum(nums)
+        if sum_total % 2 == 1:
+            return False
+        return self._knapsack(nums, sum_total // 2)
+
+    def _knapsack(self, nums: List[int], max_sum: int) -> bool:
+        n = len(nums)
+        # dp[i][j]: Can j be formed by choosing numbers in nums[:i]
+        dp = [[False] * (max_sum + 1) for _ in range(n + 1)]
+        dp[0][0] = True
+
+        for i in range(1, n + 1):
+            num = nums[i - 1]
+            for j in range(max_sum + 1):
+                if num <= j:
+                    # Can either add num or keep the sum the same (not adding)
+                    dp[i][j] = dp[i - 1][j - num] or dp[i - 1][j]
+                else:
+                    # Cannot add num to sum
+                    dp[i][j] = dp[i - 1][j]
+
+        return dp[n][max_sum]
+
     # 446. Arithmetic Slices II - Subsequence
     MIN_DIFF = -2**31
     MAX_DIFF = 2**31 - 1
