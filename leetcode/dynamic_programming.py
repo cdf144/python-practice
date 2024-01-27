@@ -444,6 +444,34 @@ class Solution:
         # (length * (length - 1)) // 2 as per Combinatorics (number of ways
         # to Choose 2 elements from n elements)
 
+    # 629. K Inverse Pairs Array
+    def kInversePairs(self, n: int, k: int) -> int:
+        # Detailed explanation:
+        # https://hackmd.io/@ZGXH3BY8Sl2AyzcSB-leHA/B18Ek-G56
+        # Not time and space efficient, in fact this is very inefficient
+        # because it uses memoization and there are a lot of things that can
+        # be optimized, but this is probably the easiest to understand.
+        mod = 10**9 + 7
+
+        # dp[i][j] is the number of permutations of {1,...i} such that there
+        # are j inverse pairs
+        @functools.lru_cache(None)
+        def dp(i: int, j: int) -> int:
+            if j == 0:
+                return 1
+            if i == 1 or j < 0:
+                return 0
+
+            # # O(n*k*min(n, k)), TLE
+            # result = 0
+            # for inverse in range(min(i, j + 1)):
+            #     result += dp(i - 1, j - inverse)
+
+            # O(n*k) using recurrence relation formula
+            return (dp(i, j - 1) + dp(i - 1, j) - dp(i - 1, j - i)) % mod
+
+        return dp(n, k)
+
     # 647. Palindromic Substrings
     def countSubstrings(self, s: str) -> int:
         # The same as Problem 5, except adding a counter.
