@@ -444,6 +444,34 @@ class Solution:
         # (length * (length - 1)) // 2 as per Combinatorics (number of ways
         # to Choose 2 elements from n elements)
 
+    # 576. Out of Boundary Paths
+    def findPaths(self, m: int, n: int, maxMove: int,
+                  startRow: int, startColumn: int) -> int:
+        mod = 10 ** 9 + 7
+
+        # dp[i][j][k] will be the number of ways to move out of boundary with
+        # i as startRow and j as startColumn within k moves
+        @functools.lru_cache(None)
+        def dp(i: int, j: int, remain: int) -> int:
+            if not (0 <= i < m) or not (0 <= j < n):
+                return 1
+
+            if (
+                    i - remain >= 0 and i + remain < m
+                    and j - remain >= 0 and j + remain < n
+            ):
+                # Stuck in the boundary regardless which path is taken
+                return 0
+
+            return (
+                    dp(i + 1, j, remain - 1)
+                    + dp(i - 1, j, remain - 1)
+                    + dp(i, j + 1, remain - 1)
+                    + dp(i, j - 1, remain - 1)
+            ) % mod
+
+        return dp(startRow, startColumn, maxMove)
+
     # 629. K Inverse Pairs Array
     def kInversePairs(self, n: int, k: int) -> int:
         # Detailed explanation:
