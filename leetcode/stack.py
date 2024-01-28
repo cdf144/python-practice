@@ -115,6 +115,22 @@ class Solution:
 
         return result + sign * curr_num
 
+    # 735. Asteroid Collision
+    def asteroidCollision(self, asteroids: List[int]) -> List[int]:
+        stack = []
+
+        for a in asteroids:
+            if a < 0:
+                while stack and 0 < stack[-1] < -a:
+                    stack.pop()
+                if stack and stack[-1] > 0:
+                    if stack[-1] == -a:
+                        stack.pop()
+                    continue
+            stack.append(a)
+
+        return stack
+
     # 739. Daily Temperatures
     def dailyTemperatures(self, temperatures: List[int]) -> List[int]:
         # # Right to left
