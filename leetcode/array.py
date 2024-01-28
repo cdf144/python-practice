@@ -1,3 +1,4 @@
+import collections
 import math
 from itertools import starmap, pairwise
 from operator import sub
@@ -85,6 +86,39 @@ class Solution:
                 smoothed_img[y][x] = summ // count
 
         return smoothed_img
+
+    # 1074. Number of Submatrices That Sum to Target
+    def numSubmatrixSumTarget(self, matrix: List[List[int]],
+                              target: int) -> int:
+        # Basically a 2-D version of this problem:
+        # https://www.geeksforgeeks.org/find-subarray-with-given-sum-in-array-of-integers/
+        m = len(matrix)
+        n = len(matrix[0])
+
+        # Since we are working with a matrix, we have to "convert" the problem
+        # into a 1-D array with prefix-sum technique
+        for row in matrix:
+            for col in range(1, n):
+                row[col] += row[col - 1]
+
+        # Now we choose 2 columns from n columns. For each combination of 2
+        # columns (y1 and y2), we sum up the elements in the sub-matrices
+        # (0, y1, x2, y2) where x2 goes in range(0, m). Now we can use the
+        # prefix sum HashMap technique to find out the matrices that sum to
+        # `target` the same way we solve the 1-D problem.
+        result = 0
+        for start_col in range(n):
+            for end_col in range(start_col, n):
+                prefix_count = collections.Counter({0: 1})
+                sub_matrix_sum = 0
+                for row in range(m):
+                    if start_col > 0:
+                        sub_matrix_sum -= matrix[row][start_col - 1]
+                    sub_matrix_sum += matrix[row][end_col]
+                    result += prefix_count[sub_matrix_sum - target]
+                    prefix_count[sub_matrix_sum] += 1
+
+        return result
 
     # 1582. Special Positions in a Binary Matrix
     def num_special(self, mat: List[List[int]]) -> int:
