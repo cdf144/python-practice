@@ -275,6 +275,27 @@ class Solution:
 
         return False
 
+    # 443. String Compression
+    def compress(self, chars: List[str]) -> int:
+        n = len(chars)
+        left = right = 0
+
+        while right < n:
+            curr_char = chars[right]
+            count = 0
+            while right < n and chars[right] == curr_char:
+                count += 1
+                right += 1
+            chars[left] = curr_char
+            left += 1
+            if count != 1:
+                s = str(count)
+                for i in range(len(s)):
+                    chars[left] = s[i]
+                    left += 1
+
+        return left
+
     # 977. Squares of a Sorted Array
     def sortedSquares(self, nums: List[int]) -> List[int]:
         length = len(nums)
