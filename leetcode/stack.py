@@ -1,3 +1,4 @@
+import collections
 from typing import List
 
 
@@ -114,6 +115,23 @@ class Solution:
                 sign = (1 if c == '+' else -1) * stack[-1]
 
         return result + sign * curr_num
+
+    # 316. Remove Duplicate Letters
+    def removeDuplicateLetters(self, s: str) -> str:
+        count = collections.Counter(s)
+        marked = [False] * 26
+        stack = []
+
+        for c in s:
+            count[c] -= 1
+            if marked[ord(c) - ord('a')]:
+                continue
+            while stack and stack[-1] > c and count[stack[-1]] > 0:
+                marked[ord(stack.pop()) - ord('a')] = False
+            stack.append(c)
+            marked[ord(c) - ord('a')] = True
+
+        return ''.join(stack)
 
     # 735. Asteroid Collision
     def asteroidCollision(self, asteroids: List[int]) -> List[int]:
