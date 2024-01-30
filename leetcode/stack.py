@@ -118,18 +118,19 @@ class Solution:
 
     # 316. Remove Duplicate Letters
     def removeDuplicateLetters(self, s: str) -> str:
-        count = collections.Counter(s)
-        marked = [False] * 26
-        stack = []
+        last_appearance = {}
+        for i, c in enumerate(s):
+            last_appearance[c] = i
 
-        for c in s:
-            count[c] -= 1
-            if marked[ord(c) - ord('a')]:
+        used = [False] * 26
+        stack = []
+        for i, c in enumerate(s):
+            if used[ord(c) - ord('a')]:
                 continue
-            while stack and stack[-1] > c and count[stack[-1]] > 0:
-                marked[ord(stack.pop()) - ord('a')] = False
+            while stack and stack[-1] > c and i < last_appearance[stack[-1]]:
+                used[ord(stack.pop()) - ord('a')] = False
             stack.append(c)
-            marked[ord(c) - ord('a')] = True
+            used[ord(c) - ord('a')] = True
 
         return ''.join(stack)
 
