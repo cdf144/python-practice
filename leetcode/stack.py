@@ -152,28 +152,23 @@ class Solution:
 
     # 739. Daily Temperatures
     def dailyTemperatures(self, temperatures: List[int]) -> List[int]:
+        result = [0] * len(temperatures)
+        stack = []
+
         # # Right to left
-        # result = [0] * len(temperatures)
-        # stack = []
-        #
         # for i in range(len(temperatures) - 1, -1, -1):
         #     curr_temp = temperatures[i]
         #     while stack and temperatures[stack[-1]] <= curr_temp:
         #         stack.pop()
-        #
         #     if stack:
         #         result[i] = stack[-1] - i
-        #
         #     stack.append(i)
         #
         # return result
 
         # Left to right
-        result = [0] * len(temperatures)
-        stack = []
-
-        for i, temperature in enumerate(temperatures):
-            while stack and temperature > temperatures[stack[-1]]:
+        for i, t in enumerate(temperatures):
+            while stack and temperatures[stack[-1]] < t:
                 idx = stack.pop()
                 result[idx] = i - idx
             stack.append(i)
