@@ -146,6 +146,20 @@ class Solution:
 
         return [num_to_next_greater.get(num, -1) for num in nums1]
 
+    # 503. Next Greater Element II
+    def nextGreaterElements(self, nums: List[int]) -> List[int]:
+        n = len(nums)
+        stack = []
+        result = [-1] * n
+
+        for i in range(n * 2):
+            num = nums[i % n]
+            while stack and nums[stack[-1]] < num:
+                result[stack.pop()] = num
+            stack.append(i % n)
+
+        return result
+
     # 735. Asteroid Collision
     def asteroidCollision(self, asteroids: List[int]) -> List[int]:
         stack = []
