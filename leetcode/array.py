@@ -170,6 +170,36 @@ class Solution:
             default=0
         )
 
+    # 1887. Reduction Operations to Make the Array Elements Equal
+    def reductionOperations(self, nums: List[int]) -> int:
+        # # Counting sort, O(n) time, O(n) space
+        # buckets = [0] * 50001  # lazy counting
+
+        # for num in nums:
+        #     buckets[num] += 1
+
+        # count = []
+        # for c in buckets:
+        #     if c != 0:
+        #         count.append(c)
+
+        # result = 0
+        # for i in range(len(count) - 1, 0, -1):
+        #     result += count[i]
+        #     count[i - 1] += count[i]
+
+        # return result
+
+        # Sort, O(n*log(n)) time, O(1) space
+        nums.sort()
+        result = 0
+
+        for i in range(len(nums) - 2, -1, -1):
+            if nums[i] != nums[i + 1]:
+                result += len(nums) - 1 - i
+
+        return result
+
     # 2125. Number of Laser Beams in a Bank
     def numberOfBeams(self, bank: List[str]) -> int:
         above, below = -1, -1
