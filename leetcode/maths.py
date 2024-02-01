@@ -129,6 +129,18 @@ class Solution:
             for row in matrix:
                 row[0] = 0
 
+    # 1232. Check If It Is a Straight Line
+    def checkStraightLine(self, coordinates: List[List[int]]) -> bool:
+        x1, y1 = coordinates[0][0], coordinates[0][1]
+        x2, y2 = coordinates[1][0], coordinates[1][1]
+
+        for c in coordinates[2:]:
+            x3, y3 = c[0], c[1]
+            if (y2 - y1) * (x3 - x1) != (y3 - y1) * (x2 - x1):
+                return False
+
+        return True
+
     # 1716. Calculate Money in Leetcode Bank
     def totalMoney(self, n: int) -> int:
         # # Simulation
