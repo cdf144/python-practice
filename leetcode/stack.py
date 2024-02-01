@@ -1,4 +1,3 @@
-import collections
 from typing import List
 
 
@@ -133,6 +132,19 @@ class Solution:
             used[ord(c) - ord('a')] = True
 
         return ''.join(stack)
+
+    # 496. Next Greater Element I
+    def nextGreaterElement(self, nums1: List[int],
+                           nums2: List[int]) -> List[int]:
+        num_to_next_greater = {}
+        stack = []
+
+        for num in nums2:
+            while stack and stack[-1] < num:
+                num_to_next_greater[stack.pop()] = num
+            stack.append(num)
+
+        return [num_to_next_greater.get(num, -1) for num in nums1]
 
     # 735. Asteroid Collision
     def asteroidCollision(self, asteroids: List[int]) -> List[int]:
