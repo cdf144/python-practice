@@ -208,7 +208,7 @@ class Solution:
             return any(
                 s[i:j] in wordDict and dp(j)
                 for j in range(
-                    min(i + min_len + 1, n + 1), min(i + max_len + 1, n + 1)
+                    min(i + min_len, n), min(i + max_len + 1, n + 1)
                 )
             )
 
