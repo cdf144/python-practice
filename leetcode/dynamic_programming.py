@@ -325,6 +325,22 @@ class Solution:
 
         return len(dp)
 
+    # 309. Best Time to Buy and Sell Stock with Cooldown
+    def maxProfit(self, prices: List[int]) -> int:
+        n = len(prices)
+
+        @functools.lru_cache(None)
+        def dp(i: int, bought: bool) -> int:
+            if i >= n:
+                return 0
+
+            if bought:
+                return max(dp(i + 1, True), dp(i + 2, False) + prices[i])
+            else:
+                return max(dp(i + 1, False), dp(i + 1, True) - prices[i])
+
+        return dp(0, False)
+
     # 322. Coin Change
     def coinChange(self, coins: List[int], amount: int) -> int:
         # dp[i] is the fewest number of coins needed to make up i money
