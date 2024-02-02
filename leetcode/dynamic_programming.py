@@ -191,6 +191,29 @@ class Solution:
 
         return prev_1
 
+    # 139. Word Break
+    def wordBreak(self, s: str, wordDict: List[str]) -> bool:
+        n = len(s)
+        min_len = 21
+        max_len = 0
+        for word in wordDict:
+            length = len(word)
+            max_len = max(max_len, length)
+            min_len = min(min_len, length)
+
+        @functools.lru_cache(None)
+        def dp(i: int) -> bool:
+            if i == n:
+                return True
+            return any(
+                s[i:j] in wordDict and dp(j)
+                for j in range(
+                    min(i + min_len + 1, n + 1), min(i + max_len + 1, n + 1)
+                )
+            )
+
+        return dp(0)
+
     # 152. Maximum Product Subarray
     def maxProduct(self, nums: List[int]) -> int:
         max_product = nums[0]
