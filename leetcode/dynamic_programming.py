@@ -98,6 +98,22 @@ class Solution:
 
         return max_sum
 
+    # 62. Unique Paths
+    def uniquePaths(self, m: int, n: int) -> int:
+        # # 2-D DP
+        # @functools.lru_cache(None)
+        # def dp(i: int, j: int) -> int:
+        #     if not 0 <= i <= m or not 0 <= j <= n:
+        #         return 0
+        #     if i + 1 == m or j + 1 == n:
+        #         return 1
+        #     return dp(i + 1, j) + dp(i, j + 1)
+
+        # return dp(0, 0)
+
+        # Combinatorics
+        return math.comb(m - 1 + n - 1, n - 1)
+
     # 70. Climbing Stairs
     def climbStairs(self, n: int) -> int:
         # dp[i] will be the number of distinct ways to climb to i. This problem
