@@ -658,6 +658,26 @@ class Solution:
 
         return min(matrix[-1])
 
+    # 1043. Partition Array for Maximum Sum
+    def maxSumAfterPartitioning(self, arr: List[int], k: int) -> int:
+        n = len(arr)
+
+        # dp[i] will be the max sum after partitioning starting from index i
+        @functools.lru_cache(None)
+        def dp(i: int) -> int:
+            if i == n:
+                return 0
+
+            result = 0
+            maximum = -math.inf
+            for j in range(1, min(n - i, k) + 1):
+                maximum = max(maximum, arr[i + j - 1])
+                result = max(result, dp(i + j) + maximum * j)
+
+            return result
+
+        return dp(0)
+
     # 1143. Longest Common Subsequence
     def longestCommonSubsequence(self, text1: str, text2: str) -> int:
         # Detailed explanation: https://ics.uci.edu/~eppstein/161/960229.html
