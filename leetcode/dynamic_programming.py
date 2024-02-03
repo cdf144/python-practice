@@ -499,6 +499,21 @@ class Solution:
         # (length * (length - 1)) // 2 as per Combinatorics (number of ways
         # to Choose 2 elements from n elements)
 
+    # 518. Coin Change II
+    def change(self, amount: int, coins: List[int]) -> int:
+        # dp(i, j) will be the number of combinations that make up i amount
+        # using coins from 0 to j
+        @functools.lru_cache(None)
+        def dp(i: int, include: int) -> int:
+            if i == 0:
+                return 1
+            if i < 0 or include == -1:
+                return 0
+
+            return dp(i - coins[include], include) + dp(i, include - 1)
+
+        return dp(amount, len(coins) - 1)
+
     # 576. Out of Boundary Paths
     def findPaths(self, m: int, n: int, maxMove: int,
                   startRow: int, startColumn: int) -> int:
