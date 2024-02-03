@@ -718,6 +718,24 @@ class Solution:
 
         return dp(0)
 
+    # 1049. Last Stone Weight II
+    def lastStoneWeightII(self, stones: List[int]) -> int:
+        # Why this problem ties into Knapsack problem:
+        # https://leetcode.com/problems/last-stone-weight-ii/solutions/653550/trying-to-explain-a-bit-logic-behind-trick
+        stone_num = len(stones)
+        total_weight = sum(stones)
+        dp = [[0] * (total_weight // 2 + 1) for _ in range(stone_num + 1)]
+
+        for i in range(1, stone_num + 1):
+            stone = stones[i - 1]
+            for j in range(total_weight // 2 + 1):
+                if stone <= j:
+                    dp[i][j] = max(dp[i - 1][j - stone] + stone, dp[i - 1][j])
+                else:
+                    dp[i][j] = dp[i - 1][j]
+
+        return total_weight - 2 * dp[stone_num][total_weight // 2]
+
     # 1143. Longest Common Subsequence
     def longestCommonSubsequence(self, text1: str, text2: str) -> int:
         # Detailed explanation: https://ics.uci.edu/~eppstein/161/960229.html
