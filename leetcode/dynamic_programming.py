@@ -499,6 +499,31 @@ class Solution:
         # (length * (length - 1)) // 2 as per Combinatorics (number of ways
         # to Choose 2 elements from n elements)
 
+    # 494. Target Sum
+    def findTargetSumWays(self, nums: List[int], target: int) -> int:
+        # A way to think of this problem is we partition the array into 2
+        # subsequences S1 and S2, where S1 - S2 = target.
+        # We also have S1 + S2 = total => S1 = (total + target) / 2
+        sum_total = sum(nums)
+        if sum_total < abs(target) or (sum_total + target) % 2 == 1:
+            return 0
+        return self._knapsack_find_target(nums, (sum_total + target) // 2)
+
+    def _knapsack_find_target(self, nums: List[int], target: int) -> int:
+        n = len(nums)
+        dp = [[0] * (target + 1) for _ in range(n + 1)]
+        dp[0][0] = 1
+
+        for i in range(1, n + 1):
+            num = nums[i - 1]
+            for j in range(target + 1):
+                if num <= target:
+                    dp[i][j] = dp[i - 1][j - num] + dp[i - 1][j]
+                else:
+                    dp[i][j] = dp[i - 1][j]
+
+        return dp[n][target]
+
     # 518. Coin Change II
     def change(self, amount: int, coins: List[int]) -> int:
         # dp(i, j) will be the number of combinations that make up i amount
