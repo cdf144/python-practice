@@ -434,9 +434,9 @@ class Solution:
         sum_total = sum(nums)
         if sum_total % 2 == 1:
             return False
-        return self._knapsack(nums, sum_total // 2)
+        return self._knapsack_can_partition(nums, sum_total // 2)
 
-    def _knapsack(self, nums: List[int], max_sum: int) -> bool:
+    def _knapsack_can_partition(self, nums: List[int], max_sum: int) -> bool:
         n = len(nums)
         # dp[i][j]: Can j be formed by choosing numbers in nums[:i]
         dp = [[False] * (max_sum + 1) for _ in range(n + 1)]
@@ -446,10 +446,10 @@ class Solution:
             num = nums[i - 1]
             for j in range(max_sum + 1):
                 if num <= j:
-                    # Can either add num or keep the sum the same (not adding)
+                    # Sum can either include num or not
                     dp[i][j] = dp[i - 1][j - num] or dp[i - 1][j]
                 else:
-                    # Cannot add num to sum
+                    # Sum cannot include num
                     dp[i][j] = dp[i - 1][j]
 
         return dp[n][max_sum]
