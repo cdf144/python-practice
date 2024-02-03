@@ -2,7 +2,7 @@ import bisect
 import collections
 import math
 import functools
-from typing import List, Tuple
+from typing import List
 
 
 class Solution:
@@ -748,43 +748,37 @@ class Solution:
         return dp[0][0]
 
     # 1155. Number of Dice Rolls With Target Sum
-    MOD = 10**9 + 7
-
     def numRollsToTarget(self, n: int, k: int, target: int) -> int:
-        # # Memoization / Top-Down
-        # lookup_table = {}
-        #
-        # def count_ways(die_remain: int, target_remain: int) -> int:
-        #     if die_remain == 0:
-        #         return 1 if target_remain == 0 else 0
-        #     if (die_remain, target_remain) in lookup_table:
-        #         return lookup_table[(die_remain, target_remain)]
-        #
-        #     count = 0
-        #     for rolled in range(1, k + 1):  # possible rolled values
-        #         count = (
-        #             count + count_ways(die_remain - 1, target_remain - rolled)
-        #         ) % self.MOD
-        #
-        #     lookup_table[(die_remain, target_remain)] = count
-        #     return count
-        #
-        # return count_ways(n, target)
+        mod = 10**9 + 7
+        # dp[i][j] will be the number of ways to roll to target j with i dices
+        # that have k sides
 
-        # Tabulation / Bottom-Up
-        dp = [0] * (target + 1)  # dp[i] = number of ways to roll target=i
-        dp[0] = 1
+        # # DP Top-Down
+        # @functools.lru_cache(None)
+        # def dp(i: int, j: int) -> int:
+        #     if i == 0:
+        #         return 1 if j == 0 else 0
+        #     if i > j or j < 0:
+        #         return 0
 
-        for _ in range(n):  # for [1, n] dice
-            new_dp = [0] * (target + 1)
-            for rolled in range(1, k + 1):
-                for t in range(rolled, target + 1):
-                    new_dp[t] = (
-                        new_dp[t] + dp[t - rolled]
-                    ) % self.MOD
-            dp = new_dp
+        #     result = 0
+        #     for roll in range(1, k + 1):
+        #         result += dp(i - 1, j - roll)
 
-        return dp[target]
+        #     return result % mod
+
+        # return dp(n, target)
+
+        # Knapsack
+        dp = [[0] * (target + 1) for _ in range(n + 1)]
+        dp[0][0] = 1
+
+        for i in range(1, n + 1):
+            for j in range(1, target + 1):
+                for roll in range(1, min(j, k) + 1):
+                    dp[i][j] += dp[i - 1][j - roll]
+
+        return dp[n][target] % mod
 
     # 1235. Maximum Profit in Job Scheduling
     def jobScheduling(self, startTime: List[int], endTime: List[int],
