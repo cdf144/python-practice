@@ -129,6 +129,62 @@ class Solution:
             for row in matrix:
                 row[0] = 0
 
+    # 202. Happy Number
+    def isHappy(self, n: int) -> bool:
+        # When we do the computation over and over again, intuitively there
+        # can be 3 cases for the process:
+        # - Ends with 1
+        # - Loops infinitely (a cycle)
+        # - The number approaches infinity
+        # Of the 3 cases, it can be proven that case 3 can never happen:
+        #
+        # Suppose in the process, we run into a number N that is M digits
+        # long (M >= 3).
+        # Since we are dealing with base 10 numbers, the greatest value of any
+        # digit in a number is '9', so suppose the M-digit number we ran into
+        # is full of '9's, in other words, the greatest possible M-digit number.
+        # To prove that we cannot approach infinity when we run the process,
+        # we prove that N is the upper bound for any M-digit number that runs
+        # through the process.
+        # It can be seen that:
+        #   compute(N) = 9^2 * M < 100 * M
+        # Meaning compute(N) can have at most
+        #   2 + d(M) digits
+        # with d(M) being the number of digits of M. It is obvious that
+        #   2 + d(M) <= M for all M >= 3
+        # For some number N that has number of digits M < 3, compute(N) may
+        # 'leak' into M + 1 digits range, even then it would eventually fall
+        # into the M >= 3 range where it has an upper bound, i.e. cannot
+        # approach infinity.
+        #
+        # With our proof that case 3 cannot happen, the problem becomes a
+        # cycle detection problem in the form of finding the duplicate number
+        # in an array.
+        def compute(i: int) -> int:
+            s = str(i)
+            result = 0
+            for c in s:
+                result += int(c) ** 2
+            return result
+
+        # # Using Set
+        # computed = set()
+        # while n not in computed and n != 1:
+        #     computed.add(n)
+        #     n = compute(n)
+
+        # return True if n == 1 else False
+
+        # Tortoise and Hare
+        slow = compute(n)
+        fast = compute(compute(n))
+
+        while slow != fast:
+            slow = compute(slow)
+            fast = compute(compute(fast))
+
+        return slow == 1
+
     # 1232. Check If It Is a Straight Line
     def checkStraightLine(self, coordinates: List[List[int]]) -> bool:
         x1, y1 = coordinates[0][0], coordinates[0][1]
