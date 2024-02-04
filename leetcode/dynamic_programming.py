@@ -191,6 +191,34 @@ class Solution:
 
         return prev_1
 
+    # 97. Interleaving String
+    def isInterleave(self, s1: str, s2: str, s3: str) -> bool:
+        m = len(s1)
+        n = len(s2)
+        if m + n != len(s3):
+            return False
+
+        @functools.lru_cache(None)
+        def dp(i: int, j: int) -> bool:
+            if i == m and j == n:
+                return True
+            elif i == m or j == n:
+                remain = s3[i + j:]
+                if i == m:
+                    return remain == s2[j:]
+                return remain == s1[i:]
+
+            c = s3[i + j]
+            if s1[i] != c and s2[j] != c:
+                return False
+            if s1[i] == c and s2[j] != c:
+                return dp(i + 1, j)
+            if s1[i] != c and s2[j] == c:
+                return dp(i, j + 1)
+            return dp(i + 1, j) or dp(i, j + 1)
+
+        return dp(0, 0)
+
     # 139. Word Break
     def wordBreak(self, s: str, wordDict: List[str]) -> bool:
         n = len(s)
