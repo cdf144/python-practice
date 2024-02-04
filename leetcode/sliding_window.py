@@ -23,31 +23,26 @@ class Solution:
     def minWindow(self, s: str, t: str) -> str:
         requiring = len(t)
         counter = collections.Counter(t)
-        curr_min_left = -1
-        curr_min_len = math.inf
+        min_left = -1
+        min_len = math.inf
 
-        l = 0
-        for r, c in enumerate(s):
+        left = 0
+        for right, c in enumerate(s):
             counter[c] -= 1
-
             if counter[c] >= 0:
                 requiring -= 1
 
-            while requiring == 0:
-                if r - l + 1 < curr_min_len:
-                    curr_min_len = r - l + 1
-                    curr_min_left = l
+            if requiring == 0:
+                while requiring == 0:
+                    counter[s[left]] += 1
+                    if counter[s[left]] > 0:
+                        requiring += 1
+                    left += 1
+                if min_len > right - (left - 1) + 1:
+                    min_len = right - (left - 1) + 1
+                    min_left = left - 1
 
-                counter[s[l]] += 1
-                if counter[s[l]] > 0:
-                    requiring += 1
-                l += 1
-
-        return (
-            s[curr_min_left: curr_min_left + curr_min_len]
-            if curr_min_len != math.inf
-            else ''
-        )
+        return s[min_left: min_left + min_len] if min_len != math.inf else ''
 
     # 209. Minimum Size Subarray Sum
     def minSubArrayLen(self, target: int, nums: List[int]) -> int:
