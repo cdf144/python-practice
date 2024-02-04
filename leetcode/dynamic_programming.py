@@ -428,6 +428,29 @@ class Solution:
 
         return dp[amount] if dp[amount] != amount + 1 else -1
 
+    # 329. Longest Increasing Path in a Matrix
+    def longestIncreasingPath(self, matrix: List[List[int]]) -> int:
+        m = len(matrix)
+        n = len(matrix[0])
+        directions = [(0, 1), (0, -1), (1, 0), (-1, 0)]
+
+        @functools.lru_cache(None)
+        def dfs(i: int, j: int) -> int:
+            curr = matrix[i][j]
+            result = 1
+            for d in directions:
+                next_i = i + d[0]
+                next_j = j + d[1]
+                if (
+                    0 <= next_i < m
+                    and 0 <= next_j < n
+                    and curr < matrix[next_i][next_j]
+                ):
+                    result = max(result, 1 + dfs(next_i, next_j))
+            return result
+
+        return max(dfs(row, col) for row in range(m) for col in range(n))
+
     # 413. Arithmetic Slices
     def numberOfArithmeticSlicesI(self, nums: List[int]) -> int:
         length = len(nums)
