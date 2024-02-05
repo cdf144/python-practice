@@ -84,6 +84,14 @@ class Solution:
                 return False
         return True
 
+    # 387. First Unique Character in a String
+    def firstUniqChar(self, s: str) -> int:
+        count = collections.Counter(s)
+        for c, cnt in count.items():
+            if cnt == 1:
+                return s.index(c)
+        return -1
+
     # 395. Longest Substring with At Least K Repeating Characters
     def longestSubstring(self, s: str, k: int) -> int:
         # If the frequency k cannot be reached
