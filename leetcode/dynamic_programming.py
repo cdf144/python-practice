@@ -392,6 +392,33 @@ class Solution:
 
         return dp(0, False)
 
+    # 312. Burst Balloons
+    def maxCoins(self, nums: List[int]) -> int:
+        n = len(nums)
+        nums = [1] + nums + [1]
+
+        # dp[i][j] will be the maximum coins can be collected by bursting
+        # balloons in nums[i...j]
+        @functools.lru_cache(None)
+        def dp(i: int, j: int) -> int:
+            if i > j:
+                return 0
+
+            result = 0
+            for k in range(i, j + 1):
+                # nums[k] will be the *last* balloon to be burst, so at the end,
+                # when it is burst, its adjacent balloons will be nums[i - 1]
+                # and nums[j + 1]
+                burst = nums[i - 1] * nums[k] * nums[j + 1]
+                result = max(
+                    result,
+                    dp(i, k - 1) + dp(k + 1, j) + burst
+                )
+
+            return result
+
+        return dp(1, n)
+
     # 322. Coin Change
     def coinChange(self, coins: List[int], amount: int) -> int:
         # dp[i] is the fewest number of coins needed to make up i money
