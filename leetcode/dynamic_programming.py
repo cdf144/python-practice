@@ -219,6 +219,24 @@ class Solution:
 
         return dp(0, 0)
 
+    # 115. Distinct Subsequences
+    def numDistinct(self, s: str, t: str) -> int:
+        # dp[i][j] is the number of distinct subsequences of s[0...i) which
+        # equals t[0...j)
+        @functools.lru_cache(None)
+        def dp(i: int, j: int) -> int:
+            if j == 0:
+                # An empty string is one subsequence of any string
+                return 1
+            if i == 0 or i < j:
+                return 0
+
+            if s[i - 1] == t[j - 1]:
+                return dp(i - 1, j) + dp(i - 1, j - 1)
+            return dp(i - 1, j)
+
+        return dp(len(s), len(t))
+
     # 139. Word Break
     def wordBreak(self, s: str, wordDict: List[str]) -> bool:
         n = len(s)
