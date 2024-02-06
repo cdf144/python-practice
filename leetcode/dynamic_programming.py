@@ -145,6 +145,23 @@ class Solution:
 
         return dp_1
 
+    # 72. Edit Distance
+    def minDistance(self, word1: str, word2: str) -> int:
+        m = len(word1)
+        n = len(word2)
+
+        # dp[i][j] will be the minimum number of operations needed to convert
+        # word1[i...m) to word2[j...n)
+        @functools.cache
+        def dp(i: int, j: int) -> int:
+            if i == m or j == n:
+                return m - i if j == n else n - j
+            if word1[i] == word2[j]:
+                return dp(i + 1, j + 1)
+            return 1 + min(dp(i + 1, j), dp(i, j + 1), dp(i + 1, j + 1))
+
+        return dp(0, 0)
+
     # 91. Decode Ways
     def numDecodings(self, s: str) -> int:
         length = len(s)
