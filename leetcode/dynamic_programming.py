@@ -74,6 +74,40 @@ class Solution:
         )
         return s[(best_center - max_radius)//2:(best_center + max_radius)//2]
 
+    # 10. Regular Expression Matching
+    def isMatch(self, s: str, p: str) -> bool:
+        m = len(s)
+        n = len(p)
+
+        # dp[i][j]: Does s[i...m) match p[j...n)
+        @functools.cache
+        def dp(i: int, j: int) -> bool:
+            if i == m and j == n:
+                return True
+            elif j == n:
+                return False
+            elif i == m:
+                if j + 1 != n and p[j + 1] == '*':
+                    return dp(i, j + 2)
+                return False
+
+            if j + 1 != n and p[j + 1] == '*':
+                if p[j] != '.' and s[i] != p[j]:
+                    return dp(i, j + 2)
+                else:
+                    return (
+                        dp(i, j + 2)  # matches zero
+                        or dp(i + 1, j + 2)  # matches once
+                        or dp(i + 1, j)  # matches > 1
+                    )
+
+            if p[j] == '.' or s[i] == p[j]:
+                return dp(i + 1, j + 1)
+
+            return False
+
+        return dp(0, 0)
+
     # 53. Maximum Subarray
     def maxSubArray(self, nums: List[int]) -> int:
         # # Extra space
