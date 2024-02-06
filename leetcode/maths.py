@@ -84,6 +84,15 @@ class Solution:
 
         return result
 
+    # 66. Plus One
+    def plusOne(self, digits: List[int]) -> List[int]:
+        for i, d in reversed(list(enumerate(digits))):
+            if d < 9:
+                digits[i] += 1
+                return digits
+            digits[i] = 0
+        return [1] + digits
+
     # 73. Set Matrix Zeroes
     def setZeroes(self, matrix: List[List[int]]) -> None:
         # # Straightforward O(mn) space
