@@ -34,6 +34,16 @@ class Solution:
 
         return True
 
+    # 49. Group Anagrams
+    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+        map_anagrams = collections.defaultdict(list)
+
+        for s in strs:
+            original = ''.join(sorted(s))
+            map_anagrams[original].append(s)
+
+        return list(map_anagrams.values())
+
     # 205. Isomorphic Strings
     def isIsomorphic(self, s: str, t: str) -> bool:
         return list(map(s.index, s)) == list(map(t.index, t))
