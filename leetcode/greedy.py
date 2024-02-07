@@ -1,3 +1,4 @@
+import collections
 from typing import List
 
 
@@ -82,6 +83,23 @@ class Solution:
             cookie += 1
 
         return child
+
+    # 846. Hand of Straights
+    def isNStraightHand(self, hand: List[int], groupSize: int) -> bool:
+        count = collections.Counter(hand)
+
+        for group_start in sorted(count):
+            cnt = count[group_start]
+            if cnt > 0:
+                # Groups must have consecutive cards
+                for i in range(group_start, group_start + groupSize):
+                    # Since there are at least 'cnt' groups, we also need 'cnt'
+                    # number of each element that belongs to the group
+                    count[i] -= cnt
+                    if count[i] < 0:
+                        return False
+
+        return True
 
     # 1578. Minimum Time to Make Rope Colorful
     def minCost(self, colors: str, neededTime: List[int]) -> int:
