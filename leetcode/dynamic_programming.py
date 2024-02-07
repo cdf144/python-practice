@@ -121,14 +121,12 @@ class Solution:
         # return max(dp)
 
         # Constant space
-        length = len(nums)
-        curr = nums[0]
-        max_sum = curr
+        curr_sum = 0
+        max_sum = -math.inf
 
-        for i in range(1, length):
-            prev = curr
-            curr = max(nums[i], prev + nums[i])
-            max_sum = max(max_sum, curr)
+        for num in nums:
+            curr_sum = max(num, curr_sum + num)
+            max_sum = max(max_sum, curr_sum)
 
         return max_sum
 
