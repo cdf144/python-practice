@@ -1052,3 +1052,36 @@ class Solution:
             return result
 
         return dp(0, k)
+
+    # 2466. Count Ways To Build Good Strings
+    def countGoodStrings(self, low: int, high: int, zero: int, one: int) -> int:
+        mod = 10**9 + 7
+        # dp[i] will be the number of good strings of length i that can be
+        # constructed
+
+        # # Memoization
+        # @functools.cache
+        # def dp(i: int) -> int:
+        #     if i <= 0:
+        #         return 1 if i == 0 else 0
+        #     return dp(i - zero) % mod + dp(i - one) % mod
+
+        # result = 0
+        # for length in range(low, high + 1):
+        #     result = (result + dp(length)) % mod
+        # return result % mod
+
+        # Tabulation
+        dp = [0] * (high + 1)
+        dp[0] = 1
+
+        result = 0
+        for i in range(1, high + 1):
+            if i >= zero:
+                dp[i] = (dp[i] + dp[i - zero]) % mod
+            if i >= one:
+                dp[i] = (dp[i] + dp[i - one]) % mod
+            if low <= i <= high:
+                result = (result + dp[i]) % mod
+
+        return result
