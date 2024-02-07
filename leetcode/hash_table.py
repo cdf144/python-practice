@@ -125,6 +125,33 @@ class Solution:
         # If we reach here, all characters in string have frequency >= k
         return len(s)
 
+    # 451. Sort Characters By Frequency
+    def frequencySort(self, s: str) -> str:
+        count = collections.Counter(s)
+
+        # # Heap, O(n + m*log(m)) time, O(n + m) memory
+        # heap = []
+        # for c, cnt in count.items():
+        #     heapq.heappush(heap, (-cnt, c))
+
+        # result = ''
+        # while heap:
+        #     cnt, c = heapq.heappop(heap)
+        #     result += c * (-cnt)
+        # return result
+
+        # Bucket sort, O(n + max_freq) time, O(n + max_freq) space
+        max_freq = max(count.values())
+        buckets = [[] for _ in range(max_freq + 1)]
+        for c, cnt in count.items():
+            buckets[cnt].append(c)
+
+        result = []
+        for freq in range(max_freq, 0, -1):
+            for c in buckets[freq]:
+                result.append(c * freq)
+        return ''.join(result)
+
     # 645. Set Mismatch
     def findErrorNums(self, nums: List[int]) -> List[int]:
         # # Hash Table Counting
