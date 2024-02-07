@@ -2,6 +2,31 @@ from typing import List
 
 
 class Solution:
+    # 45. Jump Game II
+    def jump(self, nums: List[int]) -> int:
+        n = len(nums)
+        curr_level = max_reach = 0
+        min_jump = 0
+
+        # Implicit BFS
+        # For each jump we make, we can reach a next 'zone', that is, we can
+        # reach any element in a range that is in front of the current index.
+        # We do a greedy algorithm where the end of next zone will be the
+        # maximum index we can reach considering all the jumps in our current
+        # zone; we move to the next zone when we have considered all jump paths
+        # in our current zone; if our current zone contains the last index,
+        # that means we can reach the last index with the number of jump needed
+        # to reach the current zone, which is the minimum jump needed.
+        for i in range(n - 1):
+            if curr_level >= n - 1:
+                break
+            max_reach = max(max_reach, i + nums[i])
+            if i == curr_level:  # Considered all options in this zone (level)
+                min_jump += 1  # Need to make a jump to move to next zone
+                curr_level = max_reach  # Move to the next zone
+
+        return min_jump
+
     # 55. Jump Game
     def canJump(self, nums: List[int]) -> bool:
         can_reach = 0
