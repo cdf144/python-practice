@@ -1,3 +1,4 @@
+import math
 from typing import List
 
 
@@ -193,6 +194,32 @@ class Solution:
             fast = compute(compute(fast))
 
         return slow == 1
+
+    # 279. Perfect Squares
+    def numSquares(self, n: int) -> int:
+        def is_perfect_square(num: int) -> bool:
+            return math.floor(math.sqrt(num)) ** 2 == num
+
+        # As per Lagrange's four square theorem, there can only be
+        # 4 possible results: 1, 2, 3, and 4
+        # Case 1
+        if is_perfect_square(n):
+            return 1
+        # Case 2
+        for i in range(1, math.floor(math.sqrt(n) + 1)):
+            if is_perfect_square(n - i ** 2):
+                return 2
+
+        # 2 cases left is 3 and 4
+        # As per Legendre's three-square theorem, n can be
+        # represented as the sum of three perfect squares iff
+        # n is *not* of the form 4^a * (8*b + 7)
+        # Case 3 and 4
+        while n % 4 == 0:
+            n //= 4
+        if n % 8 == 7:
+            return 4
+        return 3
 
     # 1232. Check If It Is a Straight Line
     def checkStraightLine(self, coordinates: List[List[int]]) -> bool:
