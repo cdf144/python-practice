@@ -388,6 +388,52 @@ class Solution:
 
         return max(rob_range(0, house_num - 1), rob_range(1, house_num))
 
+    # 279. Perfect Squares
+    def numSquares(self, n: int) -> int:
+        def is_perfect_square(num: int) -> bool:
+            return math.floor(math.sqrt(num)) ** 2 == num
+
+        if is_perfect_square(n):
+            return 1
+
+        # # DP, Similar to the 'Coin Change' problem
+        # squares = [i ** 2 for i in range(1, math.floor(math.sqrt(n) + 1))]
+
+        # @functools.cache
+        # def dp(i: int) -> int:
+        #     if i <= 1:
+        #         return i
+
+        #     result = i
+        #     for square in squares:
+        #         if square > i:
+        #             break
+        #         result = min(result, dp(i - square) + 1)
+        #     return result
+        #
+        # return dp(n)
+
+        # Implicit BFS
+        squares = [i ** 2 for i in range(1, math.floor(math.sqrt(n) + 1))]
+        queue = set()
+        for square in squares:
+            queue.add(n - square)
+
+        result = 1
+        while queue:
+            next_queue = set()
+            for i in queue:
+                if is_perfect_square(i):
+                    return result + 1
+                for square in squares:
+                    if square > i:
+                        break
+                    next_queue.add(i - square)
+            queue = next_queue
+            result += 1
+
+        return result
+
     # 300. Longest Increasing Subsequence
     def lengthOfLIS(self, nums: List[int]) -> int:
         # dp[i] will be the length of the Longest Increasing Subsequence that
