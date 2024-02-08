@@ -1129,3 +1129,20 @@ class Solution:
                 result = (result + dp[i]) % mod
 
         return result
+
+    # 2742. Painting the Walls
+    def paintWalls(self, cost: List[int], time: List[int]) -> int:
+        n = len(cost)
+        inf = (10 ** 6) * 500 + 1
+
+        # dp[i][j] will be the minimum cost to paint j walls if the paid
+        # painter paint walls in range [i...n)
+        @functools.cache
+        def dp(i: int, j: int) -> int:
+            if j <= 0:
+                return 0
+            if i == n:
+                return inf
+            return min(cost[i] + dp(i + 1, j - time[i] - 1), dp(i + 1, j))
+
+        return dp(0, n)
