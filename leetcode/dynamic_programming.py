@@ -1026,6 +1026,32 @@ class Solution:
 
         return dp[0]
 
+    # 1269. Number of Ways to Stay in the Same Place After Some Steps
+    def numWays(self, steps: int, arrLen: int) -> int:
+        # Since we can only move right at most `steps / 2` steps to the right
+        # (because then we would have to come back to index 0, and that takes
+        # another `steps / 2` steps), we can reduce our maximum range `arrLen`
+        # in case it is too big.
+        # Because `arrLen` is exclusive, we reduce to `steps / 2 + 1` instead.
+        arrLen = min(steps // 2 + 1, arrLen)
+        mod = 10 ** 9 + 7
+
+        # dp[i][j] will be the number of ways to end up at index 0
+        # after j steps while in the ith index
+        @functools.cache
+        def dp(i: int, j: int) -> int:
+            if not 0 <= i < arrLen:
+                return 0
+            if j == 0:
+                return 1 if i == 0 else 0
+            return (
+                dp(i - 1, j - 1) % mod
+                + dp(i, j - 1) % mod
+                + dp(i + 1, j - 1) % mod
+            ) % mod
+
+        return dp(0, steps)
+
     # 1335. Minimum Difficulty of a Job Schedule
     def minDifficulty(self, jobDifficulty: List[int], d: int) -> int:
         length = len(jobDifficulty)
