@@ -75,6 +75,29 @@ class Solution:
         result = (pivot + low) % length
         return result if nums[result] == target else -1
 
+    # 34. Find First and Last Position of Element in Sorted Array
+    def searchRange(self, nums: List[int], target: int) -> List[int]:
+        result = [-1, -1]
+        if not nums:
+            return result
+
+        def binary_search(low: int, high: int, key: int) -> int:
+            while low < high:
+                mid = (low + high) // 2
+                if nums[mid] >= key:
+                    high = mid
+                else:
+                    low = mid + 1
+            return low
+
+        start = binary_search(0, len(nums) - 1, target)
+        if nums[start] != target:
+            return result
+        result[0] = start
+        end = binary_search(0, len(nums), target + 1) - 1
+        result[1] = end
+        return result
+
     # 35. Search Insert Position
     def searchInsert(self, nums: List[int], target: int) -> int:
         low, high = 0, len(nums)
