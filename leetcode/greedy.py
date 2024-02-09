@@ -1,4 +1,5 @@
 import collections
+import itertools
 from typing import List
 
 
@@ -122,6 +123,19 @@ class Solution:
             min_needed_time += curr_group_sum - group_max
 
         return min_needed_time
+
+    # 1899. Merge Triplets to Form Target Triplet
+    def mergeTriplets(self, triplets: List[List[int]],
+                      target: List[int]) -> bool:
+        found = [False] * 3
+        for triplet in triplets:
+            if all(a <= x for a, x in zip(triplet, target)):
+                for i in range(3):
+                    if triplet[i] == target[i]:
+                        found[i] = True
+                if all(found):
+                    return True
+        return False
 
     # 1903. Largest Odd Number in String
     def largestOddNumber(self, num: str) -> str:
