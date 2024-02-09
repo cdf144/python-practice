@@ -591,6 +591,28 @@ class Solution:
 
         return max(dfs(row, col) for row in range(m) for col in range(n))
 
+    # 368. Largest Divisible Subset
+    def largestDivisibleSubset(self, nums: List[int]) -> List[int]:
+        nums.sort()
+        n = len(nums)
+
+        # Similar to LIS problem
+        # dp[i][prev] will be the largest divisible subset in nums[i...n) that
+        # are all divisible by prev
+        @functools.cache
+        def dp(i: int, prev: int) -> List[int]:
+            if i == n:
+                return []
+            num = nums[i]
+            skip = dp(i + 1, prev)
+            take = []
+            if prev == -1 or nums[i] % prev == 0:
+                take = [num] + dp(i + 1, num)
+
+            return max(skip, take, key=len)
+
+        return dp(0, -1)
+
     # 413. Arithmetic Slices
     def numberOfArithmeticSlicesI(self, nums: List[int]) -> int:
         length = len(nums)
