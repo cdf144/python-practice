@@ -85,6 +85,35 @@ class Solution:
 
         return child
 
+    # 763. Partition Labels
+    def partitionLabels(self, s: str) -> List[int]:
+        # We consider an example letter, let us call this letter 'a'.
+        # Because each letter appears in at most one part, the partition 'a'
+        # will be in cannot be shorter than
+        # last_appearance(a) - first_appearance(a)
+        # In other words, the partition must span all occurrences of 'a'.
+
+        # Now consider this example: 'abfcab' (0-indexed)
+        # We see that first_appearance(a) = 0, last_appearance(a) = 4
+        # So our partition cannot be shorter than length 5. If we stop here
+        # we would have a partition 'abfca'. However, notice the 'b' in the
+        # partition, if we look at the example string again, we notice that
+        # it appears again after this partition, which is not correct,
+        # so the end of our partition must expand to last_appearance(b).
+        # => The partition must contain last_appearance(char) for every char
+        # in the partition
+        result = []
+        last_appearance = {c: i for i, c in enumerate(s)}
+
+        start, end = 0, 0
+        for i, c in enumerate(s):
+            end = max(end, last_appearance[c])
+            if i == end:
+                result.append(end - start + 1)
+                start = end + 1
+
+        return result
+
     # 846. Hand of Straights
     def isNStraightHand(self, hand: List[int], groupSize: int) -> bool:
         count = collections.Counter(hand)
