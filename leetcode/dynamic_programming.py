@@ -1102,6 +1102,26 @@ class Solution:
     def cherryPickup(self, grid: List[List[int]]) -> int:
         m = len(grid)
         n = len(grid[0])
+
+        # # Top-down, faster but less memory-efficient
+        # # dp[i][j][k] will be the maximum number of cherries picked starting
+        # # from row i, robot 1 and 2 at column j and k respectively
+        # @functools.cache
+        # def dp(i: int, j: int, k: int) -> int:
+        #     if i == m or not 0 <= j < n or not 0 <= k < n:
+        #         return 0
+
+        #     curr_row_sum = grid[i][j] + (grid[i][k] if j != k else 0)
+        #     result = 0
+        #     for r1 in range(j - 1, j + 2):
+        #         for r2 in range(k - 1, k + 2):
+        #             result = max(result, curr_row_sum + dp(i + 1, r1, r2))
+
+        #     return result
+
+        # return dp(0, 0, n - 1)
+
+        # Bottom-up, slower but more memory-efficient
         # dp[i][j][k] will be the maximum number of cherries collected ending
         # at row i, robot 1 and 2 on column j and k respectively
         dp = [[[-7001] * n for i in range(n)] for j in range(m)]
