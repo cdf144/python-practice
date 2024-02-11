@@ -1,4 +1,23 @@
+import itertools
+
+
 class Solution:
+    # 6. Zigzag Conversion
+    def convert(self, s: str, numRows: int) -> str:
+        if numRows == 1:
+            return s
+        rows = [[] for _ in range(numRows)]
+
+        direction = 1  # 1: down, -1: up
+        curr_row = 0
+        for c in s:
+            rows[curr_row].append(c)
+            curr_row += direction
+            if curr_row == 0 or curr_row == numRows - 1:
+                direction *= -1
+
+        return ''.join(itertools.chain.from_iterable(rows))
+
     # 8. String to Integer (atoi)
     def myAtoi(self, s: str) -> int:
         s = s.strip()
