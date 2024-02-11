@@ -1098,6 +1098,34 @@ class Solution:
 
         return dp(0, d, -1)
 
+    # 1463. Cherry Pickup II
+    def cherryPickup(self, grid: List[List[int]]) -> int:
+        m = len(grid)
+        n = len(grid[0])
+        # dp[i][j][k] will be the maximum number of cherries collected ending
+        # at row i, robot 1 and 2 on column j and k respectively
+        dp = [[[-7001] * n for i in range(n)] for j in range(m)]
+        dp[0][0][n - 1] = grid[0][0] + grid[0][n - 1]
+
+        for i in range(m):
+            for j in range(n):
+                for k in range(n):
+                    row_sum = 0
+                    if j == k:
+                        row_sum = grid[i][j]
+                    else:
+                        row_sum = grid[i][j] + grid[i][k]
+                    for r1 in range(max(j - 1, 0), min(j + 2, n)):
+                        for r2 in range(max(k - 1, 0), min(k + 2, n)):
+                            if dp[i - 1][r1][r2] == -7001:
+                                continue
+                            dp[i][j][k] = max(
+                                dp[i][j][k],
+                                row_sum + dp[i - 1][r1][r2]
+                            )
+
+        return max(max(row) for row in dp[m - 1])
+
     # 1531. String Compression II
     def getLengthOfOptimalCompression(self, s: str, k: int) -> int:
         def get_compressed_length(freq: int) -> int:
