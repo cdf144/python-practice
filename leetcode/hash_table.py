@@ -240,6 +240,21 @@ class Solution:
 
         return max_substr
 
+    # 1647. Minimum Deletions to Make Character Frequencies Unique
+    def minDeletions(self, s: str) -> int:
+        count = collections.Counter(s)
+        freq_set = set()
+
+        result = 0
+        for freq in count.values():
+            while freq and freq in freq_set:
+                freq -= 1
+                result += 1
+            if freq:
+                freq_set.add(freq)
+
+        return result
+
     # 1657. Determine if Two Strings Are Close
     def closeStrings(self, word1: str, word2: str) -> bool:
         if len(word1) != len(word2):
