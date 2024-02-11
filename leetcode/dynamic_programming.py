@@ -1127,7 +1127,7 @@ class Solution:
         dp = [[[-7001] * n for i in range(n)] for j in range(m)]
         dp[0][0][n - 1] = grid[0][0] + grid[0][n - 1]
 
-        for i in range(m):
+        for i in range(1, m):
             for j in range(n):
                 for k in range(n):
                     row_sum = grid[i][j] + (grid[i][k] if j != k else 0)
