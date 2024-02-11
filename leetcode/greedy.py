@@ -85,6 +85,47 @@ class Solution:
 
         return child
 
+    # 678. Valid Parenthesis String
+    def checkValidString(self, s: str) -> bool:
+        # # DP
+        # n = len(s)
+
+        # # dp[i][j]: Is s[i...n) a valid string with balance factor j
+        # @functools.cache
+        # def dp(i: int, j: int) -> bool:
+        #     if j < 0:
+        #         return False
+        #     if i == n:
+        #         return True if j == 0 else False
+        #     if s[i] == '(':
+        #         return dp(i + 1, j + 1)
+        #     elif s[i] == ')':
+        #         return dp(i + 1, j - 1)
+        #     else:
+        #         return dp(i + 1, j - 1) or dp(i + 1, j) or dp(i + 1, j + 1)
+
+        # return dp(0, 0)
+
+        # Greedy
+        # [low, high]: range of numbers of valid '('s
+        low = high = 0
+        for c in s:
+            if c == '(':
+                low += 1
+                high += 1
+            elif c == ')':
+                if low > 0:
+                    low -= 1
+                high -= 1
+            else:
+                if low > 0:
+                    low -= 1
+                high += 1
+            if high < low:
+                return False
+
+        return low == 0
+
     # 763. Partition Labels
     def partitionLabels(self, s: str) -> List[int]:
         # We consider an example letter, let us call this letter 'a'.
