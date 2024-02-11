@@ -1110,11 +1110,7 @@ class Solution:
         for i in range(m):
             for j in range(n):
                 for k in range(n):
-                    row_sum = 0
-                    if j == k:
-                        row_sum = grid[i][j]
-                    else:
-                        row_sum = grid[i][j] + grid[i][k]
+                    row_sum = grid[i][j] + (grid[i][k] if j != k else 0)
                     for r1 in range(max(j - 1, 0), min(j + 2, n)):
                         for r2 in range(max(k - 1, 0), min(k + 2, n)):
                             if dp[i - 1][r1][r2] == -7001:
