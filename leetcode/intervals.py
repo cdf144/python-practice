@@ -6,12 +6,14 @@ class Solution:
     def merge(self, intervals: List[List[int]]) -> List[List[int]]:
         intervals.sort(key=lambda i: i[0])
         result = [intervals[0]]
+
         for interval in intervals[1:]:
             top = result[-1]
             if top[1] >= interval[0]:
                 top[1] = max(top[1], interval[1])
             else:
                 result.append(interval)
+
         return result
 
     # 57. Insert Interval
@@ -35,4 +37,34 @@ class Solution:
             result.append(intervals[i])
             i += 1
 
+        return result
+
+    # 435. Non-overlapping Intervals
+    def eraseOverlapIntervals(self, intervals: List[List[int]]) -> int:
+        intervals.sort(key=lambda i: i[0])
+
+        # The below space complexities does not count space used to sort
+        # and iterate over.
+
+        # # O(n) space, worse time complexity too due to accessing last element
+        # erased = [intervals[0]]
+        # result = 0
+        # for interval in intervals[1:]:
+        #     top = erased[-1]
+        #     if top[1] > interval[0]:
+        #         result += 1
+        #         top[1] = min(top[1], interval[1])
+        #     else:
+        #         erased.append(interval)
+        # return result
+
+        # O(1) space
+        curr_end = intervals[0][1]
+        result = 0
+        for interval in intervals[1:]:
+            if curr_end > interval[0]:
+                result += 1
+                curr_end = min(curr_end, interval[1])
+            else:
+                curr_end = interval[1]
         return result
