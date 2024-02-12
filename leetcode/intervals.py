@@ -2,6 +2,18 @@ from typing import List
 
 
 class Solution:
+    # 56. Merge Intervals
+    def merge(self, intervals: List[List[int]]) -> List[List[int]]:
+        intervals.sort(key=lambda i: i[0])
+        result = [intervals[0]]
+        for interval in intervals[1:]:
+            top = result[-1]
+            if top[1] >= interval[0]:
+                top[1] = max(top[1], interval[1])
+            else:
+                result.append(interval)
+        return result
+
     # 57. Insert Interval
     def insert(self, intervals: List[List[int]],
                newInterval: List[int]) -> List[List[int]]:
