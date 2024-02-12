@@ -44,6 +44,20 @@ class Solution:
 
         return list(map_anagrams.values())
 
+    # 169. Majority Element
+    def majorityElement(self, nums: List[int]) -> int:
+        candidate = -1
+        count = 0
+        for num in nums:
+            if count == 0:
+                candidate = num
+                count = 1
+            elif num == candidate:
+                count += 1
+            else:
+                count -= 1
+        return candidate
+
     # 205. Isomorphic Strings
     def isIsomorphic(self, s: str, t: str) -> bool:
         return list(map(s.index, s)) == list(map(t.index, t))
