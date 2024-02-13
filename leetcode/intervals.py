@@ -68,3 +68,20 @@ class Solution:
             else:
                 curr_end = interval[1]
         return result
+
+    # 1288. Remove Covered Intervals
+    def removeCoveredIntervals(self, intervals: List[List[int]]) -> int:
+        # Sort so that for all intervals with the same l value:
+        # intervals[i][1] >= intervals[i + 1][1] >= ... >= intervals[i + k][1]
+        intervals.sort(key=lambda i: (i[0], -i[1]))
+        # No need to consider curr_l because it is guaranteed that:
+        # intervals[i][0] <= intervals[i + 1][0] <= ... <= intervals[n][0]
+        curr_r = intervals[0][1]
+        result = len(intervals)
+        for interval in intervals[1:]:
+            if curr_r >= interval[1]:
+                result -= 1
+            else:
+                curr_r = interval[1]
+
+        return result
