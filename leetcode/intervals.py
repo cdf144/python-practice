@@ -122,3 +122,28 @@ class Solution:
                 curr_r = interval[1]
 
         return result
+
+    # 1851. Minimum Interval to Include Each Query
+    def minInterval(self, intervals: List[List[int]],
+                    queries: List[int]) -> List[int]:
+        n = len(intervals)
+        intervals.sort(key=lambda inter: inter[0])
+        result = {}
+
+        # Heap to store all the intervals that include the current query, sorted
+        # by interval size
+        heap = []
+        i = 0  # index for iterating over intervals
+        for query in sorted(queries):
+            # Push all intervals that can (possibly) include query
+            while i < n and intervals[i][0] <= query:
+                interval = intervals[i]
+                left, right = interval[0], interval[1]
+                heapq.heappush(heap, (right - left + 1, right))
+                i += 1
+            # Filter the intervals which do not include query
+            while heap and heap[0][1] < query:
+                heapq.heappop(heap)
+            result[query] = heap[0][0] if heap else -1
+
+        return [result[query] for query in queries]
