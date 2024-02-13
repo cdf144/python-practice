@@ -1,4 +1,5 @@
 import itertools
+from typing import List
 
 
 class Solution:
@@ -141,3 +142,13 @@ class Solution:
         count_start_zero = sum(int(c) != i % 2 for i, c in enumerate(s))
         count_start_one = len(s) - count_start_zero
         return min(count_start_zero, count_start_one)
+
+    # 2108. Find First Palindromic String in the Array
+    def firstPalindrome(self, words: List[str]) -> str:
+        def is_palindrome(s: str) -> bool:
+            return s == s[::-1]
+
+        for word in words:
+            if is_palindrome(word):
+                return word
+        return ''
