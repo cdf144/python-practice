@@ -1,3 +1,4 @@
+import heapq
 from typing import List
 
 
@@ -57,6 +58,23 @@ class Solution:
                 return False
             curr_end = interval.end
         return True
+
+    # 253. Meeting Rooms II
+    def minMeetingRooms(self, intervals: List[Interval]) -> int:
+        if not intervals:
+            return 0
+
+        heap = []
+        for interval in sorted(intervals, key=lambda i: i.start):
+            if interval.start == interval.end:
+                continue
+            # Previous meeting is done in this room and can be reused
+            if heap and heap[0] <= interval.start:
+                heapq.heappop(heap)
+            # Room will be occupied until the end of this meeting
+            heapq.heappush(heap, interval.end)
+
+        return len(heap)
 
     # 435. Non-overlapping Intervals
     def eraseOverlapIntervals(self, intervals: List[List[int]]) -> int:
