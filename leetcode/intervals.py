@@ -1,6 +1,12 @@
 from typing import List
 
 
+class Interval(object):
+    def __init__(self, start, end):
+        self.start = start
+        self.end = end
+
+
 class Solution:
     # 56. Merge Intervals
     def merge(self, intervals: List[List[int]]) -> List[List[int]]:
@@ -38,6 +44,19 @@ class Solution:
             i += 1
 
         return result
+
+    # 252. Meeting Rooms
+    def canAttendMeetings(self, intervals: List[Interval]) -> bool:
+        if not intervals:
+            return True
+        intervals.sort(key=lambda i: i.start)
+
+        curr_end = intervals[0].end
+        for interval in intervals[1:]:
+            if curr_end > interval.start:
+                return False
+            curr_end = interval.end
+        return True
 
     # 435. Non-overlapping Intervals
     def eraseOverlapIntervals(self, intervals: List[List[int]]) -> int:
