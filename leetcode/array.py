@@ -1,4 +1,5 @@
 import collections
+import itertools
 import math
 from itertools import starmap, pairwise
 from operator import sub
@@ -218,6 +219,20 @@ class Solution:
             above = below
 
         return result
+
+    # 2391. Minimum Amount of Time to Collect Garbage
+    def garbageCollection(self, garbage: List[str], travel: List[int]) -> int:
+        # Prefix sum of total travel cost to index i
+        prefix = [0] + list(itertools.accumulate(travel))
+        total_garbage = len(''.join(garbage))
+
+        m_idx, p_idx, g_idx = 0, 0, 0
+        for i, house in enumerate(garbage):
+            m_idx = m_idx if 'M' not in house else i
+            p_idx = p_idx if 'P' not in house else i
+            g_idx = g_idx if 'G' not in house else i
+
+        return total_garbage + prefix[m_idx] + prefix[p_idx] + prefix[g_idx]
 
     # 2482. Difference Between Ones and Zeros in Row and Column
     def onesMinusZeros(self, grid: List[List[int]]) -> List[List[int]]:
