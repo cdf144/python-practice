@@ -911,6 +911,45 @@ class Solution:
 
         return min(matrix[-1])
 
+    # 956. Tallest Billboard
+    def tallestBillboard(self, rods: List[int]) -> int:
+        n = len(rods)
+        max_support = sum(rods) // 2
+        # We will memoize (i, diff) with diff = abs(j - k); this has the
+        # meaning of "The fixed distance to the tallest height possible of any
+        # j, k pair of left, right supports using rods[i...n)."
+        # For any pair of supports s1, s2 having diff = k, the 'distance' to
+        # the tallest height possible for the pair is fixed, because we are
+        # considering the same rods[i...n) range.
+        memo = {}
+
+        def dp(i: int, j: int, k: int) -> int:
+            if j > max_support or k > max_support:
+                return -1
+            if i == n:
+                return j if j == k else -1
+
+            diff = abs(j - k)
+            if (i, diff) in memo:
+                # Since the 'distance' to the tallest height possible for the
+                # pair is fixed, we know that the maximum of the 2 support sides
+                # must be able to extend 'distance' amount
+                return (
+                    max(j, k) + memo[(i, diff)]
+                    if memo[(i, diff)] != -1 else -1
+                )
+
+            rod = rods[i]
+            result = max(
+                dp(i + 1, j, k),  # Skip use
+                dp(i + 1, j + rod, k),  # Weld onto left side
+                dp(i + 1, j, k + rod)  # Weld onto right side
+            )
+            memo[(i, diff)] = result - max(j, k) if result != -1 else -1
+            return result
+
+        return max(0, dp(0, 0, 0))
+
     # 1043. Partition Array for Maximum Sum
     def maxSumAfterPartitioning(self, arr: List[int], k: int) -> int:
         n = len(arr)
