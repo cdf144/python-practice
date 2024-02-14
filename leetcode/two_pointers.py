@@ -373,3 +373,18 @@ class Solution:
                 min2 = num
 
         return max1*max2 - min1*min2
+
+    # 2149. Rearrange Array Elements by Sign
+    def rearrangeArray(self, nums: List[int]) -> List[int]:
+        positive = []
+        negative = []
+        for num in nums:
+            if num > 0:
+                positive.append(num)
+            else:
+                negative.append(num)
+
+        for i in range(len(positive)):
+            nums[i * 2] = positive[i]
+            nums[i * 2 + 1] = negative[i]
+        return nums
