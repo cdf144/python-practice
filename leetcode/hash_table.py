@@ -281,6 +281,22 @@ class Solution:
             and sorted(count_1.values()) == sorted(count_2.values())
         )
 
+    # 1814. Count Nice Pairs in an Array
+    def countNicePairs(self, nums: List[int]) -> int:
+        # nums[i] + rev(nums[j]) == nums[j] + rev(nums[i])
+        # => nums[i] - rev(nums[i]) == nums[j] - rev[nums[j])
+        def rev(x: int) -> int:
+            return int(str(x)[::-1])
+
+        mod = 10**9 + 7
+        nice_groups = collections.defaultdict(int)
+        result = 0
+        for num in nums:
+            group = num - rev(num)
+            result = (result + nice_groups[group]) % mod
+            nice_groups[group] += 1
+        return result
+
     # 1897. Redistribute Characters to Make All Strings Equal
     def makeEqual(self, words: List[str]) -> bool:
         length = len(words)
