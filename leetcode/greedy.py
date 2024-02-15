@@ -213,3 +213,27 @@ class Solution:
             if ord(c) & 1:
                 return num[:len(num) - i]
         return ''
+
+    # 2971. Find Polygon With the Largest Perimeter
+    def largestPerimeter(self, nums: List[int]) -> int:
+        nums.sort()
+
+        # # Left to right
+        # result = -1
+        # # Running sum of sides of a (possible) polygon
+        # curr_sum = nums[0] + nums[1]
+        # for i in range(2, len(nums)):
+        #     if curr_sum > nums[i]:
+        #         result = curr_sum + nums[i]
+        #     curr_sum += nums[i]
+        # return result
+
+        # Right to left
+        curr_sum = sum(nums)
+        # Being greedy until we find a valid polygon
+        # (perimeter > 2 * longest_side)
+        # The result will be the polygon with the longest
+        # possible longest_side
+        while nums and curr_sum <= 2 * nums[-1]:
+            curr_sum -= nums.pop()
+        return curr_sum if len(nums) > 2 else -1
