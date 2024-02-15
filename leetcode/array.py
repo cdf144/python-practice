@@ -145,6 +145,27 @@ class Solution:
 
         return result
 
+    # 1630. Arithmetic Subarrays
+    def checkArithmeticSubarrays(self, nums: List[int], l: List[int],
+                                 r: List[int]) -> List[bool]:
+        def is_arithmetic(sequence: List[int]) -> bool:
+            n = len(sequence)
+            if n <= 2:
+                return True
+
+            sequence.sort()
+            diff = sequence[1] - sequence[0]
+            for i in range(2, n):
+                if sequence[i] - sequence[i - 1] != diff:
+                    return False
+            return True
+
+        result = []
+        for query, left in enumerate(l):
+            right = r[query]
+            result.append(is_arithmetic(nums[left: right + 1]))
+        return result
+
     # 1637. Widest Vertical Area Between Two Points Containing No Points
     def maxWidthOfVerticalArea(self, points: List[List[int]]) -> int:
         # # Sorted set
