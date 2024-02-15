@@ -208,6 +208,16 @@ class Solution:
 
         return requiring
 
+    # 1424. Diagonal Traverse II
+    def findDiagonalOrder(self, nums: List[List[int]]) -> List[int]:
+        diagonals = collections.defaultdict(list)
+        for i, row in enumerate(nums):
+            for j, num in enumerate(row):
+                diagonals[i + j].append(num)
+        return itertools.chain.from_iterable(
+            reversed(i) for i in diagonals.values()
+        )
+
     # 1496. Path Crossing
     def isPathCrossing(self, path: str) -> bool:
         x, y = 0, 0
