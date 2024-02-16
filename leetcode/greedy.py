@@ -1,5 +1,5 @@
 import collections
-import itertools
+import heapq
 from typing import List
 
 
@@ -171,6 +171,14 @@ class Solution:
                         return False
 
         return True
+
+    # 1481. Least Number of Unique Integers after K Removals
+    def findLeastNumOfUniqueInts(self, arr: List[int], k: int) -> int:
+        freq_heap = list(collections.Counter(arr).values())
+        heapq.heapify(freq_heap)
+        while freq_heap and k >= freq_heap[0]:
+            k -= heapq.heappop(freq_heap)
+        return len(freq_heap)
 
     # 1578. Minimum Time to Make Rope Colorful
     def minCost(self, colors: str, neededTime: List[int]) -> int:
