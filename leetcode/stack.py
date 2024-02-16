@@ -62,6 +62,22 @@ class Solution:
 
         return result
 
+    # 85. Maximal Rectangle
+    def maximalRectangle(self, matrix: List[List[str]]) -> int:
+        # Treat each row as if they are the x-axis of a Histogram, then we
+        # solve each 'Largest Rectangle in Histogram' problem and take the max.
+        m = len(matrix)
+        n = len(matrix[0])
+        heights = [0] * n
+        result = 0
+
+        for row in matrix:
+            for i, num in enumerate(row):
+                heights[i] = heights[i] + 1 if num != '0' else 0
+            result = max(result, self.largestRectangleArea(heights))
+
+        return result
+
     # 150. Evaluate Reverse Polish Notation
     def evalRPN(self, tokens: List[str]) -> int:
         operations = {
