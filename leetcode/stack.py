@@ -34,42 +34,33 @@ class Solution:
 
     # 84. Largest Rectangle in Histogram
     def largestRectangleArea(self, heights: List[int]) -> int:
-        stack = []
-        max_area = 0
-        length = len(heights)
-
         # We are basically finding the nearest left smaller and right smaller
-        # column of each column in the histogram in an efficient manner.
+        # column of each column in the histogram.
         # Then the maximum area that can be made with that column will be
         # column_height * (r_smaller_idx - l_smaller_idx)
-        #
+        result = 0
+        n = len(heights)
+
         # Here, we're using a stack to keep track of the indices of the
         # nearest left smaller column when we are iterating over the columns.
-        # This results in a stack where the columns corresponding to the
-        # indices in the stack forms a mono-increasing stack from top to bottom.
+        # So nearest smaller of heights[stack[top]] is heights[stack[top - 1]].
+        # We can see that this is a mono-increasing stack from bottom to top in
+        # terms of the heights that the indices point to.
         # When we find a column which is lower than the top of the stack, that
         # will be the nearest right smaller column of the column at the top of
         # stack, and we calculate the area using the formula above.
-        for i, height in enumerate(heights):
-            while stack and height < heights[stack[-1]]:
-                idx = stack.pop()
-                max_area = max(
-                    max_area,
-                    heights[idx] * (i - stack[-1] - 1) if stack
-                    else heights[idx] * i
-                )
+        stack = []
+        for i in range(n + 1):
+            while stack and (i == n or heights[i] < heights[stack[-1]]):
+                # Note that this also works if there are multiple equal
+                # columns in a row and if there are leftovers in the stack after
+                # we have gone through all columns (i == n).
+                height = heights[stack.pop()]
+                width = i - stack[-1] - 1 if stack else i
+                result = max(result, width * height)
             stack.append(i)
 
-        # Exhausting the stack
-        while stack:
-            idx = stack.pop()
-            max_area = max(
-                max_area,
-                heights[idx] * (length - stack[-1] - 1) if stack
-                else heights[idx] * length
-            )
-
-        return max_area
+        return result
 
     # 150. Evaluate Reverse Polish Notation
     def evalRPN(self, tokens: List[str]) -> int:
