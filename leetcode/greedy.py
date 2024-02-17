@@ -202,6 +202,23 @@ class Solution:
 
         return min_needed_time
 
+    # 1727. Largest Submatrix With Rearrangements
+    def largestSubmatrix(self, matrix: List[List[int]]) -> int:
+        n = len(matrix[0])
+        heights = [0] * n
+        result = 0
+
+        for row in matrix:
+            for i, num in enumerate(row):
+                heights[i] = heights[i] + 1 if num != 0 else 0
+
+            histogram = sorted(heights)
+            for i, height in enumerate(histogram):
+                # width = (n - i)
+                result = max(result, (n - i) * height)
+
+        return result
+
     # 1899. Merge Triplets to Form Target Triplet
     def mergeTriplets(self, triplets: List[List[int]],
                       target: List[int]) -> bool:
