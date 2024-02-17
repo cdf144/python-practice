@@ -1,5 +1,6 @@
 import collections
 import heapq
+import itertools
 from typing import List
 
 
@@ -201,6 +202,45 @@ class Solution:
             min_needed_time += curr_group_sum - group_max
 
         return min_needed_time
+
+    # 1642. Furthest Building You Can Reach
+    def furthestBuilding(self, heights: List[int],
+                         bricks: int, ladders: int) -> int:
+        n = len(heights)
+
+        # # DP, O(n * |bricks| * |ladders|) time and space
+        # @functools.cache
+        # def dp(i: int, j: int, k: int) -> int:
+        #     if j < 0 or k < 0:
+        #         return -1
+        #     if i == n - 1 or (j == 0 and k == 0):
+        #         return i
+
+        #     diff = heights[i + 1] - heights[i]
+        #     if diff <= 0:
+        #         return dp(i + 1, j, k)
+        #     return max(i, dp(i + 1, j - diff, k), dp(i + 1, j, k - 1))
+
+        # return dp(0, bricks, ladders)
+
+        # Greedy with Heap, O(n * |ladders| * log(|ladders|)) time,
+        # O(|ladders|) space.
+        # Use ladders for the largest differences, then greedily use bricks for
+        # the smallest differences.
+        heap = []
+
+        for i, (a, b) in enumerate(itertools.pairwise(heights)):
+            diff = b - a
+            if diff <= 0:
+                continue
+            heapq.heappush(heap, diff)
+            if ladders >= len(heap):
+                continue
+            bricks -= heapq.heappop(heap)
+            if bricks < 0:  # No way to reach next building
+                return i
+
+        return n - 1
 
     # 1727. Largest Submatrix With Rearrangements
     def largestSubmatrix(self, matrix: List[List[int]]) -> int:
