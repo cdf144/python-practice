@@ -1160,6 +1160,25 @@ class Solution:
 
         return dp(n, 0, 0)
 
+    # 1458. Max Dot Product of Two Subsequences
+    def maxDotProduct(self, nums1: List[int], nums2: List[int]) -> int:
+        m = len(nums1)
+        n = len(nums2)
+
+        # dp[i][j] will be the max dot product of two subsequences of
+        # nums1[i...m) and nums2[j...n)
+        @functools.cache
+        def dp(i: int, j: int):
+            if i == m or j == n:
+                return -math.inf
+            return max(
+                dp(i + 1, j),
+                dp(i, j + 1),
+                nums1[i] * nums2[j] + max(0, dp(i + 1, j + 1))
+            )
+
+        return dp(0, 0)
+
     # 1463. Cherry Pickup II
     def cherryPickup(self, grid: List[List[int]]) -> int:
         m = len(grid)
