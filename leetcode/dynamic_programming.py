@@ -1137,6 +1137,29 @@ class Solution:
 
         return dp(0, d, -1)
 
+    # 1420. Build Array Where You Can Find The Maximum Exactly K Comparisons
+    def numOfArrays(self, n: int, m: int, k: int) -> int:
+        mod = 10**9 + 7
+
+        # dp[i][j][cost] will be the number of ways to build array of i elements
+        # with previous max element being j and current search_cost == cost
+        @functools.cache
+        def dp(i: int, j: int, cost: int) -> int:
+            if cost > k:
+                return 0
+            if i == 0:
+                return 1 if cost == k else 0
+
+            # Appending any value in [1...j] does not change the max value and
+            # search_cost
+            result = (j * dp(i - 1, j, cost)) % mod
+            # Appending any value in this range changes new max and search_cost
+            for num in range(j + 1, m + 1):
+                result = (result + dp(i - 1, num, cost + 1)) % mod
+            return result
+
+        return dp(n, 0, 0)
+
     # 1463. Cherry Pickup II
     def cherryPickup(self, grid: List[List[int]]) -> int:
         m = len(grid)
