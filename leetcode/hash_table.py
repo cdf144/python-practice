@@ -13,6 +13,19 @@ class Solution:
                 return [i, dict_num_to_index[target - num]]
             dict_num_to_index[num] = i
 
+    # 13. Roman to Integer
+    def romanToInt(self, s: str) -> int:
+        symbols = {'M': 1000, 'D': 500, 'C': 100,
+                   'L': 50, 'X': 10, 'V': 5, 'I': 1}
+        s = s.replace('IV', 'IIII').replace('IX', 'VIIII')
+        s = s.replace('XL', 'XXXX').replace('XC', 'LXXXX')
+        s = s.replace('CD', 'CCCC').replace('CM', 'DCCCC')
+
+        result = 0
+        for c in s:
+            result += symbols[c]
+        return result
+
     # 36. Valid Sudoku
     def isValidSudoku(self, board: List[List[str]]) -> bool:
         seen = set()
