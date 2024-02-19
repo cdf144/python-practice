@@ -11,3 +11,7 @@ class Solution:
         for num in nums:
             mask = mask ^ num
         return mask
+
+    # 231. Power of Two
+    def isPowerOfTwo(self, n: int) -> bool:
+        return n > 0 and (n & (n - 1)) == 0
