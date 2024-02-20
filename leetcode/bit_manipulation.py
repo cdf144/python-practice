@@ -15,3 +15,10 @@ class Solution:
     # 231. Power of Two
     def isPowerOfTwo(self, n: int) -> bool:
         return n > 0 and (n & (n - 1)) == 0
+
+    # 268. Missing Number
+    def missingNumber(self, nums: List[int]) -> int:
+        result = len(nums)
+        for i, num in enumerate(nums):
+            result ^= i ^ num
+        return result
