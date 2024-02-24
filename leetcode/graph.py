@@ -6,7 +6,7 @@ from typing import List
 class UF:
     def __init__(self, n: int):
         self.parent = [i for i in range(n)]
-        self.size = [1] * n
+        self.size = [1 for i in range(n)]
 
     def _root(self, p: int) -> int:
         while p != self.parent[p]:
@@ -31,6 +31,9 @@ class UF:
             self.size[p_root] += self.size[q_root]
 
         return True
+
+    def reset(self, p: int) -> None:
+        self.parent[p] = p
 
 
 class Solution:
@@ -89,3 +92,28 @@ class Solution:
             if out_degree[i] == 0 and in_degree[i] == n - 1:
                 return i + 1
         return -1
+
+    # 2092. Find All People With Secret
+    def findAllPeople(self, n: int, meetings: List[List[int]],
+                      firstPerson: int) -> List[int]:
+        meetings.sort(key=lambda m: m[2])
+        k = len(meetings)
+
+        uf = UF(n)
+        uf.union(0, firstPerson)
+        i = 0
+        while i < k:
+            people = set()
+            time = meetings[i][2]
+            while i < k and time == meetings[i][2]:
+                meeting = meetings[i]
+                p, q = meeting[0], meeting[1]
+                people.add(p)
+                people.add(q)
+                uf.union(p, q)
+                i += 1
+            for p in people:
+                if not uf.connected(0, p):
+                    uf.reset(p)
+
+        return [i for i in range(n) if uf.connected(0, i)]
