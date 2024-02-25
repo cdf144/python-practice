@@ -18,18 +18,15 @@ class UF:
         return self._root(p) == self._root(q)
 
     def union(self, p: int, q: int) -> bool:
-        p_root = self._root(p)
-        q_root = self._root(q)
+        p_root, q_root = self._root(p), self._root(q)
         if p_root == q_root:
             return False
 
-        if self.size[p_root] <= self.size[q_root]:
-            self.parent[p_root] = q_root
-            self.size[q_root] += self.size[p_root]
-        else:
-            self.parent[q_root] = p_root
-            self.size[p_root] += self.size[q_root]
+        if self.size[p_root] < self.size[q_root]:
+            p_root, q_root = q_root, p_root
 
+        self.parent[q_root] = p_root
+        self.size[p_root] += self.size[q_root]
         return True
 
     def reset(self, p: int) -> None:
@@ -117,3 +114,58 @@ class Solution:
                     uf.reset(p)
 
         return [i for i in range(n) if uf.connected(0, i)]
+
+    # 2709. Greatest Common Divisor Traversal
+    def canTraverseAllPairs(self, nums: List[int]) -> bool:
+        def generate_primes() -> List[int]:
+            prime_range = int(math.sqrt(10 ** 5))
+            is_prime = [True] * (prime_range + 1)
+            is_prime[0], is_prime[1] = False, False
+
+            for i in range(2, prime_range + 1):
+                if is_prime[i]:
+                    j = 2 * i
+                    while j <= prime_range:
+                        is_prime[j] = False
+                        j += i
+
+            result = []
+            for i, prime in enumerate(is_prime):
+                if prime:
+                    result.append(i)
+            return result
+
+        def factorize(number: int) -> List[int]:
+            nonlocal primes
+            factors = []
+            for prime in primes:
+                if number % prime == 0:
+                    factors.append(prime)
+                    while number % prime == 0:
+                        number //= prime
+            # If the prime factorization of `number` includes a large prime
+            # which is not included in our pre-computed prime list
+            # For example: 20014 = 2 * 10007
+            if number > 1:
+                factors.append(number)
+            return factors
+
+        n = len(nums)
+        if n == 1:
+            return True
+        primes = generate_primes()
+        uf = UF(n)
+        # maps prime to index of first element that the prime is a factor of
+        prime_idx = {}
+
+        for i, num in enumerate(nums):
+            if num == 1:
+                return False
+            facts = factorize(num)
+            for fact in facts:
+                if fact in prime_idx:
+                    uf.union(i, prime_idx[fact])
+                else:
+                    prime_idx[fact] = i
+
+        return any(uf.size[i] == n for i in range(n))
