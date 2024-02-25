@@ -1,8 +1,10 @@
-# Created by virtualenv automatically
-.venv/*
+# Recursively ignore hidden files/folders (dotfiles), including .venv, .idea
+.*
+# Except for .gitignore
+!/.gitignore
 
-# Files created by PyCharm
-.idea/*
+# Non-pytest testing/debugging files
+/**/*test.py
 
-# Testing/Debugging files
-**/test*
+# Bytecode compiled files
+/**/__pycache__
