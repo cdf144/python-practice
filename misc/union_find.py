@@ -1,7 +1,7 @@
 class UF:
     def __init__(self, n: int):
         self.parent = [i for i in range(n)]
-        self.size = [1] * n
+        self.size = [1 for i in range(n)]
 
     def _root(self, p: int) -> int:
         while p != self.parent[p]:
@@ -13,16 +13,16 @@ class UF:
         return self._root(p) == self._root(q)
 
     def union(self, p: int, q: int) -> bool:
-        p_root = self._root(p)
-        q_root = self._root(q)
+        p_root, q_root = self._root(p), self._root(q)
         if p_root == q_root:
             return False
 
-        if self.size[p_root] <= self.size[q_root]:
-            self.parent[p_root] = q_root
-            self.size[q_root] += self.size[p_root]
-        else:
-            self.parent[q_root] = p_root
-            self.size[p_root] += self.size[q_root]
+        if self.size[p_root] < self.size[q_root]:
+            p_root, q_root = q_root, p_root
 
+        self.parent[q_root] = p_root
+        self.size[p_root] += self.size[q_root]
         return True
+
+    def reset(self, p: int) -> None:
+        self.parent[p] = p
