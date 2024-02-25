@@ -13,15 +13,15 @@ class UF:
         return self._root(p) == self._root(q)
 
     def union(self, p: int, q: int) -> bool:
-        p_root, q_root = self._root(p), self._root(q)
-        if p_root == q_root:
+        pr, qr = self._root(p), self._root(q)
+        if pr == qr:
             return False
 
-        if self.size[p_root] < self.size[q_root]:
-            p_root, q_root = q_root, p_root
+        if self.size[pr] < self.size[qr]:
+            pr, qr = qr, pr
 
-        self.parent[q_root] = p_root
-        self.size[p_root] += self.size[q_root]
+        self.parent[qr] = pr
+        self.size[pr] += self.size[qr]
         return True
 
     def reset(self, p: int) -> None:
