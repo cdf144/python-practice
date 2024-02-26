@@ -49,15 +49,14 @@ class Solution:
         if not p or not q:
             return p == q
 
-        # # BFS + List
+        # # BFS, list check
         # def bfs(x: Optional[TreeNode]) -> List[int]:
-        #     queue = collections.deque()
         #     result = [x.val]
+        #     queue = collections.deque()
         #     queue.append(x)
         #
         #     while queue:
-        #         node = queue.pop()
-        #
+        #         node = queue.popleft()
         #         if node.left:
         #             result.append(node.left.val)
         #             queue.append(node.left)
