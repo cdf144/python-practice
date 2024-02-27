@@ -12,6 +12,7 @@ class Solution:
             if target - num in dict_num_to_index:
                 return [i, dict_num_to_index[target - num]]
             dict_num_to_index[num] = i
+        return []
 
     # 13. Roman to Integer
     def romanToInt(self, s: str) -> int:
@@ -223,7 +224,9 @@ class Solution:
         for i, row in enumerate(nums):
             for j, num in enumerate(row):
                 diagonals[i + j].append(num)
-        return itertools.chain.from_iterable(reversed(i) for i in diagonals.values())
+        return list(
+            itertools.chain.from_iterable(reversed(i) for i in diagonals.values())
+        )
 
     # 1496. Path Crossing
     def isPathCrossing(self, path: str) -> bool:
