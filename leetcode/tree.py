@@ -30,19 +30,17 @@ class Solution:
 
         # 2nd idea: In a valid BST, every node's left children are less than
         # itself, while its right children are greater.
-        def dfs(node: Optional[TreeNode],
-                min_node, max_node) -> bool:
+        def dfs(node: Optional[TreeNode], min_node, max_node) -> bool:
             if not node:
                 return True
             if not min_node < node.val < max_node:
                 return False
 
-            return (
-                dfs(node.left, min_node, node.val)
-                and dfs(node.right, node.val, max_node)
+            return dfs(node.left, min_node, node.val) and dfs(
+                node.right, node.val, max_node
             )
 
-        return dfs(root, float('-inf'), float('inf'))
+        return dfs(root, float("-inf"), float("inf"))
 
     # 100. Same Tree
     def isSameTree(self, p: Optional[TreeNode], q: Optional[TreeNode]) -> bool:
@@ -122,8 +120,7 @@ class Solution:
         return max_depth
 
     # 106. Construct Binary Tree from Inorder and Postorder Traversal
-    def buildTree(self, inorder: List[int],
-                  postorder: List[int]) -> Optional[TreeNode]:
+    def buildTree(self, inorder: List[int], postorder: List[int]) -> Optional[TreeNode]:
         # Some insights:
         # With Postorder traversal, the root node is always the last node to be
         # visited.
@@ -317,8 +314,9 @@ class Solution:
         return result
 
     # 235. Lowest Common Ancestor of a Binary Search Tree
-    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode',
-                             q: 'TreeNode') -> 'TreeNode':
+    def lowestCommonAncestor(
+        self, root: "TreeNode", p: "TreeNode", q: "TreeNode"
+    ) -> "TreeNode":
         if root.val > max(p.val, q.val):
             return self.lowestCommonAncestor(root.left, p, q)
         if root.val < min(p.val, q.val):
@@ -327,44 +325,24 @@ class Solution:
 
     # 543. Diameter of Binary Tree
     def diameterOfBinaryTree(self, root: Optional[TreeNode]) -> int:
-        # # Inefficient
-        # def height(node: Optional[TreeNode]) -> int:
-        #     if not node:
-        #         return -1
-        #     return 1 + max(height(node.left), height(node.right))
-        #
-        # if not root:
-        #     return 0
-        #
-        # left_height = height(root.left)
-        # right_height = height(root.right)
-        #
-        # return max(
-        #     2 + left_height + right_height,
-        #     max(
-        #         self.diameterOfBinaryTree(root.left),
-        #         self.diameterOfBinaryTree(root.right)
-        #     )
-        # )
-
-        diameter = 0
+        result = 0
 
         def max_depth(node: Optional[TreeNode]) -> int:
-            nonlocal diameter
+            nonlocal result
             if not node:
                 return 0
 
             left = max_depth(node.left)
             right = max_depth(node.right)
-            diameter = max(diameter, left + right)
-            return 1 + max(left, right)
+
+            result = max(result, left + right)
+            return max(left, right) + 1
 
         max_depth(root)
-        return diameter
+        return result
 
     # 572. Subtree of Another Tree
-    def isSubtree(self, root: Optional[TreeNode],
-                  subRoot: Optional[TreeNode]) -> bool:
+    def isSubtree(self, root: Optional[TreeNode], subRoot: Optional[TreeNode]) -> bool:
         # # Naive, O(|root| * |subRoot|)
         # def is_same_tree(root1: Optional[TreeNode],
         #                  root2: Optional[TreeNode]) -> bool:
@@ -393,7 +371,7 @@ class Solution:
 
         def merkle(node: Optional[TreeNode]) -> str:
             if not node:
-                return '?'
+                return "?"
             merkle_left = merkle(node.left)
             merkle_right = merkle(node.right)
             node.merkle = _hash(merkle_left + str(node.val) + merkle_right)
@@ -402,11 +380,7 @@ class Solution:
         def dfs(node: Optional[TreeNode]) -> bool:
             if not node:
                 return False
-            return (
-                node.merkle == subRoot.merkle
-                or dfs(node.left)
-                or dfs(node.right)
-            )
+            return node.merkle == subRoot.merkle or dfs(node.left) or dfs(node.right)
 
         merkle(root)
         merkle(subRoot)
@@ -414,8 +388,7 @@ class Solution:
         return dfs(root)
 
     # 872. Leaf-Similar Trees
-    def leafSimilar(self, root1: Optional[TreeNode],
-                    root2: Optional[TreeNode]) -> bool:
+    def leafSimilar(self, root1: Optional[TreeNode], root2: Optional[TreeNode]) -> bool:
         # # Append to List
         # def dfs(root: Optional[TreeNode], leaf: List[int]) -> None:
         #     if root:
@@ -520,8 +493,7 @@ class Solution:
         # return max_diff
 
         # More concise 1-pass DFS
-        def max_diff(node: Optional[TreeNode],
-                     min_node: int, max_node: int) -> int:
+        def max_diff(node: Optional[TreeNode], min_node: int, max_node: int) -> int:
             if not node:
                 return 0
             min_node = min(min_node, node.val)
@@ -547,13 +519,12 @@ class Solution:
             dfs(node.right, curr_max)
 
         count = 0
-        dfs(root, float('-inf'))
+        dfs(root, float("-inf"))
         return count
 
     # 1457. Pseudo-Palindromic Paths in a Binary Tree
     def pseudoPalindromicPaths(self, root: Optional[TreeNode]) -> int:
-        def dfs(node: Optional[TreeNode],
-                path: collections.defaultdict) -> None:
+        def dfs(node: Optional[TreeNode], path: collections.defaultdict) -> None:
             nonlocal count
             path[node.val] += 1
 
