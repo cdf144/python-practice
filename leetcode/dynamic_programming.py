@@ -35,7 +35,7 @@ class Solution:
 
         # Manacher's Algorithm, O(n) time, O(n) space
         # https://en.wikipedia.org/wiki/Longest_palindromic_substring#Manacher's_algorithm
-        t = '|'.join('|' + s + '|')
+        t = "|".join("|" + s + "|")
         n = len(t)
         palindrome_radii = [0] * n
 
@@ -72,7 +72,7 @@ class Solution:
         max_radius, best_center = max(
             (radius, center) for center, radius in enumerate(palindrome_radii)
         )
-        return s[(best_center - max_radius)//2:(best_center + max_radius)//2]
+        return s[(best_center - max_radius) // 2 : (best_center + max_radius) // 2]
 
     # 10. Regular Expression Matching
     def isMatch(self, s: str, p: str) -> bool:
@@ -87,12 +87,12 @@ class Solution:
             elif j == n:
                 return False
             elif i == m:
-                if j + 1 != n and p[j + 1] == '*':
+                if j + 1 != n and p[j + 1] == "*":
                     return dp(i, j + 2)
                 return False
 
-            if j + 1 != n and p[j + 1] == '*':
-                if p[j] != '.' and s[i] != p[j]:
+            if j + 1 != n and p[j + 1] == "*":
+                if p[j] != "." and s[i] != p[j]:
                     return dp(i, j + 2)
                 else:
                     return (
@@ -101,7 +101,7 @@ class Solution:
                         or dp(i + 1, j)  # matches > 1
                     )
 
-            if p[j] == '.' or s[i] == p[j]:
+            if p[j] == "." or s[i] == p[j]:
                 return dp(i + 1, j + 1)
 
             return False
@@ -197,7 +197,7 @@ class Solution:
     # 91. Decode Ways
     def numDecodings(self, s: str) -> int:
         length = len(s)
-        if s[0] == '0':
+        if s[0] == "0":
             return 0
         # dp[i] will be the number of decoding ways of string length = i
         # dp[0] = 1 for base case, dp[1] = 1 because for a single character
@@ -226,10 +226,10 @@ class Solution:
             # appended to.
             curr_decode_way = 0
             # Valid digit that can be decoded by itself.
-            if s[i] != '0':
+            if s[i] != "0":
                 curr_decode_way += prev_1
             # Valid 2-digit that can be decoded.
-            if s[i - 1] != '0' and int(s[i - 1:i + 1]) <= 26:
+            if s[i - 1] != "0" and int(s[i - 1 : i + 1]) <= 26:
                 curr_decode_way += prev_2
             # If we reach here, it means we have encountered an invalid '0' in
             # the middle of our string.
@@ -252,7 +252,7 @@ class Solution:
             if i == m and j == n:
                 return True
             elif i == m or j == n:
-                remain = s3[i + j:]
+                remain = s3[i + j :]
                 if i == m:
                     return remain == s2[j:]
                 return remain == s1[i:]
@@ -302,9 +302,7 @@ class Solution:
                 return True
             return any(
                 s[i:j] in wordDict and dp(j)
-                for j in range(
-                    min(i + min_len, n), min(i + max_len + 1, n + 1)
-                )
+                for j in range(min(i + min_len, n), min(i + max_len + 1, n + 1))
             )
 
         return dp(0)
@@ -358,7 +356,7 @@ class Solution:
 
         # O(1) space
         prev_1 = nums[-1]  # dp[i + 1]
-        prev_2 = 0         # dp[i + 2]
+        prev_2 = 0  # dp[i + 2]
 
         for i in range(house_num - 2, -1, -1):
             dp = max(nums[i] + prev_2, prev_1)
@@ -414,7 +412,7 @@ class Solution:
         # return dp(n)
 
         # Implicit BFS
-        squares = [i ** 2 for i in range(1, math.floor(math.sqrt(n) + 1))]
+        squares = [i**2 for i in range(1, math.floor(math.sqrt(n) + 1))]
         queue = set()
         for square in squares:
             queue.add(n - square)
@@ -523,10 +521,7 @@ class Solution:
                 # when it is burst, its adjacent balloons will be nums[i - 1]
                 # and nums[j + 1]
                 burst = nums[i - 1] * nums[k] * nums[j + 1]
-                result = max(
-                    result,
-                    dp(i, k - 1) + dp(k + 1, j) + burst
-                )
+                result = max(result, dp(i, k - 1) + dp(k + 1, j) + burst)
 
             return result
 
@@ -668,7 +663,7 @@ class Solution:
         return dp[n][max_sum]
 
     # 446. Arithmetic Slices II - Subsequence
-    MIN_DIFF = -2**31
+    MIN_DIFF = -(2**31)
     MAX_DIFF = 2**31 - 1
 
     def numberOfArithmeticSlices(self, nums: List[int]) -> int:
@@ -753,9 +748,10 @@ class Solution:
         return dp(amount, len(coins) - 1)
 
     # 576. Out of Boundary Paths
-    def findPaths(self, m: int, n: int, maxMove: int,
-                  startRow: int, startColumn: int) -> int:
-        mod = 10 ** 9 + 7
+    def findPaths(
+        self, m: int, n: int, maxMove: int, startRow: int, startColumn: int
+    ) -> int:
+        mod = 10**9 + 7
 
         # dp[i][j][k] will be the number of ways to move out of boundary with
         # i as startRow and j as startColumn within k moves
@@ -765,17 +761,19 @@ class Solution:
                 return 1
 
             if (
-                    i - remain >= 0 and i + remain < m
-                    and j - remain >= 0 and j + remain < n
+                i - remain >= 0
+                and i + remain < m
+                and j - remain >= 0
+                and j + remain < n
             ):
                 # Stuck in the boundary regardless which path is taken
                 return 0
 
             return (
-                    dp(i + 1, j, remain - 1)
-                    + dp(i - 1, j, remain - 1)
-                    + dp(i, j + 1, remain - 1)
-                    + dp(i, j - 1, remain - 1)
+                dp(i + 1, j, remain - 1)
+                + dp(i - 1, j, remain - 1)
+                + dp(i, j + 1, remain - 1)
+                + dp(i, j - 1, remain - 1)
             ) % mod
 
         return dp(startRow, startColumn, maxMove)
@@ -934,16 +932,13 @@ class Solution:
                 # Since the 'distance' to the tallest height possible for the
                 # pair is fixed, we know that the maximum of the 2 support sides
                 # must be able to extend 'distance' amount
-                return (
-                    max(j, k) + memo[(i, diff)]
-                    if memo[(i, diff)] != -1 else -1
-                )
+                return max(j, k) + memo[(i, diff)] if memo[(i, diff)] != -1 else -1
 
             rod = rods[i]
             result = max(
                 dp(i + 1, j, k),  # Skip use
                 dp(i + 1, j + rod, k),  # Weld onto left side
-                dp(i + 1, j, k + rod)  # Weld onto right side
+                dp(i + 1, j, k + rod),  # Weld onto right side
             )
             memo[(i, diff)] = result - max(j, k) if result != -1 else -1
             return result
@@ -1051,8 +1046,9 @@ class Solution:
         return dp[n][target] % mod
 
     # 1235. Maximum Profit in Job Scheduling
-    def jobScheduling(self, startTime: List[int], endTime: List[int],
-                      profit: List[int]) -> int:
+    def jobScheduling(
+        self, startTime: List[int], endTime: List[int], profit: List[int]
+    ) -> int:
         # dp[i] will be the maximum profit we can make doing jobs starting
         # from time (interval) i
         job_intervals = sorted(zip(startTime, endTime, profit))
@@ -1095,7 +1091,7 @@ class Solution:
         # in case it is too big.
         # Because `arrLen` is exclusive, we reduce to `steps / 2 + 1` instead.
         arrLen = min(steps // 2 + 1, arrLen)
-        mod = 10 ** 9 + 7
+        mod = 10**9 + 7
 
         # dp[i][j] will be the number of ways to end up at index 0
         # after j steps while in the ith index
@@ -1106,9 +1102,7 @@ class Solution:
             if j == 0:
                 return 1 if i == 0 else 0
             return (
-                dp(i - 1, j - 1) % mod
-                + dp(i, j - 1) % mod
-                + dp(i + 1, j - 1) % mod
+                dp(i - 1, j - 1) % mod + dp(i, j - 1) % mod + dp(i + 1, j - 1) % mod
             ) % mod
 
         return dp(0, steps)
@@ -1130,7 +1124,7 @@ class Solution:
 
             result = min(
                 curr_day_max + dp(i + 1, d_remain - 1, -1),  # end day now
-                dp(i + 1, d_remain, curr_day_max)  # continue day
+                dp(i + 1, d_remain, curr_day_max),  # continue day
             )
 
             return result
@@ -1174,7 +1168,7 @@ class Solution:
             return max(
                 dp(i + 1, j),
                 dp(i, j + 1),
-                nums1[i] * nums2[j] + max(0, dp(i + 1, j + 1))
+                nums1[i] * nums2[j] + max(0, dp(i + 1, j + 1)),
             )
 
         return dp(0, 0)
@@ -1216,10 +1210,7 @@ class Solution:
                         for r2 in range(max(k - 1, 0), min(k + 2, n)):
                             if dp[i - 1][r1][r2] == -7001:
                                 continue
-                            dp[i][j][k] = max(
-                                dp[i][j][k],
-                                row_sum + dp[i - 1][r1][r2]
-                            )
+                            dp[i][j][k] = max(dp[i][j][k], row_sum + dp[i - 1][r1][r2])
 
         return max(max(row) for row in dp[m - 1])
 
@@ -1260,9 +1251,8 @@ class Solution:
                 max_freq = max(max_freq, counter[s[j]])
                 result = min(
                     result,
-                    get_compressed_length(max_freq) + dp(
-                        j + 1, curr_k - (j - i + 1 - max_freq)
-                    )
+                    get_compressed_length(max_freq)
+                    + dp(j + 1, curr_k - (j - i + 1 - max_freq)),
                 )
 
             lookup_table[(i, curr_k)] = result
@@ -1306,7 +1296,7 @@ class Solution:
     # 2742. Painting the Walls
     def paintWalls(self, cost: List[int], time: List[int]) -> int:
         n = len(cost)
-        inf = (10 ** 6) * 500 + 1
+        inf = (10**6) * 500 + 1
 
         # dp[i][j] will be the minimum cost to paint j walls if the paid
         # painter paint walls in range [i...n)

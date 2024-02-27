@@ -15,11 +15,10 @@ class Solution:
 
     # 13. Roman to Integer
     def romanToInt(self, s: str) -> int:
-        symbols = {'M': 1000, 'D': 500, 'C': 100,
-                   'L': 50, 'X': 10, 'V': 5, 'I': 1}
-        s = s.replace('IV', 'IIII').replace('IX', 'VIIII')
-        s = s.replace('XL', 'XXXX').replace('XC', 'LXXXX')
-        s = s.replace('CD', 'CCCC').replace('CM', 'DCCCC')
+        symbols = {"M": 1000, "D": 500, "C": 100, "L": 50, "X": 10, "V": 5, "I": 1}
+        s = s.replace("IV", "IIII").replace("IX", "VIIII")
+        s = s.replace("XL", "XXXX").replace("XC", "LXXXX")
+        s = s.replace("CD", "CCCC").replace("CM", "DCCCC")
 
         result = 0
         for c in s:
@@ -31,19 +30,19 @@ class Solution:
         seen = set()
         for i, row in enumerate(board):
             for j, c in enumerate(row):
-                if c == '.':
+                if c == ".":
                     continue
 
                 if (
-                    (c + '@row' + str(i)) in seen
-                    or (c + '@col' + str(j)) in seen
-                    or (c + '@box' + str(i // 3) + str(j // 3)) in seen
+                    (c + "@row" + str(i)) in seen
+                    or (c + "@col" + str(j)) in seen
+                    or (c + "@box" + str(i // 3) + str(j // 3)) in seen
                 ):
                     return False
 
-                seen.add(c + '@row' + str(i))
-                seen.add(c + '@col' + str(j))
-                seen.add(c + '@box' + str(i // 3) + str(j // 3))
+                seen.add(c + "@row" + str(i))
+                seen.add(c + "@col" + str(j))
+                seen.add(c + "@box" + str(i // 3) + str(j // 3))
 
         return True
 
@@ -52,7 +51,7 @@ class Solution:
         map_anagrams = collections.defaultdict(list)
 
         for s in strs:
-            original = ''.join(sorted(s))
+            original = "".join(sorted(s))
             map_anagrams[original].append(s)
 
         return list(map_anagrams.values())
@@ -144,10 +143,7 @@ class Solution:
         counter = collections.Counter(s)
         for c, count in counter.items():
             if count < k:
-                return max(
-                    self.longestSubstring(substr, k) for substr in
-                    s.split(c)
-                )
+                return max(self.longestSubstring(substr, k) for substr in s.split(c))
 
         # If we reach here, all characters in string have frequency >= k
         return len(s)
@@ -177,7 +173,7 @@ class Solution:
         for freq in range(max_freq, 0, -1):
             for c in buckets[freq]:
                 result.append(c * freq)
-        return ''.join(result)
+        return "".join(result)
 
     # 645. Set Mismatch
     def findErrorNums(self, nums: List[int]) -> List[int]:
@@ -195,9 +191,9 @@ class Solution:
 
         # Math
         n = len(nums)
-        A = n*(n + 1)//2 - sum(nums)
-        B = n*(n + 1)*(2*n + 1)//6 - sum(i*i for i in nums)
-        return [(B - A*A)//(2*A), (B + A*A)//(2*A)]
+        A = n * (n + 1) // 2 - sum(nums)
+        B = n * (n + 1) * (2 * n + 1) // 6 - sum(i * i for i in nums)
+        return [(B - A * A) // (2 * A), (B + A * A) // (2 * A)]
 
     # 1207. Unique Number of Occurrences
     def uniqueOccurrences(self, arr: List[int]) -> bool:
@@ -227,9 +223,7 @@ class Solution:
         for i, row in enumerate(nums):
             for j, num in enumerate(row):
                 diagonals[i + j].append(num)
-        return itertools.chain.from_iterable(
-            reversed(i) for i in diagonals.values()
-        )
+        return itertools.chain.from_iterable(reversed(i) for i in diagonals.values())
 
     # 1496. Path Crossing
     def isPathCrossing(self, path: str) -> bool:
@@ -237,13 +231,13 @@ class Solution:
         visited = {(x, y)}
 
         for p in path:
-            if p == 'N':
+            if p == "N":
                 y += 1
-            elif p == 'E':
+            elif p == "E":
                 x += 1
-            elif p == 'S':
+            elif p == "S":
                 y -= 1
-            elif p == 'W':
+            elif p == "W":
                 x -= 1
 
             if (x, y) in visited:
@@ -299,9 +293,8 @@ class Solution:
 
         count_1 = collections.Counter(word1)
         count_2 = collections.Counter(word2)
-        return (
-            count_1.keys() == count_2.keys()
-            and sorted(count_1.values()) == sorted(count_2.values())
+        return count_1.keys() == count_2.keys() and sorted(count_1.values()) == sorted(
+            count_2.values()
         )
 
     # 1814. Count Nice Pairs in an Array
