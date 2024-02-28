@@ -65,11 +65,11 @@ class Solution:
             count_citation_num[min(citation, max_h)] += 1
 
         accumulative_citation = 0
-        for i, citation_count in reversed(
-                list(enumerate(count_citation_num))):
+        for i, citation_count in reversed(list(enumerate(count_citation_num))):
             accumulative_citation += citation_count
             if accumulative_citation >= i:
                 return i
+        return 0
 
     # 661. Image Smoother
     def imageSmoother(self, img: List[List[int]]) -> List[List[int]]:
@@ -89,8 +89,7 @@ class Solution:
         return smoothed_img
 
     # 1074. Number of Submatrices That Sum to Target
-    def numSubmatrixSumTarget(self, matrix: List[List[int]],
-                              target: int) -> int:
+    def numSubmatrixSumTarget(self, matrix: List[List[int]], target: int) -> int:
         # Basically a 2-D version of this problem:
         # https://www.geeksforgeeks.org/find-subarray-with-given-sum-in-array-of-integers/
         m = len(matrix)
@@ -146,8 +145,9 @@ class Solution:
         return result
 
     # 1630. Arithmetic Subarrays
-    def checkArithmeticSubarrays(self, nums: List[int], l: List[int],
-                                 r: List[int]) -> List[bool]:
+    def checkArithmeticSubarrays(
+        self, nums: List[int], l: List[int], r: List[int]
+    ) -> List[bool]:
         def is_arithmetic(sequence: List[int]) -> bool:
             n = len(sequence)
             if n <= 2:
@@ -163,7 +163,7 @@ class Solution:
         result = []
         for query, left in enumerate(l):
             right = r[query]
-            result.append(is_arithmetic(nums[left: right + 1]))
+            result.append(is_arithmetic(nums[left : right + 1]))
         return result
 
     # 1637. Widest Vertical Area Between Two Points Containing No Points
@@ -182,15 +182,7 @@ class Solution:
         # return max_diff
 
         # Starmap with tuple of adjacent pairs in sorted list
-        return -min(
-            starmap(
-                sub,
-                pairwise(
-                    sorted(x for x, y in points)
-                )
-            ),
-            default=0
-        )
+        return -min(starmap(sub, pairwise(sorted(x for x, _ in points))), default=0)
 
     # 1887. Reduction Operations to Make the Array Elements Equal
     def reductionOperations(self, nums: List[int]) -> int:
@@ -229,10 +221,10 @@ class Solution:
 
         for row in bank:
             if above == -1:
-                above = row.count('1')
+                above = row.count("1")
                 continue
 
-            below = row.count('1')
+            below = row.count("1")
             if below == 0:
                 continue
 
@@ -245,13 +237,13 @@ class Solution:
     def garbageCollection(self, garbage: List[str], travel: List[int]) -> int:
         # Prefix sum of total travel cost to index i
         prefix = [0] + list(itertools.accumulate(travel))
-        total_garbage = len(''.join(garbage))
+        total_garbage = len("".join(garbage))
 
         m_idx, p_idx, g_idx = 0, 0, 0
         for i, house in enumerate(garbage):
-            m_idx = m_idx if 'M' not in house else i
-            p_idx = p_idx if 'P' not in house else i
-            g_idx = g_idx if 'G' not in house else i
+            m_idx = m_idx if "M" not in house else i
+            p_idx = p_idx if "P" not in house else i
+            g_idx = g_idx if "G" not in house else i
 
         return total_garbage + prefix[m_idx] + prefix[p_idx] + prefix[g_idx]
 
