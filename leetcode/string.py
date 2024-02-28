@@ -17,7 +17,7 @@ class Solution:
             if curr_row == 0 or curr_row == numRows - 1:
                 direction *= -1
 
-        return ''.join(itertools.chain.from_iterable(rows))
+        return "".join(itertools.chain.from_iterable(rows))
 
     # 8. String to Integer (atoi)
     def myAtoi(self, s: str) -> int:
@@ -25,18 +25,18 @@ class Solution:
         if not s:
             return 0
 
-        int_min = -2**31
+        int_min = -(2**31)
         int_max = 2**31 - 1
 
-        sign = -1 if s[0] == '-' else 1
-        if s[0] in {'-', '+'}:
+        sign = -1 if s[0] == "-" else 1
+        if s[0] in {"-", "+"}:
             s = s[1:]
 
         result = 0
         for c in s:
             if not c.isdigit():
                 break
-            result = result * 10 + ord(c) - ord('0')
+            result = result * 10 + ord(c) - ord("0")
             if sign * result < int_min:
                 return int_min
             if sign * result > int_max:
@@ -65,10 +65,10 @@ class Solution:
     # 1422. Maximum Score After Splitting a String
     def maxScore(self, s: str) -> int:
         left = 0
-        right = s.count('1')
+        right = s.count("1")
         max_score = 0
         for c in s:
-            if c == '0':
+            if c == "0":
                 left += 1
             else:
                 right -= 1
@@ -115,9 +115,9 @@ class Solution:
         # shifted right by 5 places, which results in a number with its
         # rightmost bit being 1 -> Vowel check successful
         while left < right:
-            if (0x208222 >> (ord(s[left]) & 0x1f)) & 1:
+            if (0x208222 >> (ord(s[left]) & 0x1F)) & 1:
                 vowels_left += 1
-            if (0x208222 >> (ord(s[right]) & 0x1f)) & 1:
+            if (0x208222 >> (ord(s[right]) & 0x1F)) & 1:
                 vowels_right += 1
             left += 1
             right -= 1
@@ -151,4 +151,4 @@ class Solution:
         for word in words:
             if is_palindrome(word):
                 return word
-        return ''
+        return ""

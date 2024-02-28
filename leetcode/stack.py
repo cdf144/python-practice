@@ -5,14 +5,11 @@ class Solution:
     # 20. Valid Parentheses
     def isValid(self, s: str) -> bool:
         stack = []
-        valid = ['()', '[]', '{}']
+        valid = ["()", "[]", "{}"]
         for c in s:
-            if c in '([{':
+            if c in "([{":
                 stack.append(c)
-            elif (
-                    not stack
-                    or stack.pop() + c not in valid
-            ):
+            elif not stack or stack.pop() + c not in valid:
                 return False
         return not stack
 
@@ -20,8 +17,8 @@ class Solution:
     def simplifyPath(self, path: str) -> str:
         stack = []
 
-        for directory in path.split('/'):
-            if directory in ('', '.'):
+        for directory in path.split("/"):
+            if directory in ("", "."):
                 continue
 
             if directory == "..":
@@ -30,7 +27,7 @@ class Solution:
             else:
                 stack.append(directory)
 
-        return '/' + '/'.join(stack)
+        return "/" + "/".join(stack)
 
     # 84. Largest Rectangle in Histogram
     def largestRectangleArea(self, heights: List[int]) -> int:
@@ -73,7 +70,7 @@ class Solution:
 
         for row in matrix:
             for i, num in enumerate(row):
-                heights[i] = heights[i] + 1 if num != '0' else 0
+                heights[i] = heights[i] + 1 if num != "0" else 0
             result = max(result, self.largestRectangleArea(heights))
 
         return result
@@ -81,12 +78,12 @@ class Solution:
     # 150. Evaluate Reverse Polish Notation
     def evalRPN(self, tokens: List[str]) -> int:
         operations = {
-            '+': lambda a, b: a + b,
-            '-': lambda a, b: a - b,
-            '*': lambda a, b: a * b,
+            "+": lambda a, b: a + b,
+            "-": lambda a, b: a - b,
+            "*": lambda a, b: a * b,
             # Since the division between two integers always truncates toward
             # zero, we use int() instead of math.floor()
-            '/': lambda a, b: int(a / b)
+            "/": lambda a, b: int(a / b),
         }
         number_stack = []
 
@@ -109,16 +106,16 @@ class Solution:
         stack = [sign]
 
         for c in s:
-            if c == '(':
+            if c == "(":
                 stack.append(sign)
-            elif c == ')':
+            elif c == ")":
                 stack.pop()
             elif c.isdigit():
                 curr_num = curr_num * 10 + (ord(c) - 48)  # ord('0') = 48
-            elif c == '+' or c == '-':
+            elif c == "+" or c == "-":
                 result += sign * curr_num
                 curr_num = 0
-                sign = (1 if c == '+' else -1) * stack[-1]
+                sign = (1 if c == "+" else -1) * stack[-1]
 
         return result + sign * curr_num
 
@@ -131,18 +128,17 @@ class Solution:
         used = [False] * 26
         stack = []
         for i, c in enumerate(s):
-            if used[ord(c) - ord('a')]:
+            if used[ord(c) - ord("a")]:
                 continue
             while stack and stack[-1] > c and i < last_appearance[stack[-1]]:
-                used[ord(stack.pop()) - ord('a')] = False
+                used[ord(stack.pop()) - ord("a")] = False
             stack.append(c)
-            used[ord(c) - ord('a')] = True
+            used[ord(c) - ord("a")] = True
 
-        return ''.join(stack)
+        return "".join(stack)
 
     # 496. Next Greater Element I
-    def nextGreaterElement(self, nums1: List[int],
-                           nums2: List[int]) -> List[int]:
+    def nextGreaterElement(self, nums1: List[int], nums2: List[int]) -> List[int]:
         num_to_next_greater = {}
         stack = []
 
@@ -209,8 +205,7 @@ class Solution:
         return result
 
     # 853. Car Fleet
-    def carFleet(self, target: int, position: List[int],
-                 speed: List[int]) -> int:
+    def carFleet(self, target: int, position: List[int], speed: List[int]) -> int:
         # First model this problem on an integer number line with each car 'i'
         # being a point starting at 'position[i]' with velocity 'speed[i]'
         # moving towards the 'target' point, then see how faster cars get
@@ -221,8 +216,7 @@ class Solution:
         # lines with more slope gets 'limited' by ones with less slope once
         # they intersect, and this solution will make sense.
         times_to_reach_target = [
-            (target - p) / s
-            for p, s in sorted(zip(position, speed), reverse=True)
+            (target - p) / s for p, s in sorted(zip(position, speed), reverse=True)
         ]
 
         stack = []

@@ -10,10 +10,10 @@ class Solution:
         reverse = 0
 
         while x:
-            reverse = reverse*10 + x % 10
+            reverse = reverse * 10 + x % 10
             x //= 10
 
-        return sign*reverse
+        return sign * reverse
 
     # 50. Pow(x,n)
     def my_pow(self, x: float, n: int) -> float:
@@ -73,9 +73,11 @@ class Solution:
 
             check_x, check_y = x + dirs[curr_dir][1], y + dirs[curr_dir][0]
             if (
-                    check_x < 0 or check_x >= n
-                    or check_y < 0 or check_y >= m
-                    or matrix[check_y][check_x] == -101
+                check_x < 0
+                or check_x >= n
+                or check_y < 0
+                or check_y >= m
+                or matrix[check_y][check_x] == -101
             ):
                 curr_dir = (curr_dir + 1) % 4
 
@@ -207,7 +209,7 @@ class Solution:
             return 1
         # Case 2
         for i in range(1, math.floor(math.sqrt(n) + 1)):
-            if is_perfect_square(n - i ** 2):
+            if is_perfect_square(n - i**2):
                 return 2
 
         # 2 cases left is 3 and 4
@@ -249,5 +251,8 @@ class Solution:
         # Math
         weeks_num = n // 7
         days_left = n % 7
-        return 28 * weeks_num + (7 * weeks_num * (weeks_num - 1)) // 2 + \
-            (days_left * weeks_num + (days_left * (days_left + 1)) // 2)
+        return (
+            28 * weeks_num
+            + (7 * weeks_num * (weeks_num - 1)) // 2
+            + (days_left * weeks_num + (days_left * (days_left + 1)) // 2)
+        )

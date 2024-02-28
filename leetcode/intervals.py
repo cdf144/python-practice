@@ -24,8 +24,9 @@ class Solution:
         return result
 
     # 57. Insert Interval
-    def insert(self, intervals: List[List[int]],
-               newInterval: List[int]) -> List[List[int]]:
+    def insert(
+        self, intervals: List[List[int]], newInterval: List[int]
+    ) -> List[List[int]]:
         n = len(intervals)
         result = []
 
@@ -124,8 +125,7 @@ class Solution:
         return result
 
     # 1851. Minimum Interval to Include Each Query
-    def minInterval(self, intervals: List[List[int]],
-                    queries: List[int]) -> List[int]:
+    def minInterval(self, intervals: List[List[int]], queries: List[int]) -> List[int]:
         n = len(intervals)
         intervals.sort(key=lambda inter: inter[0])
         result = {}
