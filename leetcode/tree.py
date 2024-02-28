@@ -323,6 +323,23 @@ class Solution:
             return self.lowestCommonAncestor(root.right, p, q)
         return root
 
+    # 513. Find Bottom Left Tree Value
+    def findBottomLeftValue(self, root: Optional[TreeNode]) -> int:
+        left_side_view = []
+
+        def dfs(node: Optional[TreeNode], depth: int) -> None:
+            if not node:
+                return
+
+            if depth == len(left_side_view):
+                left_side_view.append(node.val)
+
+            dfs(node.left, depth + 1)
+            dfs(node.right, depth + 1)
+
+        dfs(root, 0)
+        return left_side_view[-1]
+
     # 543. Diameter of Binary Tree
     def diameterOfBinaryTree(self, root: Optional[TreeNode]) -> int:
         result = 0
