@@ -1,4 +1,5 @@
 import collections
+import math
 import hashlib
 from numbers import Number
 from typing import Optional, List, Generator, Dict
@@ -469,6 +470,9 @@ class Solution:
 
     # 1026. Maximum Difference Between Node and Ancestor
     def maxAncestorDiff(self, root: Optional[TreeNode]) -> int:
+        if not root:
+            return 0
+
         # # Lengthy 2 HashMap 2-pass DFS, but somehow efficient
         # map_ancestor_to_min = {}
         # map_ancestor_to_max = {}
@@ -523,7 +527,7 @@ class Solution:
 
     # 1448. Count Good Nodes in Binary Tree
     def goodNodes(self, root: TreeNode) -> int:
-        def dfs(node: TreeNode, curr_max) -> None:
+        def dfs(node: Optional[TreeNode], curr_max) -> None:
             if not node:
                 return
 
@@ -543,8 +547,10 @@ class Solution:
     def pseudoPalindromicPaths(self, root: Optional[TreeNode]) -> int:
         def dfs(node: Optional[TreeNode], path: collections.defaultdict) -> None:
             nonlocal count
-            path[node.val] += 1
+            if not node:
+                return
 
+            path[node.val] += 1
             if not node.left and not node.right:
                 count_odd = 0
                 is_palindrome = True
@@ -571,6 +577,32 @@ class Solution:
         count = 0
         dfs(root, collections.defaultdict(int))
         return count
+
+    # 1609. Even Odd Tree
+    def isEvenOddTree(self, root: Optional[TreeNode]) -> bool:
+        queue = collections.deque()
+
+        queue.append(root)
+        is_even_level = True
+        while queue:
+            prev_val = -math.inf if is_even_level else math.inf
+            for _ in range(len(queue)):
+                node = queue.popleft()
+
+                if is_even_level and (node.val % 2 == 0 or node.val <= prev_val):
+                    return False
+                if not is_even_level and (node.val % 2 != 0 or node.val >= prev_val):
+                    return False
+
+                prev_val = node.val
+                if node.left:
+                    queue.append(node.left)
+                if node.right:
+                    queue.append(node.right)
+
+            is_even_level = not is_even_level
+
+        return True
 
     # 2385. Amount of Time for Binary Tree to Be Infected
     def amountOfTime(self, root: Optional[TreeNode], start: int) -> int:
