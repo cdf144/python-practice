@@ -1,3 +1,4 @@
+import collections
 import itertools
 from typing import List
 
@@ -152,3 +153,12 @@ class Solution:
             if is_palindrome(word):
                 return word
         return ""
+
+    # 2864. Maximum Odd Binary Number
+    def maximumOddBinaryNumber(self, s: str) -> str:
+        count = collections.Counter(s)
+        return (
+            "0" * count["0"]
+            if not count["1"]
+            else "1" * (count["1"] - 1) + "0" * count["0"] + "1"
+        )
