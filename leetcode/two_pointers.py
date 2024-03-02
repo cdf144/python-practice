@@ -71,7 +71,7 @@ class Solution:
                 s = nums[i] + nums[left] + nums[right]
                 if s == target:
                     return target
-                elif s < target:
+                if s < target:
                     left += 1
                 else:
                     right -= 1
@@ -82,8 +82,9 @@ class Solution:
         return closest_sum
 
     # 18. 4Sum
-    def three_sum(self, nums: List[int], length: int,
-                  low: int, target: int) -> List[List[int]]:
+    def three_sum(
+        self, nums: List[int], length: int, low: int, target: int
+    ) -> List[List[int]]:
         result = []
         for i in range(length - low):
             if i > 0 and nums[low + i] == nums[low + i - 1]:
@@ -97,11 +98,9 @@ class Solution:
                     result.append([x, nums[low + left], nums[low + right]])
                     left += 1
                     right -= 1
-                    while (left < right
-                           and nums[low + left] == nums[low + left - 1]):
+                    while left < right and nums[low + left] == nums[low + left - 1]:
                         left += 1
-                    while (left < right
-                           and nums[low + right] == nums[low + right + 1]):
+                    while left < right and nums[low + right] == nums[low + right + 1]:
                         right -= 1
                 elif summ < t:
                     left += 1
@@ -121,8 +120,7 @@ class Solution:
             if i > 0 and nums[i] == nums[i - 1]:
                 continue
             a = nums[i]
-            three_sum_results = self.three_sum(nums, length, i + 1,
-                                               target - a)
+            three_sum_results = self.three_sum(nums, length, i + 1, target - a)
             for res in three_sum_results:
                 result.append([a] + res)
 
@@ -218,8 +216,9 @@ class Solution:
         return None
 
     # 160. Intersection of Two Linked Lists
-    def getIntersectionNode(self, headA: ListNode,
-                            headB: ListNode) -> Optional[ListNode]:
+    def getIntersectionNode(
+        self, headA: ListNode, headB: ListNode
+    ) -> Optional[ListNode]:
         a, b = headA, headB
         while a != b:
             a = a.next if a else headB.next
@@ -237,7 +236,7 @@ class Solution:
                 number = numbers[mid]
                 if number == key:
                     return [i + 1, mid + 1]
-                elif number < key:
+                if number < key:
                     low = mid + 1
                 else:
                     high = mid - 1
@@ -290,19 +289,19 @@ class Solution:
             left += 1
             if count != 1:
                 s = str(count)
-                for i in range(len(s)):
-                    chars[left] = s[i]
+                for c in s:
+                    chars[left] = c
                     left += 1
 
         return left
 
     # 977. Squares of a Sorted Array
     def sortedSquares(self, nums: List[int]) -> List[int]:
-        length = len(nums)
-        result = [0] * length
+        n = len(nums)
+        result = [0] * n
 
-        left, right = 0, length - 1
-        i = length - 1
+        left, right = 0, n - 1
+        i = n - 1
         while left <= right:
             if abs(nums[right]) >= abs(nums[left]):
                 result[i] = nums[right] ** 2
@@ -372,7 +371,7 @@ class Solution:
             elif min2 > num:
                 min2 = num
 
-        return max1*max2 - min1*min2
+        return max1 * max2 - min1 * min2
 
     # 2149. Rearrange Array Elements by Sign
     def rearrangeArray(self, nums: List[int]) -> List[int]:
@@ -384,7 +383,7 @@ class Solution:
             else:
                 negative.append(num)
 
-        for i in range(len(positive)):
+        for i, _ in enumerate(positive):
             nums[i * 2] = positive[i]
             nums[i * 2 + 1] = negative[i]
         return nums
