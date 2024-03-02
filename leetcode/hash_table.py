@@ -231,7 +231,8 @@ class Solution:
     # 1496. Path Crossing
     def isPathCrossing(self, path: str) -> bool:
         x, y = 0, 0
-        visited = {(x, y)}
+        visited = set()
+        visited.add((x, y))
 
         for p in path:
             if p == "N":
