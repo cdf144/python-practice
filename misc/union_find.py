@@ -1,6 +1,6 @@
 class UF:
     def __init__(self, n: int):
-        self.parent = [i for i in range(n)]
+        self.parent = list(range(n))
         self.size = [1 for i in range(n)]
 
     def _root(self, p: int) -> int:
