@@ -1,24 +1,27 @@
 import heapq
-from typing import Optional, List
-
-
-class ListNode:
-    def __init__(self, val=0, n=None):
-        self.val = val
-        self.next = n
+from typing import List, Optional
 
 
 class Node:
-    def __init__(self, x: int, n: 'Node' = None, random: 'Node' = None):
+    def __init__(
+        self, x: int = 0, n: Optional["Node"] = None, random: Optional["Node"] = None
+    ):
         self.val = int(x)
         self.next = n
         self.random = random
 
 
+class ListNode:
+    def __init__(self, val: int = 0, n: Optional["ListNode"] = None):
+        self.val = val
+        self.next = n
+
+
 class Solution:
     # 2. Add Two Numbers
-    def addTwoNumbers(self, l1: Optional[ListNode],
-                      l2: Optional[ListNode]) -> Optional[ListNode]:
+    def addTwoNumbers(
+        self, l1: Optional[ListNode], l2: Optional[ListNode]
+    ) -> Optional[ListNode]:
         head = ListNode()
         itr = head
         carry = 0
@@ -43,35 +46,26 @@ class Solution:
         return head
 
     # 19. Remove Nth Node From End of List
-    def removeNthFromEnd(self, head: Optional[ListNode], n: int) \
-            -> Optional[ListNode]:
-        def list_length(h: Optional[ListNode]):
-            result = 0
-            ptr = h
-            while itr is not None:
-                result += 1
-                ptr = ptr.next
-            return result
-
-        length = list_length(head)
-        if n == length:
-            return head.next
-        if length == 1:
+    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
+        if not head:
             return None
+        dummy = ListNode(-1, head)
+        # The distance between slow and fast == n
+        slow, fast = dummy, dummy
 
-        itr = head
-        n = length - n
-        while n > 1:
-            itr = itr.next
-            n -= 1
+        for _ in range(n + 1):
+            if fast:
+                fast = fast.next
 
-        nxt = itr.next.next
-        itr.next = nxt
-        return head
+        while slow.next and fast:
+            slow = slow.next
+            fast = fast.next
+
+        slow.next = slow.next.next if slow.next else None
+        return dummy.next
 
     # 23. Merge K Sorted Lists
-    def mergeKLists(self, lists: List[Optional[ListNode]]) \
-            -> Optional[ListNode]:
+    def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
         # # Simple but inefficient Heapsort and create new Linked List
         # # Time: O(N*K*log(N*K))
         # # Space: O(N*K)
@@ -104,7 +98,7 @@ class Solution:
         dummy = ListNode()
         itr = dummy
         while heap:
-            val, entry, node = heapq.heappop(heap)
+            _, entry, node = heapq.heappop(heap)
             itr.next = node
             itr = itr.next
             if node.next:
@@ -113,8 +107,7 @@ class Solution:
         return dummy.next
 
     # 25. Reverse Nodes in k-Group
-    def reverseKGroup(self, head: Optional[ListNode], k: int) \
-            -> Optional[ListNode]:
+    def reverseKGroup(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:
         def get_kth_node(node: Optional[ListNode], k: int):
             while node and k > 0:
                 node = node.next
@@ -148,8 +141,7 @@ class Solution:
         return dummy.next
 
     # 61. Rotate List
-    def rotateRight(self, head: Optional[ListNode],
-                    k: int) -> Optional[ListNode]:
+    def rotateRight(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:
         if not head or not head.next or k == 0:
             return head
 
@@ -186,7 +178,7 @@ class Solution:
 
     # 138. Copy List with Random Pointer
     # map_old_to_copy = {}
-    def copyRandomList(self, head: 'Optional[Node]') -> 'Optional[Node]':
+    def copyRandomList(self, head: "Optional[Node]") -> "Optional[Node]":
         # # Recursive
         # if not head:
         #     return None
