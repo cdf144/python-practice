@@ -199,6 +199,21 @@ class Solution:
 
         return True
 
+    # 881. Boats to Save People
+    def numRescueBoats(self, people: List[int], limit: int) -> int:
+        people.sort()
+        left, right = 0, len(people) - 1
+        result = 0
+
+        while left <= right:
+            remain = limit - people[right]
+            right -= 1
+            if remain >= people[left]:
+                left += 1
+            result += 1
+
+        return result
+
     # 948. Bag of Tokens
     def bagOfTokensScore(self, tokens: List[int], power: int) -> int:
         queue = collections.deque(sorted(tokens))
