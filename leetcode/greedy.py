@@ -7,12 +7,23 @@ from typing import List
 class Solution:
     # 12. Integer to Roman
     def intToRoman(self, num: int) -> str:
-        symbols = {'M': 1000, 'CM': 900, 'D': 500,
-                   'CD': 400, 'C': 100, 'XC': 90,
-                   'L': 50, 'XL': 40, 'X': 10,
-                   'IX': 9, 'V': 5, 'IV': 4, 'I': 1}
+        symbols = {
+            "M": 1000,
+            "CM": 900,
+            "D": 500,
+            "CD": 400,
+            "C": 100,
+            "XC": 90,
+            "L": 50,
+            "XL": 40,
+            "X": 10,
+            "IX": 9,
+            "V": 5,
+            "IV": 4,
+            "I": 1,
+        }
 
-        result = ''
+        result = ""
         for symbol, value in symbols.items():
             while num >= value:
                 result += symbol
@@ -126,10 +137,10 @@ class Solution:
         # [low, high]: range of numbers of valid '('s
         low = high = 0
         for c in s:
-            if c == '(':
+            if c == "(":
                 low += 1
                 high += 1
-            elif c == ')':
+            elif c == ")":
                 if low > 0:
                     low -= 1
                 high -= 1
@@ -188,6 +199,25 @@ class Solution:
 
         return True
 
+    # 948. Bag of Tokens
+    def bagOfTokensScore(self, tokens: List[int], power: int) -> int:
+        queue = collections.deque(sorted(tokens))
+        result = score = 0
+
+        while queue and (power >= queue[0] or score):
+            while queue and power >= queue[0]:
+                # Buy low
+                power -= queue.popleft()
+                score += 1
+            result = max(result, score)
+
+            if queue and score:
+                # Sell high
+                power += queue.pop()
+                score -= 1
+
+        return result
+
     # 1481. Least Number of Unique Integers after K Removals
     def findLeastNumOfUniqueInts(self, arr: List[int], k: int) -> int:
         freq_heap = list(collections.Counter(arr).values())
@@ -219,8 +249,7 @@ class Solution:
         return min_needed_time
 
     # 1642. Furthest Building You Can Reach
-    def furthestBuilding(self, heights: List[int],
-                         bricks: int, ladders: int) -> int:
+    def furthestBuilding(self, heights: List[int], bricks: int, ladders: int) -> int:
         n = len(heights)
 
         # # DP, O(n * |bricks| * |ladders|) time and space
@@ -275,8 +304,7 @@ class Solution:
         return result
 
     # 1899. Merge Triplets to Form Target Triplet
-    def mergeTriplets(self, triplets: List[List[int]],
-                      target: List[int]) -> bool:
+    def mergeTriplets(self, triplets: List[List[int]], target: List[int]) -> bool:
         found = [False] * 3
         for triplet in triplets:
             if all(a <= x for a, x in zip(triplet, target)):
@@ -291,8 +319,8 @@ class Solution:
     def largestOddNumber(self, num: str) -> str:
         for i, c in enumerate(reversed(num)):
             if ord(c) & 1:
-                return num[:len(num) - i]
-        return ''
+                return num[: len(num) - i]
+        return ""
 
     # 2971. Find Polygon With the Largest Perimeter
     def largestPerimeter(self, nums: List[int]) -> int:
