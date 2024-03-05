@@ -351,6 +351,19 @@ class Solution:
             i -= 1
             j -= 1
 
+    # 1750. Minimum Length of String After Deleting Similar Ends
+    def minimumLength(self, s: str) -> int:
+        left, right = 0, len(s) - 1
+
+        while left < right and s[left] == s[right]:
+            c = s[left]
+            while left <= right and s[left] == c:
+                left += 1
+            while left <= right and s[right] == c:
+                right -= 1
+
+        return right - left + 1
+
     # 1913. Maximum Product Difference Between Two Pairs
     def maxProductDifference(self, nums: List[int]) -> int:
         max1 = -math.inf
