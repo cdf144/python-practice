@@ -209,6 +209,18 @@ class Solution:
 
         return map_old_to_copy[head]
 
+    # 141. Linked List Cycle
+    def hasCycle(self, head: Optional[ListNode]) -> bool:
+        tortoise = hare = head
+
+        while tortoise and hare and hare.next:
+            tortoise = tortoise.next
+            hare = hare.next.next
+            if tortoise == hare:
+                return True
+
+        return False
+
     # 143. Reorder List
     def reorderList(self, head: Optional[ListNode]) -> None:
         # Slow is pointer to middle of Linked List
