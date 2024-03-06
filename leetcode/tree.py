@@ -1,8 +1,8 @@
 import collections
-import math
 import hashlib
+import math
 from numbers import Number
-from typing import Optional, List, Generator, Dict
+from typing import Dict, Generator, List, Optional, Tuple
 
 
 class TreeNode:
@@ -603,6 +603,26 @@ class Solution:
             is_even_level = not is_even_level
 
         return True
+
+    # 2265. Count Nodes Equal to Average of Subtree
+    def averageOfSubtree(self, root: TreeNode) -> int:
+        result = 0
+
+        def dfs(node: Optional[TreeNode]) -> Tuple[int, int]:
+            nonlocal result
+            if not node:
+                return (0, 0)
+            left_sum, left_count = dfs(node.left)
+            right_sum, right_count = dfs(node.right)
+
+            tree_sum = left_sum + node.val + right_sum
+            tree_count = left_count + 1 + right_count
+            if tree_sum // tree_count == node.val:
+                result += 1
+            return (tree_sum, tree_count)
+
+        dfs(root)
+        return result
 
     # 2385. Amount of Time for Binary Tree to Be Infected
     def amountOfTime(self, root: Optional[TreeNode], start: int) -> int:
