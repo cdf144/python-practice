@@ -445,3 +445,8 @@ class Solution:
                 return -1
 
         return result
+
+    # 3005. Count Elements With Maximum Frequency
+    def maxFrequencyElements(self, nums: List[int]) -> int:
+        count = collections.Counter(nums)
+        return sum(freq for freq in count.values() if freq == max(count.values()))
