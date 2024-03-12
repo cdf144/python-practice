@@ -193,7 +193,8 @@ class Solution:
         # return new_head
 
         # Iterative
-        map_old_to_copy = {None: None}
+        map_old_to_copy = {}
+        map_old_to_copy[None] = None
         itr = head
 
         while itr:
@@ -288,6 +289,8 @@ class Solution:
 
     # 234. Palindrome Linked List
     def isPalindrome(self, head: Optional[ListNode]) -> bool:
+        assert head
+
         def reverse_llist(h: Optional[ListNode]) -> Optional[ListNode]:
             prev, curr, nxt = None, h, None
 
@@ -326,3 +329,41 @@ class Solution:
             slow = slow.next
             fast = fast.next
         return slow
+
+    # 1171. Remove Zero Sum Consecutive Nodes from Linked List
+    def removeZeroSumSublists(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        assert head
+
+        # O(n^2)
+        # new_head = itr = head
+        # running_sum = 0
+        # while itr:
+        #     running_sum += itr.val
+        #     itr = itr.next
+        #     if running_sum == 0:
+        #         new_head = itr
+        #
+        # if new_head and new_head.next:
+        #     new_head.next = self.removeZeroSumSublists(new_head.next)
+        # return new_head
+
+        # O(n) with prefix-sum
+        dummy = ListNode(0, head)
+        itr = dummy
+        prefix_sum_to_node = {}
+        prefix_sum = 0
+        while itr:
+            prefix_sum += itr.val
+            prefix_sum_to_node[prefix_sum] = itr
+            itr = itr.next
+
+        prefix_sum = 0
+        itr = dummy
+        while itr:
+            # If 2 nodes have the same prefix-sum, that means
+            # the nodes between them sum to zero
+            prefix_sum += itr.val
+            itr.next = prefix_sum_to_node[prefix_sum].next
+            itr = itr.next
+
+        return dummy.next
