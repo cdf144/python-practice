@@ -1,7 +1,7 @@
 import collections
 import itertools
 import math
-from itertools import starmap, pairwise
+from itertools import pairwise, starmap
 from operator import sub
 from typing import List
 
