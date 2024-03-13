@@ -256,3 +256,29 @@ class Solution:
             + (7 * weeks_num * (weeks_num - 1)) // 2
             + (days_left * weeks_num + (days_left * (days_left + 1)) // 2)
         )
+
+    # 2485. Find the Pivot Integer
+    def pivotInteger(self, n: int) -> int:
+        # # O(n) with prefix sum
+        # prefix_sum = [0] * (n + 1)
+        # for i in range(1, n + 1):
+        #     prefix_sum[i] = prefix_sum[i - 1] + i
+        #
+        # for i in range(1, n + 1):
+        #     left = prefix_sum[i]
+        #     right = prefix_sum[-1] - prefix_sum[i - 1]
+        #     if left == right:
+        #         return i
+        #
+        # return -1
+
+        # O(1) math
+        # 1 + 2 + ... + x = x + ... + n
+        # x * (x + 1) // 2 = (n - x + 1) * (n + x) // 2
+        # x^2 + x = n^2 - x^2 + n + x
+        # 2 * x^2 = n^2 + n
+        # x = sqrt((n^2 + n) // 2)
+        # There is a pivot iff x is an integer, otherwise DNE
+        y = (n**2 + n) // 2
+        x = int(math.sqrt(y))
+        return x if x**2 == y else -1
