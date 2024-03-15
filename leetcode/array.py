@@ -27,32 +27,32 @@ class Solution:
     # 238. Product of Array Except Self
     def productExceptSelf(self, nums: List[int]) -> List[int]:
         # # Extra space
-        # length = len(nums)
-        # left_products = [1] * length
-        # right_products = [1] * length
+        # n = len(nums)
+        # prefix = [1] * n
+        # suffix = [1] * n
         #
-        # for i in range(1, length):
-        #     left_products[i] = left_products[i-1] * nums[i-1]
-        # for i in range(length - 2, -1, -1):
-        #     right_products[i] = right_products[i+1] * nums[i+1]
+        # for i in range(1, n):
+        #     prefix[i] = prefix[i - 1] * nums[i - 1]
+        # for i in range(n - 2, -1, -1):
+        #     suffix[i] = suffix[i + 1] * nums[i + 1]
         #
-        # result = [0] * length
-        # for i in range(length):
-        #     result[i] = left_products[i] * right_products[i]
+        # result = [0] * n
+        # for i in range(n):
+        #     result[i] = prefix[i] * suffix[i]
         #
         # return result
 
         # Constant space
-        length = len(nums)
-        result = [1] * length
+        n = len(nums)
+        result = [1] * n
 
-        for i in range(1, length):
+        for i in range(1, n):
             result[i] = result[i - 1] * nums[i - 1]
 
-        curr_right_product = 1
-        for i in range(length - 2, -1, -1):
-            curr_right_product *= nums[i + 1]
-            result[i] *= curr_right_product
+        curr_suffix = 1
+        for i in range(n - 2, -1, -1):
+            curr_suffix *= nums[i + 1]
+            result[i] *= curr_suffix
 
         return result
 
