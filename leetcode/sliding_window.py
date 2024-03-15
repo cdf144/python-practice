@@ -42,7 +42,7 @@ class Solution:
                     min_len = right - (left - 1) + 1
                     min_left = left - 1
 
-        return s[min_left: min_left + min_len] if min_len != math.inf else ''
+        return s[min_left : min_left + min_len] if min_len != math.inf else ""
 
     # 209. Minimum Size Subarray Sum
     def minSubArrayLen(self, target: int, nums: List[int]) -> int:
@@ -166,6 +166,43 @@ class Solution:
 
         return max_sum / k
 
+    # 930. Binary Subarrays With Sum
+    def numSubarraysWithSum(self, nums: List[int], goal: int) -> int:
+        # # Prefix-sum
+        # result = 0
+        # prefix_sum = 0
+        # # Number of sub-arrays with prefix-sum of val
+        # prefix_count = collections.Counter({0: 1})
+        #
+        # for num in nums:
+        #     prefix_sum += num
+        #     result += prefix_count[prefix_sum - goal]
+        #     prefix_count[prefix_sum] += 1
+        #
+        # return result
+
+        # Sliding window
+        n = len(nums)
+
+        # Number of sub-arrays with sum of at most `max_sum`
+        def num_subarray_at_most(max_sum: int) -> int:
+            if max_sum < 0:
+                return 0
+
+            count = 0
+            left = 0
+            dist_to_max = max_sum
+            for right in range(n):
+                dist_to_max -= nums[right]
+                while dist_to_max < 0:
+                    dist_to_max += nums[left]
+                    left += 1
+                count += right - left + 1
+
+            return count
+
+        return num_subarray_at_most(goal) - num_subarray_at_most(goal - 1)
+
     # 1004. Max Consecutive Ones III
     def longestOnes(self, nums: List[int], k: int) -> int:
         count = [0, 0]
@@ -199,7 +236,7 @@ class Solution:
         num_str = str(num)
 
         for i in range(len(num_str) - k + 1):
-            curr_num = int(num_str[i:i + k])
+            curr_num = int(num_str[i : i + k])
             if curr_num != 0 and num % curr_num == 0:
                 k_beauty += 1
 
