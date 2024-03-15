@@ -1,3 +1,5 @@
+import bisect
+import collections
 import math
 from typing import List, Optional
 
@@ -259,6 +261,10 @@ class Solution:
 
         return slow
 
+    # 349. Intersection of Two Arrays
+    def intersection(self, nums1: List[int], nums2: List[int]) -> List[int]:
+        return list(set(nums1) & set(nums2))
+
     # 392. Is Subsequence
     def isSubsequence(self, s: str, t: str) -> bool:
         length = len(s)
@@ -400,3 +406,19 @@ class Solution:
             nums[i * 2] = positive[i]
             nums[i * 2 + 1] = negative[i]
         return nums
+
+    # 2540. Minimum Common Value
+    def getCommon(self, nums1: List[int], nums2: List[int]) -> int:
+        m, n = len(nums1), len(nums2)
+        i = j = 0
+
+        while i < m and j < n:
+            num1, num2 = nums1[i], nums2[j]
+            if num1 == num2:
+                return num1
+            if num2 > num1:
+                i += 1
+            else:
+                j += 1
+
+        return -1

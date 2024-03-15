@@ -196,6 +196,21 @@ class Solution:
         B = n * (n + 1) * (2 * n + 1) // 6 - sum(i * i for i in nums)
         return [(B - A * A) // (2 * A), (B + A * A) // (2 * A)]
 
+    # 791. Custom Sort String
+    def customSortString(self, order: str, s: str) -> str:
+        n = len(s)
+
+        # # O(n)
+        # count = collections.Counter(s)
+        # result = [count.pop(c, 0) * c for c in order]
+        # for c, cnt in count.items():
+        #     result.append(c * cnt)
+        # return "".join(result)
+
+        # 2-liner O(n*log(n))
+        char_order = {c: i for i, c in enumerate(order)}
+        return "".join(sorted(s, key=lambda c: char_order.get(c, n)))
+
     # 1207. Unique Number of Occurrences
     def uniqueOccurrences(self, arr: List[int]) -> bool:
         # return all(
@@ -445,3 +460,8 @@ class Solution:
                 return -1
 
         return result
+
+    # 3005. Count Elements With Maximum Frequency
+    def maxFrequencyElements(self, nums: List[int]) -> int:
+        count = collections.Counter(nums)
+        return sum(freq for freq in count.values() if freq == max(count.values()))
