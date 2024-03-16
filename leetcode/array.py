@@ -71,6 +71,19 @@ class Solution:
                 return i
         return 0
 
+    # 525. Contiguous Array
+    def findMaxLength(self, nums: List[int]) -> int:
+        result = 0
+        prefix_to_idx = {}
+        prefix_to_idx[0] = -1
+
+        curr_prefix = 0
+        for i, num in enumerate(nums):
+            curr_prefix += 1 if num else -1
+            result = max(result, i - prefix_to_idx.setdefault(curr_prefix, i))
+
+        return result
+
     # 661. Image Smoother
     def imageSmoother(self, img: List[List[int]]) -> List[List[int]]:
         h, w = len(img), len(img[0])
