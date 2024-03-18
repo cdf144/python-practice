@@ -96,6 +96,21 @@ class Solution:
 
         return start if gas_cost >= 0 else -1
 
+    # 452. Minimum Number of Arrows to Burst Balloons
+    def findMinArrowShots(self, points: List[List[int]]) -> int:
+        points.sort(key=lambda point: point[1])
+        n = len(points)
+        result = 0
+
+        i = 0
+        while i < n:
+            end = points[i][1]
+            while i < n and points[i][0] <= end:
+                i += 1
+            result += 1
+
+        return result
+
     # 455. Assign Cookies
     def findContentChildren(self, g: List[int], s: List[int]) -> int:
         g.sort()
