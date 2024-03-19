@@ -176,6 +176,14 @@ class Solution:
                 result.append(c * freq)
         return "".join(result)
 
+    # 621. Task Scheduler
+    def leastInterval(self, tasks: List[str], n: int) -> int:
+        count = collections.Counter(tasks)
+        max_freq = max(count.values())
+        num_max_freq = len([freq for freq in count.values() if freq == max_freq])
+        min_cycle_needed = (max_freq - 1) * (n + 1) + num_max_freq
+        return max(min_cycle_needed, len(tasks))
+
     # 645. Set Mismatch
     def findErrorNums(self, nums: List[int]) -> List[int]:
         # # Hash Table Counting
