@@ -367,3 +367,30 @@ class Solution:
             itr = itr.next
 
         return dummy.next
+
+    # 1669. Merge In Between Linked Lists
+    def mergeInBetween(
+        self, list1: ListNode, a: int, b: int, list2: ListNode
+    ) -> ListNode:
+        itr = list1
+        for _ in range(a - 1):
+            assert itr
+            itr = itr.next
+        assert itr
+        node_before_a = itr
+
+        for _ in range(b - a + 1):
+            assert itr
+            itr = itr.next
+        assert itr
+        node_b = itr
+
+        itr = list2
+        while itr and itr.next:
+            itr = itr.next
+        list2_end = itr
+
+        node_before_a.next = list2
+        list2_end.next = node_b.next
+        node_b.next = None
+        return list1
