@@ -277,8 +277,10 @@ class Solution:
 
     # 206. Reverse Linked List
     def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        prev, curr, nxt = None, head, None
+        if not head or not head.next:
+            return head
 
+        prev, curr = None, head
         while curr:
             nxt = curr.next
             curr.next = prev
