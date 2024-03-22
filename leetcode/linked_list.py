@@ -293,30 +293,19 @@ class Solution:
     def isPalindrome(self, head: Optional[ListNode]) -> bool:
         assert head
 
-        def reverse_llist(h: Optional[ListNode]) -> Optional[ListNode]:
-            prev, curr, nxt = None, h, None
-
-            while curr:
-                nxt = curr.next
-                curr.next = prev
-                prev = curr
-                curr = nxt
-
-            return prev
-
-        if not head.next:
-            return True
-
-        # Slow will reach the start of the 2nd half of llist
-        slow, fast = head, head
+        # slow will reach the 2nd half of linked list
+        slow = fast = head
         while fast and fast.next:
+            assert slow
             slow = slow.next
             fast = fast.next.next
+        assert slow
         if fast:
             slow = slow.next
 
-        slow = reverse_llist(slow)
+        slow = self.reverseList(slow)
         while slow:
+            assert head
             if slow.val != head.val:
                 return False
             slow = slow.next
