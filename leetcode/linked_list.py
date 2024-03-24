@@ -286,6 +286,23 @@ class Solution:
 
         return True
 
+    # 287. Find the Duplicate Number
+    def findDuplicate(self, nums: List[int]) -> int:
+        start = nums[0]
+
+        slow = nums[start]
+        fast = nums[nums[start]]
+        while slow != fast:
+            slow = nums[slow]
+            fast = nums[nums[fast]]
+
+        slow = nums[0]
+        while slow != fast:
+            slow = nums[slow]
+            fast = nums[fast]
+
+        return slow
+
     # 876. Middle of the Linked List
     def middleNode(self, head: Optional[ListNode]) -> Optional[ListNode]:
         slow = fast = head
