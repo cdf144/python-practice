@@ -71,6 +71,18 @@ class Solution:
                 return i
         return 0
 
+    # 442. Find All Duplicates in an Array
+    def findDuplicates(self, nums: List[int]) -> List[int]:
+        result = []
+
+        for num in nums:
+            idx = abs(num) - 1
+            if nums[idx] < 0:
+                result.append(abs(num))
+            nums[idx] *= -1
+
+        return result
+
     # 525. Contiguous Array
     def findMaxLength(self, nums: List[int]) -> int:
         result = 0
@@ -285,6 +297,7 @@ class Solution:
             elif price < min2:
                 min2 = price
 
+        assert isinstance(min1, int) and isinstance(min2, int)
         min_cost = min1 + min2
         return money - min_cost if min_cost <= money else money
 
