@@ -97,6 +97,21 @@ class Solution:
 
         return result
 
+    # 448. Find All Numbers Disappeared in an Array
+    def findDisappearedNumbers(self, nums: List[int]) -> List[int]:
+        for num in nums:
+            idx = abs(num) - 1
+            if nums[idx] < 0:
+                continue
+            nums[idx] *= -1
+
+        result = []
+        for i, num in enumerate(nums):
+            if num > 0:
+                result.append(i + 1)
+
+        return result
+
     # 525. Contiguous Array
     def findMaxLength(self, nums: List[int]) -> int:
         result = 0
