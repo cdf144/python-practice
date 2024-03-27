@@ -166,6 +166,21 @@ class Solution:
 
         return max_sum / k
 
+    # 713. Subarray Product Less Than K
+    def numSubarrayProductLessThanK(self, nums: List[int], k: int) -> int:
+        result = 0
+
+        curr_prod = 1
+        left = 0
+        for right, num in enumerate(nums):
+            curr_prod *= num
+            while curr_prod >= k and left <= right:
+                curr_prod //= nums[left]
+                left += 1
+            result += right - left + 1
+
+        return result
+
     # 930. Binary Subarrays With Sum
     def numSubarraysWithSum(self, nums: List[int], goal: int) -> int:
         # # Prefix-sum
