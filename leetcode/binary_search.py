@@ -1,6 +1,5 @@
 import bisect
 import math
-import statistics
 from typing import List
 
 # Helpful guide to Binary Search
@@ -9,8 +8,7 @@ from typing import List
 
 class Solution:
     # 4. Median of Two Sorted Arrays
-    def findMedianSortedArrays(self, nums1: List[int],
-                               nums2: List[int]) -> float:
+    def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
         # # Easy way (Can also manually merge two lists instead of sorting
         # # which would be O(n) time)
         # return statistics.median(sorted(nums1 + nums2))
@@ -41,7 +39,8 @@ class Solution:
 
             if max_l1 <= min_r2 and max_l2 <= min_r1:
                 return (
-                    min(min_r1, min_r2) if (len1 + len2) % 2 == 1
+                    min(min_r1, min_r2)
+                    if (len1 + len2) % 2 == 1
                     else (max(max_l1, max_l2) + min(min_r1, min_r2)) / 2
                 )
             elif max_l1 > min_r2:
@@ -142,8 +141,7 @@ class Solution:
             else:
                 high = mid - 1
 
-        if (target < matrix[target_row][0]
-                or target > matrix[target_row][col_num - 1]):
+        if target < matrix[target_row][0] or target > matrix[target_row][col_num - 1]:
             return False
 
         low = 0
@@ -290,8 +288,7 @@ class Solution:
             return days_needed <= days
 
         low, high = max(weights), sum(weights)
-        return bisect.bisect_left(
-            range(low, high),
-            True,
-            key=lambda mid: can_ship(mid)
-        ) + low
+        return (
+            bisect.bisect_left(range(low, high), True, key=lambda mid: can_ship(mid))
+            + low
+        )
