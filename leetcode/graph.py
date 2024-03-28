@@ -6,7 +6,7 @@ from typing import List
 class UF:
     def __init__(self, n: int):
         self.parent = [i for i in range(n)]
-        self.size = [1 for i in range(n)]
+        self.size = [1 for _ in range(n)]
 
     def _root(self, p: int) -> int:
         while p != self.parent[p]:
@@ -52,8 +52,9 @@ class Solution:
         return result
 
     # 787. Cheapest Flights Within K Stops
-    def findCheapestPrice(self, n: int, flights: List[List[int]],
-                          src: int, dst: int, k: int) -> int:
+    def findCheapestPrice(
+        self, n: int, flights: List[List[int]], src: int, dst: int, k: int
+    ) -> int:
         # BFS, Greedy-ish
         adj = [[] for _ in range(n)]
         for u, v, price in flights:
@@ -66,7 +67,7 @@ class Solution:
         queue.append((src, 0))
         stops = 0
         while queue and stops <= k:
-            for i in range(len(queue)):
+            for _ in range(len(queue)):
                 u, cost = queue.popleft()
                 for v, price in adj[u]:
                     if dist_to[v] <= cost + price:
@@ -75,7 +76,8 @@ class Solution:
                     queue.append((v, dist_to[v]))
             stops += 1
 
-        return dist_to[dst] if dist_to[dst] != math.inf else -1
+        result = dist_to[dst]
+        return result if isinstance(result, int) else -1
 
     # 997. Find the Town Judge
     def findJudge(self, n: int, trust: List[List[int]]) -> int:
@@ -91,8 +93,9 @@ class Solution:
         return -1
 
     # 2092. Find All People With Secret
-    def findAllPeople(self, n: int, meetings: List[List[int]],
-                      firstPerson: int) -> List[int]:
+    def findAllPeople(
+        self, n: int, meetings: List[List[int]], firstPerson: int
+    ) -> List[int]:
         meetings.sort(key=lambda m: m[2])
         k = len(meetings)
 
@@ -118,7 +121,7 @@ class Solution:
     # 2709. Greatest Common Divisor Traversal
     def canTraverseAllPairs(self, nums: List[int]) -> bool:
         def generate_primes() -> List[int]:
-            prime_range = int(math.sqrt(10 ** 5))
+            prime_range = int(math.sqrt(10**5))
             is_prime = [True] * (prime_range + 1)
             is_prime[0], is_prime[1] = False, False
 

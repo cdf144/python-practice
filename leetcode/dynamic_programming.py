@@ -1,7 +1,7 @@
 import bisect
 import collections
-import math
 import functools
+import math
 from typing import List
 
 
@@ -128,6 +128,7 @@ class Solution:
             curr_sum = max(num, curr_sum + num)
             max_sum = max(max_sum, curr_sum)
 
+        assert isinstance(max_sum, int)
         return max_sum
 
     # 62. Unique Paths
@@ -961,6 +962,7 @@ class Solution:
                 maximum = max(maximum, arr[i + j - 1])
                 result = max(result, dp(i + j) + maximum * j)
 
+            assert isinstance(result, int)
             return result
 
         return dp(0)
@@ -1171,7 +1173,9 @@ class Solution:
                 nums1[i] * nums2[j] + max(0, dp(i + 1, j + 1)),
             )
 
-        return dp(0, 0)
+        result = dp(0, 0)
+        assert isinstance(result, int)
+        return result
 
     # 1463. Cherry Pickup II
     def cherryPickup(self, grid: List[List[int]]) -> int:
@@ -1255,6 +1259,7 @@ class Solution:
                     + dp(j + 1, curr_k - (j - i + 1 - max_freq)),
                 )
 
+            assert isinstance(result, int)
             lookup_table[(i, curr_k)] = result
             return result
 

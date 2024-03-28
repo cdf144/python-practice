@@ -11,14 +11,14 @@ class Solution:
             return []
 
         number_letter = {
-            '2': 'abc',
-            '3': 'def',
-            '4': 'ghi',
-            '5': 'jkl',
-            '6': 'mno',
-            '7': 'pqrs',
-            '8': 'tuv',
-            '9': 'wxyz'
+            "2": "abc",
+            "3": "def",
+            "4": "ghi",
+            "5": "jkl",
+            "6": "mno",
+            "7": "pqrs",
+            "8": "tuv",
+            "9": "wxyz",
         }
 
         # # Iterative BFS
@@ -43,7 +43,7 @@ class Solution:
             :param curr_comb: The current combination of letters
             """
             if len(curr_comb) == combination_length:
-                result.append(''.join(curr_comb))
+                result.append("".join(curr_comb))
                 return
 
             for letter in number_letter[digits[i]]:
@@ -55,8 +55,7 @@ class Solution:
         return result
 
     # 39. Combination Sum
-    def combinationSum(self, candidates: List[int],
-                       target: int) -> List[List[int]]:
+    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
         result = []
         num_candidates = len(candidates)
 
@@ -85,8 +84,7 @@ class Solution:
         return result
 
     # 40. Combination Sum II
-    def combinationSum2(self, candidates: List[int],
-                        target: int) -> List[List[int]]:
+    def combinationSum2(self, candidates: List[int], target: int) -> List[List[int]]:
         candidates.sort()
         result = []
         num_candidates = len(candidates)
@@ -151,7 +149,7 @@ class Solution:
                 result.append(curr_placement.copy())
                 return
 
-            curr_row = '.' * n
+            curr_row = "." * n
             for i in range(n):
                 # for j, r in enumerate(curr_placement):
                 #     if (
@@ -163,7 +161,7 @@ class Solution:
                 if col[i] or diag_up[i + row] or diag_down[i + (n - 1 - row)]:
                     continue
 
-                curr_placement.append(curr_row[:i] + 'Q' + curr_row[i + 1:])
+                curr_placement.append(curr_row[:i] + "Q" + curr_row[i + 1 :])
                 col[i] = diag_up[i + row] = diag_down[i + (n - 1 - row)] = True
                 dfs(row + 1, curr_placement)
 
@@ -230,9 +228,9 @@ class Solution:
                 return True
 
             if (
-                    not 0 <= curr_x < n
-                    or not 0 <= curr_y < m
-                    or (curr_y, curr_x) in visited
+                not 0 <= curr_x < n
+                or not 0 <= curr_y < m
+                or (curr_y, curr_x) in visited
             ):
                 return False
 
@@ -241,10 +239,10 @@ class Solution:
 
             visited.add((curr_y, curr_x))
             choose = (
-                    dfs(i + 1, curr_y + dirs[0][0], curr_x + dirs[0][1])
-                    or dfs(i + 1, curr_y + dirs[1][0], curr_x + dirs[1][1])
-                    or dfs(i + 1, curr_y + dirs[2][0], curr_x + dirs[2][1])
-                    or dfs(i + 1, curr_y + dirs[3][0], curr_x + dirs[3][1])
+                dfs(i + 1, curr_y + dirs[0][0], curr_x + dirs[0][1])
+                or dfs(i + 1, curr_y + dirs[1][0], curr_x + dirs[1][1])
+                or dfs(i + 1, curr_y + dirs[2][0], curr_x + dirs[2][1])
+                or dfs(i + 1, curr_y + dirs[3][0], curr_x + dirs[3][1])
             )
 
             visited.remove((curr_y, curr_x))  # Backtrack
@@ -303,7 +301,7 @@ class Solution:
                 result.append(partition.copy())
                 return
 
-            part = ''
+            part = ""
             for i in range(start, s_len):
                 part += s[i]
                 if not is_palindrome(part):
