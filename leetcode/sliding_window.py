@@ -58,7 +58,7 @@ class Solution:
                     curr_sum -= nums[left]
                     left += 1
 
-        return min_length if min_length != math.inf else 0
+        return min_length if isinstance(min_length, int) else 0
 
     # 239. Sliding Window Maximum
     def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
@@ -157,7 +157,7 @@ class Solution:
     # 643. Maximum Average Subarray I
     def findMaxAverage(self, nums: List[int], k: int) -> float:
         length = len(nums)
-        window_sum = sum(num for i, num in enumerate(nums[:k]))
+        window_sum = sum(num for _, num in enumerate(nums[:k]))
         max_sum = window_sum
 
         for i in range(k, length):
@@ -256,3 +256,18 @@ class Solution:
                 k_beauty += 1
 
         return k_beauty
+
+    # 2958. Length of Longest Subarray With at Most K Frequency
+    def maxSubarrayLength(self, nums: List[int], k: int) -> int:
+        count = collections.defaultdict(int)
+        result = 0
+
+        left = 0
+        for right, num in enumerate(nums):
+            count[num] += 1
+            while count[num] > k:
+                count[nums[left]] -= 1
+                left += 1
+            result = max(result, right - left + 1)
+
+        return result
