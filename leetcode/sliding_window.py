@@ -218,6 +218,35 @@ class Solution:
 
         return num_subarray_at_most(goal) - num_subarray_at_most(goal - 1)
 
+    # 992. Subarrays with K Different Integers
+    def subarraysWithKDistinct(self, nums: List[int], k: int) -> int:
+        def subarrays_with_at_most_k_distinct(k: int) -> int:
+            result = 0
+            count = collections.Counter()
+
+            left = 0
+            for right, num in enumerate(nums):
+                count[num] += 1
+                if count[num] == 1:
+                    k -= 1
+                while k < 0:
+                    count[nums[left]] -= 1
+                    if count[nums[left]] == 0:
+                        k += 1
+                    left += 1
+                # If nums[left : right + 1] has k distinct integers, then
+                # nums[i : right + 1] has at most k distinct integers
+                # for all i in [left, right]
+                # This has the meaning of the number of subarrays with k distinct
+                # integers that ends with nums[right]
+                result += right - left + 1
+
+            return result
+
+        return subarrays_with_at_most_k_distinct(k) - subarrays_with_at_most_k_distinct(
+            k - 1
+        )
+
     # 1004. Max Consecutive Ones III
     def longestOnes(self, nums: List[int], k: int) -> int:
         count = [0, 0]
