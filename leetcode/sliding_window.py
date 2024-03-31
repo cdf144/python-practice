@@ -286,6 +286,27 @@ class Solution:
 
         return k_beauty
 
+    # 2444. Count Subarrays With Fixed Bounds
+    def countSubarrays(self, nums: List[int], minK: int, maxK: int) -> int:
+        result = 0
+
+        last_min_k_idx = -1  # nums[last_min_k_idx] == minK
+        last_max_k_idx = -1  # nums[last_max_k_idx] == maxK
+        last_bad_idx = -1  # nums[last_bad_idx] > maxK or nums[last_bad_idx] < minK
+        for i, num in enumerate(nums):
+            if not minK <= num <= maxK:
+                last_bad_idx = i
+            if num == minK:
+                last_min_k_idx = i
+            if num == maxK:
+                last_max_k_idx = i
+            # We are now counting the number of valid subarrays that ends at index i.
+            # For the starting index, we can choose any index in range
+            # [last_bad_idx + 1, min(last_min_k_idx, last_max_k_idx)]
+            result += max(0, min(last_min_k_idx, last_max_k_idx) - last_bad_idx)
+
+        return result
+
     # 2958. Length of Longest Subarray With at Most K Frequency
     def maxSubarrayLength(self, nums: List[int], k: int) -> int:
         count = collections.defaultdict(int)
