@@ -45,6 +45,10 @@ class Solution:
 
         return sign * result
 
+    # 58. Length of Last Word
+    def lengthOfLastWord(self, s: str) -> int:
+        return len(s.strip().split(" ")[-1])
+
     # 214. Shortest Palindrome
     def shortestPalindrome(self, s: str) -> str:
         # reversed string for checking
