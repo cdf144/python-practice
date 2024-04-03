@@ -375,3 +375,21 @@ class Solution:
         list2_end.next = node_b.next
         node_b.next = None
         return list1
+
+    # 2807. Insert Greatest Common Divisors in Linked List
+    def insertGreatestCommonDivisors(
+        self, head: Optional[ListNode]
+    ) -> Optional[ListNode]:
+        def gcd(a: int, b: int) -> int:
+            while b:
+                a, b = b, a % b
+            return a
+
+        itr = head
+        while itr and itr.next:
+            next = itr.next
+            middle = ListNode(gcd(itr.val, next.val), next)
+            itr.next = middle
+            itr = next
+
+        return head
