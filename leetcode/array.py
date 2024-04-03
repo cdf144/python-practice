@@ -330,6 +330,20 @@ class Solution:
         min_cost = min1 + min2
         return money - min_cost if min_cost <= money else money
 
+    # 2938. Separate Black and White Balls
+    def minimumSteps(self, s: str) -> int:
+        n = len(s)
+        result = 0
+        count_zero = 0
+
+        for i in reversed(range(n)):
+            if s[i] == "1":
+                result += count_zero
+            else:
+                count_zero += 1
+
+        return result
+
     # 2966. Divide Array Into Arrays With Max Difference
     def divideArray(self, nums: List[int], k: int) -> List[List[int]]:
         nums.sort()
