@@ -204,12 +204,11 @@ class Solution:
             if cnt > count[c]:
                 return False
 
-        # Reduce the number of starting cells for DFS.
+        # Reduce the number of possible starting points for DFS
         if count[word[0]] > count[word[-1]]:
             word = word[::-1]
 
-        visited = set()
-        dirs = [(0, -1), (-1, 0), (0, 1), (1, 0)]
+        visited = []
 
         def dfs(i: int, curr_y: int, curr_x: int) -> bool:
             """
@@ -237,15 +236,15 @@ class Solution:
             if word[i] != board[curr_y][curr_x]:
                 return False
 
-            visited.add((curr_y, curr_x))
+            visited.append((curr_y, curr_x))
             choose = (
-                dfs(i + 1, curr_y + dirs[0][0], curr_x + dirs[0][1])
-                or dfs(i + 1, curr_y + dirs[1][0], curr_x + dirs[1][1])
-                or dfs(i + 1, curr_y + dirs[2][0], curr_x + dirs[2][1])
-                or dfs(i + 1, curr_y + dirs[3][0], curr_x + dirs[3][1])
+                dfs(i + 1, curr_y + 1, curr_x)
+                or dfs(i + 1, curr_y, curr_x + 1)
+                or dfs(i + 1, curr_y - 1, curr_x)
+                or dfs(i + 1, curr_y, curr_x - 1)
             )
 
-            visited.remove((curr_y, curr_x))  # Backtrack
+            visited.pop()
             return choose
 
         for y in range(m):
