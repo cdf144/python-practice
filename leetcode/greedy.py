@@ -1,6 +1,7 @@
 import collections
 import heapq
 import itertools
+import math
 from typing import List
 
 
@@ -351,6 +352,22 @@ class Solution:
             if ord(c) & 1:
                 return num[: len(num) - i]
         return ""
+
+    # 2895. Minimum Processing Time
+    def minProcessingTime(self, processorTime: List[int], tasks: List[int]) -> int:
+        assert len(tasks) == len(processorTime) * 4
+        processorTime.sort()
+        tasks.sort()
+
+        result = -math.inf
+        for processor in processorTime:
+            max_task = tasks.pop()
+            result = max(result, processor + max_task)
+            for _ in range(3):
+                tasks.pop()
+
+        assert isinstance(result, int)
+        return result
 
     # 2971. Find Polygon With the Largest Perimeter
     def largestPerimeter(self, nums: List[int]) -> int:
