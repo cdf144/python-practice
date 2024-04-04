@@ -80,6 +80,20 @@ class Solution:
             max_score = max(max_score, left + right)
         return max_score
 
+    # 1614. Maximum Nesting Depth of the Parentheses
+    def maxDepth(self, s: str) -> int:
+        result = 0
+
+        curr_depth = 0
+        for c in s:
+            if c == "(":
+                curr_depth += 1
+            elif c == ")":
+                curr_depth -= 1
+            result = max(result, curr_depth)
+
+        return result
+
     # 1704. Determine if String Halves Are Alike
     def halvesAreAlike(self, s: str) -> bool:
         # # Straightforward counting (HashMap)
