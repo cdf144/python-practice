@@ -282,3 +282,33 @@ class Solution:
         y = (n**2 + n) // 2
         x = int(math.sqrt(y))
         return x if x**2 == y else -1
+
+    # 3101. Count Alternating Subarrays
+    def countAlternatingSubarrays(self, nums: List[int]) -> int:
+        # # DP
+        # # dp[i] will be the number of alternating subarrays ending with nums[i]
+        # dp = [1]
+        #
+        # for i in range(1, len(nums)):
+        #     if nums[i] != nums[i - 1]:
+        #         dp.append(1 + dp[i - 1])
+        #     else:
+        #         dp.append(1)
+        #
+        # return sum(dp)
+
+        # Math/Window
+        result = 0
+        prev = nums[0]
+        segment = 1
+
+        for num in nums[1:]:
+            if num != prev:
+                segment += 1
+            else:
+                result += (segment * (segment + 1)) // 2
+                segment = 1
+            prev = num
+
+        result += (segment * (segment + 1)) // 2
+        return result
