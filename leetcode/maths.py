@@ -257,6 +257,36 @@ class Solution:
             + (days_left * weeks_num + (days_left * (days_left + 1)) // 2)
         )
 
+    # 2829. Determine the Minimum Sum of a k-avoiding Array
+    def minimumSum(self, n: int, k: int) -> int:
+        # # Hash Set, O(n) time and space
+        # arr = set()
+        # i = 1
+        # while len(arr) < n:
+        #     if k - i not in arr:
+        #         arr.add(i)
+        #     i += 1
+        # return sum(arr)
+
+        # Math, O(1) time and space
+        # The unique pairs that sum to k:
+        # (1, k - 1), (2, k - 2), ... , (floor(k / 2), ceil(k / 2)).
+        # Selecting any number in the range [ceil(k / 2), k - 1] will result in a pair
+        # summing to k, so our strategy is to select [1, floor(k / 2)] then select
+        # k, k + 1, ... if necessary.
+        def trapezoid(a: int, b: int) -> int:
+            """
+            Returns sum(a..b).
+            This is called "trapezoid" because it is similar to the "Trapezoidal rule"
+            used for numerical integration.
+            """
+            return (b - a + 1) * (a + b) // 2
+
+        mid = k // 2  # floor(k // 2)
+        if n <= mid:
+            return trapezoid(1, n)
+        return trapezoid(1, mid) + trapezoid(k, k + (n - mid - 1))
+
     # 2485. Find the Pivot Integer
     def pivotInteger(self, n: int) -> int:
         # # O(n) with prefix sum
