@@ -355,3 +355,23 @@ class Solution:
             result.append([nums[i - 2], nums[i - 1], nums[i]])
 
         return result
+
+    # 3011. Find if Array Can Be Sorted
+    def canSortArray(self, nums: List[int]) -> bool:
+        prev_max = curr_max = 0
+        curr_min = 256 + 1
+        curr_set_bit = 0
+
+        for num in nums + [0]:
+            set_bit = num.bit_count()
+            if set_bit == curr_set_bit:
+                curr_max = max(curr_max, num)
+                curr_min = min(curr_min, num)
+            else:
+                if curr_min < prev_max:
+                    return False
+                prev_max = curr_max
+                curr_max = curr_min = num
+                curr_set_bit = set_bit
+
+        return True
