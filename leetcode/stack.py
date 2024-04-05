@@ -259,3 +259,13 @@ class Solution:
             result %= mod
 
         return result
+
+    # 1544. Make The String Great
+    def makeGood(self, s: str) -> str:
+        stack = []
+        for c in s:
+            if stack and abs(ord(c) - ord(stack[-1])) == 32:
+                stack.pop()
+            else:
+                stack.append(c)
+        return "".join(stack)
