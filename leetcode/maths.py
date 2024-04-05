@@ -351,3 +351,12 @@ class Solution:
 
         result += (segment * (segment + 1)) // 2
         return result
+
+    # 3100. Water Bottles II
+    def maxBottlesDrunk(self, numBottles: int, numExchange: int) -> int:
+        drank = empty = numBottles
+        while empty >= numExchange:
+            drank += 1
+            empty = empty - numExchange + 1
+            numExchange += 1
+        return drank
