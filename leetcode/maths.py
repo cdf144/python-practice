@@ -235,6 +235,15 @@ class Solution:
 
         return True
 
+    # 1518. Water Bottles
+    def numWaterBottles(self, numBottles: int, numExchange: int) -> int:
+        drank = empty = numBottles
+        while empty >= numExchange:
+            exchange = empty // numExchange
+            drank += exchange
+            empty = empty % numExchange + exchange
+        return drank
+
     # 1716. Calculate Money in Leetcode Bank
     def totalMoney(self, n: int) -> int:
         # # Simulation
