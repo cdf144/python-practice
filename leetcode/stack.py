@@ -260,6 +260,25 @@ class Solution:
 
         return result
 
+    # 1249. Minimum Remove to Make Valid Parentheses
+    def minRemoveToMakeValid(self, s: str) -> str:
+        stack = []  # record the unpaired "(" indices
+        new_s = list(s)
+
+        for i, c in enumerate(new_s):
+            if c == "(":
+                stack.append(i)
+            elif c == ")":
+                if stack:
+                    stack.pop()
+                else:
+                    new_s[i] = ""  # Delete redundant ")"
+
+        while stack:
+            new_s[stack.pop()] = ""  # Delete redundant "("
+
+        return "".join(new_s)
+
     # 1544. Make The String Great
     def makeGood(self, s: str) -> str:
         stack = []
