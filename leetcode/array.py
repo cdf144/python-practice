@@ -375,3 +375,17 @@ class Solution:
                 curr_set_bit = set_bit
 
         return True
+
+    # 3096. Minimum Levels to Gain More Points
+    def minimumLevels(self, possible: List[int]) -> int:
+        n = len(possible)
+        possible = [1 if level == 1 else -1 for level in possible]
+        summ = sum(possible)
+
+        prefix = 0
+        for i in range(n - 1):
+            prefix += possible[i]
+            if prefix > summ - prefix:
+                return i + 1
+
+        return -1
