@@ -262,6 +262,22 @@ class Solution:
 
         return result
 
+    # 1838. Frequency of the Most Frequent Element
+    def maxFrequency(self, nums: List[int], k: int) -> int:
+        nums.sort()
+        result = 1
+        window_sum = 0
+
+        left = 0
+        for right, num in enumerate(nums):
+            window_sum += num
+            while num * (right - left + 1) > window_sum + k:
+                window_sum -= nums[left]
+                left += 1
+            result = max(result, right - left + 1)
+
+        return result
+
     # 1876. Substrings of Size Three with Distinct Characters
     def countGoodSubstrings(self, s: str) -> int:
         good_substr_count = 0
