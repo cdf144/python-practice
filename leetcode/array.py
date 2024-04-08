@@ -238,6 +238,13 @@ class Solution:
         # Starmap with tuple of adjacent pairs in sorted list
         return -min(starmap(sub, pairwise(sorted(x for x, _ in points))), default=0)
 
+    # 1877. Minimize Maximum Pair Sum in Array
+    def minPairSum(self, nums: List[int]) -> int:
+        n = len(nums)
+        assert n % 2 == 0
+        nums.sort()
+        return max([nums[i] + nums[n - i - 1] for i in range(n // 2)])
+
     # 1887. Reduction Operations to Make the Array Elements Equal
     def reductionOperations(self, nums: List[int]) -> int:
         # # Counting sort, O(n) time, O(n) space
