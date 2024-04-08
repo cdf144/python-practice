@@ -324,6 +324,15 @@ class Solution:
             count_2.values()
         )
 
+    # 1700. Number of Students Unable to Eat Lunch
+    def countStudents(self, students: List[int], sandwiches: List[int]) -> int:
+        count = collections.Counter(students)
+        for i, s in enumerate(sandwiches):
+            if count[s] == 0:
+                return len(sandwiches) - i
+            count[s] -= 1
+        return 0
+
     # 1814. Count Nice Pairs in an Array
     def countNicePairs(self, nums: List[int]) -> int:
         # nums[i] + rev(nums[j]) == nums[j] + rev(nums[i])
