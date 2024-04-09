@@ -266,6 +266,14 @@ class Solution:
             + (days_left * weeks_num + (days_left * (days_left + 1)) // 2)
         )
 
+    # 1980. Find Unique Binary String
+    def findDifferentBinaryString(self, nums: List[str]) -> str:
+        # See: https://en.wikipedia.org/wiki/Cantor's_diagonal_argument
+        result = ["0"] * len(nums[0])
+        for i, num in enumerate(nums):
+            result[i] = "0" if num[i] == "1" else "1"
+        return "".join(result)
+
     # 2829. Determine the Minimum Sum of a k-avoiding Array
     def minimumSum(self, n: int, k: int) -> int:
         # # Hash Set, O(n) time and space
