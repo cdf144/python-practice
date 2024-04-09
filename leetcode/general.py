@@ -34,3 +34,13 @@ class Solution:
                     result.append(num)
 
         return result
+
+    # 2073. Time Needed to Buy Tickets
+    def timeRequiredToBuy(self, tickets: List[int], k: int) -> int:
+        result = 0
+        k_person = tickets[k]
+        for person in tickets[:k]:
+            result += min(person, k_person)
+        for person in tickets[k + 1 :]:
+            result += min(person, k_person - 1)
+        return result + k_person
