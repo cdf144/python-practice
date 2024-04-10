@@ -1,7 +1,25 @@
+import collections
 from typing import List
 
 
 class Solution:
+    # 950. Reveal Cards In Increasing Order
+    def deckRevealedIncreasing(self, deck: List[int]) -> List[int]:
+        n = len(deck)
+        deck.sort()
+        queue = collections.deque(range(n))
+        result = [0] * n
+
+        # Simulate card revealing process
+        for i in range(n):
+            # Reveal card
+            result[queue.popleft()] = deck[i]
+            # Move next card to bottom
+            if queue:
+                queue.append(queue.popleft())
+
+        return result
+
     # 1291. Sequential Digits
     def sequentialDigits(self, low: int, high: int) -> List[int]:
         # # Recursion
