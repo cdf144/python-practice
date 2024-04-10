@@ -1,8 +1,55 @@
 import collections
 from typing import List
 
+# Topics like Sorting, Prefix Sum, Simulation, etc. can be added here
+
 
 class Solution:
+    # 238. Product of Array Except Self
+    def productExceptSelf(self, nums: List[int]) -> List[int]:
+        # # Extra space
+        # n = len(nums)
+        # prefix = [1] * n
+        # suffix = [1] * n
+        #
+        # for i in range(1, n):
+        #     prefix[i] = prefix[i - 1] * nums[i - 1]
+        # for i in range(n - 2, -1, -1):
+        #     suffix[i] = suffix[i + 1] * nums[i + 1]
+        #
+        # result = [0] * n
+        # for i in range(n):
+        #     result[i] = prefix[i] * suffix[i]
+        #
+        # return result
+
+        # Constant space
+        n = len(nums)
+        result = [1] * n
+
+        for i in range(1, n):
+            result[i] = result[i - 1] * nums[i - 1]
+
+        curr_suffix = 1
+        for i in range(n - 2, -1, -1):
+            curr_suffix *= nums[i + 1]
+            result[i] *= curr_suffix
+
+        return result
+
+    # 525. Contiguous Array
+    def findMaxLength(self, nums: List[int]) -> int:
+        result = 0
+        prefix_to_idx = {}
+        prefix_to_idx[0] = -1
+
+        curr_prefix = 0
+        for i, num in enumerate(nums):
+            curr_prefix += 1 if num else -1
+            result = max(result, i - prefix_to_idx.setdefault(curr_prefix, i))
+
+        return result
+
     # 950. Reveal Cards In Increasing Order
     def deckRevealedIncreasing(self, deck: List[int]) -> List[int]:
         n = len(deck)
@@ -53,6 +100,43 @@ class Solution:
 
         return result
 
+    # 1877. Minimize Maximum Pair Sum in Array
+    def minPairSum(self, nums: List[int]) -> int:
+        n = len(nums)
+        assert n % 2 == 0
+        nums.sort()
+        return max([nums[i] + nums[n - i - 1] for i in range(n // 2)])
+
+    # 1887. Reduction Operations to Make the Array Elements Equal
+    def reductionOperations(self, nums: List[int]) -> int:
+        # # Counting sort, O(n) time, O(n) space
+        # buckets = [0] * 50001  # lazy counting
+
+        # for num in nums:
+        #     buckets[num] += 1
+
+        # count = []
+        # for c in buckets:
+        #     if c != 0:
+        #         count.append(c)
+
+        # result = 0
+        # for i in range(len(count) - 1, 0, -1):
+        #     result += count[i]
+        #     count[i - 1] += count[i]
+
+        # return result
+
+        # Sort, O(n*log(n)) time, O(1) space
+        nums.sort()
+        result = 0
+
+        for i in range(len(nums) - 2, -1, -1):
+            if nums[i] != nums[i + 1]:
+                result += len(nums) - 1 - i
+
+        return result
+
     # 2073. Time Needed to Buy Tickets
     def timeRequiredToBuy(self, tickets: List[int], k: int) -> int:
         result = 0
@@ -62,3 +146,17 @@ class Solution:
         for person in tickets[k + 1 :]:
             result += min(person, k_person - 1)
         return result + k_person
+
+    # 3096. Minimum Levels to Gain More Points
+    def minimumLevels(self, possible: List[int]) -> int:
+        n = len(possible)
+        possible = [1 if level == 1 else -1 for level in possible]
+        summ = sum(possible)
+
+        prefix = 0
+        for i in range(n - 1):
+            prefix += possible[i]
+            if prefix > summ - prefix:
+                return i + 1
+
+        return -1
