@@ -160,3 +160,17 @@ class Solution:
                 return i + 1
 
         return -1
+
+    # 3107. Minimum Operations to Make Median of Array Equal to K
+    def minOperationsToMakeMedianK(self, nums: List[int], k: int) -> int:
+        n = len(nums)
+        nums.sort()
+        result = 0
+        mid = n // 2
+        if nums[mid] > k:
+            for i in range(mid + 1):
+                result += max(nums[i] - k, 0)
+        else:
+            for i in range(mid, n):
+                result += max(k - nums[i], 0)
+        return result
