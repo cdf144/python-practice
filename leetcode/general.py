@@ -137,6 +137,30 @@ class Solution:
 
         return result
 
+    # 1930. Unique Length-3 Palindromic Subsequences
+    def countPalindromicSubsequence(self, s: str) -> int:
+        # Since we are only considering subsequences of length 3, we can think of it
+        # as choosing 1 character for left and right, and choosing another character
+        # for middle.
+        # That way, our strategy will be to track the first and last occurrences of
+        # every character in `s`, then everything in the middle of those 2 occurrences
+        # is a candidate for middle character.
+        n = len(s)
+        result = 0
+        first = [n] * 26
+        last = [0] * 26
+
+        for i, c in enumerate(s):
+            c = ord(c) - ord("a")
+            first[c] = min(first[c], i)
+            last[c] = i
+
+        for f, l in zip(first, last):
+            if f < l:
+                result += len(set(s[f + 1 : l]))
+
+        return result
+
     # 2073. Time Needed to Buy Tickets
     def timeRequiredToBuy(self, tickets: List[int], k: int) -> int:
         result = 0
