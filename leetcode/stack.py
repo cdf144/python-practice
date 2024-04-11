@@ -137,6 +137,30 @@ class Solution:
 
         return "".join(stack)
 
+    # 402. Remove K Digits
+    def removeKdigits(self, num: str, k: int) -> str:
+        # For every s[i], if s[i] > s[i + 1], we should delete s[i].
+        # Because if we delete s[i + 1], since s[i + 1] < s[i], the result can't be minimal.
+        # At the end of the process, the number's digits will be increasing
+        # from left to right, and hence will be minimal from left to right.
+        # If we still have some amount of k digits left to delete,
+        # we should delete from right to left.
+        stack = []
+
+        for digit in num:
+            while stack and stack[-1] > digit and k:
+                stack.pop()
+                k -= 1
+            stack.append(digit)
+        if k:
+            stack = stack[:-k]
+
+        i = 0
+        while i < len(stack) and stack[i] == "0":
+            i += 1
+        result = "".join(stack[i:])
+        return result if result else "0"
+
     # 496. Next Greater Element I
     def nextGreaterElement(self, nums1: List[int], nums2: List[int]) -> List[int]:
         num_to_next_greater = {}
