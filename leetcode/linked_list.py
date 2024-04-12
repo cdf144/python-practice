@@ -222,6 +222,23 @@ class Solution:
 
         return False
 
+    # 142. Linked List Cycle II
+    def detectCycle(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        tortoise, hare = head, head
+
+        while tortoise and hare and hare.next:
+            tortoise = tortoise.next
+            hare = hare.next.next
+            if tortoise == hare:
+                tortoise = head
+                while tortoise != hare:
+                    assert tortoise and hare
+                    tortoise = tortoise.next
+                    hare = hare.next
+                return tortoise
+
+        return None
+
     # 143. Reorder List
     def reorderList(self, head: Optional[ListNode]) -> None:
         slow = fast = head

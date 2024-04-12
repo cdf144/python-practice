@@ -81,6 +81,7 @@ class Solution:
                 if abs(closest_sum - target) > abs(s - target):
                     closest_sum = s
 
+        assert isinstance(closest_sum, int)
         return closest_sum
 
     # 18. 4Sum
@@ -130,29 +131,28 @@ class Solution:
 
     # 42. Trapping Rain Water
     def trap(self, height: List[int]) -> int:
-        # # Auxiliary array
-        # length = len(height)
-        # max_left_h, max_right_h = [0] * length, [0] * length
+        # # Auxiliary array, O(n) space
+        # n = len(height)
+        # max_left = [0] * n
+        # max_right = [0] * n
         #
         # max_h = 0
         # for i, h in enumerate(height):
-        #     max_left_h[i] = max_h
+        #     max_left[i] = max_h
         #     max_h = max(max_h, h)
         #
         # max_h = 0
-        # for i, h in enumerate(reversed(height)):
-        #     max_right_h[-i - 1] = max_h
+        # for i, h in reversed(list(enumerate(height))):
+        #     max_right[i] = max_h
         #     max_h = max(max_h, h)
         #
-        # total_water = 0
+        # result = 0
         # for i, h in enumerate(height):
-        #     water = min(max_left_h[i], max_right_h[i]) - h
-        #     if water > 0:
-        #         total_water += water
+        #     result += max(0, min(max_left[i], max_right[i]) - h)
         #
-        # return total_water
+        # return result
 
-        # Two pointers
+        # Two pointers, O(1)
         left, right = 0, len(height) - 1
         l_max, r_max = 0, 0
         total_water = 0
@@ -200,22 +200,6 @@ class Solution:
                 right -= 1
             else:
                 i += 1
-
-    # 142. Linked List Cycle II
-    def detectCycle(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        tortoise, hare = head, head
-
-        while hare and hare.next:
-            tortoise = tortoise.next
-            hare = hare.next.next
-            if tortoise == hare:
-                tortoise = head
-                while tortoise != hare:
-                    tortoise = tortoise.next
-                    hare = hare.next
-                return tortoise
-
-        return None
 
     # 160. Intersection of Two Linked Lists
     def getIntersectionNode(
@@ -390,6 +374,12 @@ class Solution:
             elif min2 > num:
                 min2 = num
 
+        assert (
+            isinstance(max1, int)
+            and isinstance(max2, int)
+            and isinstance(min1, int)
+            and isinstance(min2, int)
+        )
         return max1 * max2 - min1 * min2
 
     # 2149. Rearrange Array Elements by Sign
