@@ -324,6 +324,23 @@ class Solution:
             return self.lowestCommonAncestor(root.right, p, q)
         return root
 
+    # 404. Sum of Left Leaves
+    def sumOfLeftLeaves(self, root: Optional[TreeNode]) -> int:
+        result = 0
+
+        def dfs(node: Optional[TreeNode]) -> None:
+            nonlocal result
+            if not node:
+                return
+            if node.left:
+                if not node.left.left and not node.left.right:
+                    result += node.left.val
+            dfs(node.left)
+            dfs(node.right)
+
+        dfs(root)
+        return result
+
     # 513. Find Bottom Left Tree Value
     def findBottomLeftValue(self, root: Optional[TreeNode]) -> int:
         left_side_view = []
