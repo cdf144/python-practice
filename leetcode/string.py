@@ -1,6 +1,6 @@
 import collections
 import itertools
-from typing import List
+from typing import Generator, List
 
 
 class Solution:
@@ -93,6 +93,18 @@ class Solution:
             result = max(result, curr_depth)
 
         return result
+
+    # 1662. Check If Two String Arrays are Equivalent
+    def arrayStringsAreEqual(self, word1: List[str], word2: List[str]) -> bool:
+        def char_generator(word: List[str]) -> Generator:
+            for w in word:
+                for c in w:
+                    yield c
+            yield None
+
+        return all(
+            c1 == c2 for c1, c2 in zip(char_generator(word1), char_generator(word2))
+        )
 
     # 1704. Determine if String Halves Are Alike
     def halvesAreAlike(self, s: str) -> bool:
