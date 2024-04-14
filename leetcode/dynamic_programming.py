@@ -1265,6 +1265,38 @@ class Solution:
 
         return dp(0, k)
 
+    # 1611. Minimum One Bit Operations to Make Integers Zero
+    def minimumOneBitOperations(self, n: int) -> int:
+        # required[i] is the min number of operations to make 2^i -> zero.
+        required = [0] * 30
+
+        # Observation 1:
+        # See that to make 2^i -> zero, we have to:
+        # - flip (i - 1)-th bit (from the left)
+        # - make (i - 1)-th bit the leftmost `1` bit (the (i - 2)-th through 0-th bit are `0`)
+        # - flip the i-th bit then flip the (i - 1)th bit again, which is equivalent to making 2^(i - 1) zero.
+        # Observation 2:
+        # The min number of operations to make 2^i -> zero is the same to make zero -> 2^i
+        required[0] = 1
+        for i in range(1, 31):
+            required[i] = required[i - 1] + 1 + required[i - 1]
+
+        result = 0
+        # The needed state (`0` or `1`) of the next right bit.
+        needed_state = 0
+        for i in range(30, -1, -1):
+            # If the current bit is `1`, the next right bit needs to be flipped to `1`
+            # if it is not already, to flip the current bit. If the next right bit is `0`,
+            # the next next right bit also needs to be flipped to `1`. And so on.
+            # If the current bit is `0`, we don't need to flip the current bit.
+            if (n >> i) & 1 == needed_state:
+                needed_state = 0
+            else:
+                needed_state = 1
+                result = result + 1 + required[i - 1] if i > 0 else result + 1
+
+        return result
+
     # 2466. Count Ways To Build Good Strings
     def countGoodStrings(self, low: int, high: int, zero: int, one: int) -> int:
         mod = 10**9 + 7
