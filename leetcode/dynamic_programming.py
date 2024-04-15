@@ -910,6 +910,31 @@ class Solution:
 
         return min(matrix[-1])
 
+    # 935. Knight Dialer
+    def knightDialer(self, n: int) -> int:
+        mod = 1_000_000_007
+        dirs = [(1, 2), (2, 1), (2, -1), (1, -2), (-1, -2), (-2, -1), (-2, 1), (-1, 2)]
+
+        # dp[i][j] will be the number of ways to dial ending at (i, j) on the keypad
+        dp = [[1] * 3 for _ in range(4)]
+        dp[3][0], dp[3][2] = 0, 0
+
+        for _ in range(n - 1):
+            new_dp = [[0] * 3 for _ in range(4)]
+            for i in range(4):
+                for j in range(3):
+                    if i == 3 and j != 1:
+                        continue
+                    for dx, dy in dirs:
+                        x = i + dx
+                        y = j + dy
+                        if not 0 <= x <= 3 or not 0 <= y <= 2 or (x == 3 and y != 1):
+                            continue
+                        new_dp[x][y] = (new_dp[x][y] + dp[i][j]) % mod
+            dp = new_dp
+
+        return sum(map(sum, dp)) % mod
+
     # 956. Tallest Billboard
     def tallestBillboard(self, rods: List[int]) -> int:
         n = len(rods)
