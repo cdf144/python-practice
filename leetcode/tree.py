@@ -1,7 +1,6 @@
 import collections
 import hashlib
 import math
-from numbers import Number
 from typing import Dict, Generator, List, Optional, Tuple
 
 
@@ -227,6 +226,24 @@ class Solution:
         max_sum = -1001
         traverse(root)
         return max_sum
+
+    # 129. Sum Root to Leaf Numbers
+    def sumNumbers(self, root: Optional[TreeNode]) -> int:
+        res = 0
+
+        def dfs(node: Optional[TreeNode], num: int) -> None:
+            nonlocal res
+            if not node:
+                return
+            num = num * 10 + node.val
+            if not node.left and not node.right:
+                res += num
+                return
+            dfs(node.left, num)
+            dfs(node.right, num)
+
+        dfs(root, 0)
+        return res
 
     # 199. Binary Tree Right Side View
     def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
