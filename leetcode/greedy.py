@@ -256,6 +256,18 @@ class Solution:
             k -= heapq.heappop(freq_heap)
         return len(freq_heap)
 
+    # 1561. Maximum Number of Coins You Can Get
+    def maxCoins(self, piles: List[int]) -> int:
+        queue = collections.deque(sorted(piles))
+        result = 0
+
+        while queue:
+            _ = queue.pop()
+            result += queue.pop()
+            _ = queue.popleft()
+
+        return result
+
     # 1578. Minimum Time to Make Rope Colorful
     def minCost(self, colors: str, neededTime: List[int]) -> int:
         curr_group_sum = group_max = neededTime[0]
