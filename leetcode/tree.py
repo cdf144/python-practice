@@ -439,6 +439,36 @@ class Solution:
 
         return dfs(root)
 
+    # 623. Add One Row to Tree
+    def addOneRow(
+        self, root: Optional[TreeNode], val: int, depth: int
+    ) -> Optional[TreeNode]:
+        if depth == 1:
+            new_root = TreeNode(val, root)
+            return new_root
+
+        queue = collections.deque()
+        curr_depth = 0
+
+        queue.append(root)
+        while queue:
+            curr_depth += 1
+            for _ in range(len(queue)):
+                node = queue.popleft()
+                if node.left:
+                    queue.append(node.left)
+                if node.right:
+                    queue.append(node.right)
+                if curr_depth == depth - 1:
+                    new_left = TreeNode(val, left=node.left)
+                    new_right = TreeNode(val, right=node.right)
+                    node.left = new_left
+                    node.right = new_right
+            if curr_depth == depth - 1:
+                break
+
+        return root
+
     # 872. Leaf-Similar Trees
     def leafSimilar(self, root1: Optional[TreeNode], root2: Optional[TreeNode]) -> bool:
         # # Append to List
