@@ -1,4 +1,5 @@
 import collections
+import itertools
 from typing import List
 
 # Topics like Sorting, Prefix Sum, Simulation, etc. can be added here
@@ -99,6 +100,16 @@ class Solution:
                     result.append(num)
 
         return result
+
+    # 1685. Sum of Absolute Differences in a Sorted Array
+    def getSumAbsoluteDifferences(self, nums: List[int]) -> List[int]:
+        n = len(nums)
+        prefix = list(itertools.accumulate(nums))
+        suffix = list(itertools.accumulate(nums[::-1]))[::-1]
+        return [
+            num * (i + 1) - prefix[i] + suffix[i] - num * (n - i)
+            for i, num in enumerate(nums)
+        ]
 
     # 1877. Minimize Maximum Pair Sum in Array
     def minPairSum(self, nums: List[int]) -> int:
