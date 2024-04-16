@@ -1,3 +1,4 @@
+import collections
 import math
 from typing import List
 
@@ -273,6 +274,23 @@ class Solution:
         for i, num in enumerate(nums):
             result[i] = "0" if num[i] == "1" else "1"
         return "".join(result)
+
+    # 2147. Number of Ways to Divide a Long Corridor
+    def numberOfWays(self, corridor: str) -> int:
+        mod = 1_000_000_007
+        result = 1
+
+        num_seats = 0
+        prev_section = 0
+        for i, obj in enumerate(corridor):
+            if obj == "S":
+                num_seats += 1
+                if num_seats % 2 == 0:
+                    prev_section = i
+                elif num_seats > 1:
+                    result = (result * (i - prev_section)) % mod
+
+        return result if num_seats > 1 and num_seats % 2 == 0 else 0
 
     # 2829. Determine the Minimum Sum of a k-avoiding Array
     def minimumSum(self, n: int, k: int) -> int:
