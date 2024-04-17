@@ -75,6 +75,10 @@ class Solution:
     def isIsomorphic(self, s: str, t: str) -> bool:
         return list(map(s.index, s)) == list(map(t.index, t))
 
+    # 217. Contains Duplicate
+    def containsDuplicate(self, nums: List[int]) -> bool:
+        return len(set(nums)) != len(nums)
+
     # 242. Valid Anagram
     def isAnagram(self, s: str, t: str) -> bool:
         if len(s) != len(t):
