@@ -1,4 +1,3 @@
-import collections
 import math
 from typing import List
 
@@ -235,6 +234,16 @@ class Solution:
                 return False
 
         return True
+
+    # 1266. Minimum Time Visiting All Points
+    def minTimeToVisitAllPoints(self, points: List[List[int]]) -> int:
+        result = 0
+        prev = points[0]
+        for point in points[1:]:
+            x_diff, y_diff = abs(prev[0] - point[0]), abs(prev[1] - point[1])
+            result += abs(x_diff - y_diff) + min(x_diff, y_diff)
+            prev = point
+        return result
 
     # 1518. Water Bottles
     def numWaterBottles(self, numBottles: int, numExchange: int) -> int:
