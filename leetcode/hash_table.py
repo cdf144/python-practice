@@ -219,6 +219,20 @@ class Solution:
         char_order = {c: i for i, c in enumerate(order)}
         return "".join(sorted(s, key=lambda c: char_order.get(c, n)))
 
+    # 1160. Find Words That Can Be Formed by Characters
+    def countCharacters(self, words: List[str], chars: str) -> int:
+        count = collections.Counter(chars)
+        result = 0
+
+        for word in words:
+            for c, cnt in collections.Counter(word).items():
+                if cnt > count[c]:
+                    break
+            else:
+                result += len(word)
+
+        return result
+
     # 1207. Unique Number of Occurrences
     def uniqueOccurrences(self, arr: List[int]) -> bool:
         # return all(
