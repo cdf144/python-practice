@@ -532,6 +532,28 @@ class Solution:
             + self.rangeSumBST(root.right, low, high)
         )
 
+    # 988. Smallest String Starting From Leaf
+    def smallestFromLeaf(self, root: Optional[TreeNode]) -> str:
+        result = ""
+
+        def dfs(node: Optional[TreeNode], path: List[str]) -> None:
+            nonlocal result
+            if not node:
+                return
+
+            path.append(chr(ord("a") + node.val))
+            if not node.left and not node.right:
+                s = "".join(reversed(path))
+                if not result or result > s:
+                    result = s
+
+            dfs(node.left, path)
+            dfs(node.right, path)
+            path.pop()
+
+        dfs(root, [])
+        return result
+
     # 1026. Maximum Difference Between Node and Ancestor
     def maxAncestorDiff(self, root: Optional[TreeNode]) -> int:
         if not root:
