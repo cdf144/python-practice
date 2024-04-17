@@ -184,6 +184,13 @@ class Solution:
                 return word
         return ""
 
+    # 2264. Largest 3-Same-Digit Number in String
+    def largestGoodInteger(self, num: str) -> str:
+        return max(
+            num[i - 2 : i + 1] if num[i - 2] == num[i - 1] == num[i] else ""
+            for i in range(2, len(num))
+        )
+
     # 2864. Maximum Odd Binary Number
     def maximumOddBinaryNumber(self, s: str) -> str:
         count = collections.Counter(s)
