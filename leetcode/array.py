@@ -80,6 +80,21 @@ class Solution:
 
         return result
 
+    # 463. Island Perimeter
+    def islandPerimeter(self, grid: List[List[int]]) -> int:
+        result = 0
+
+        for i, row in enumerate(grid):
+            for j, cell in enumerate(row):
+                if cell == 1:
+                    result += 4
+                    if i > 0 and grid[i - 1][j] == 1:
+                        result -= 2
+                    if j > 0 and grid[i][j - 1] == 1:
+                        result -= 2
+
+        return result
+
     # 661. Image Smoother
     def imageSmoother(self, img: List[List[int]]) -> List[List[int]]:
         h, w = len(img), len(img[0])
