@@ -34,6 +34,34 @@ class UF:
 
 
 class Solution:
+    # 200. Number of Islands
+    def numIslands(self, grid: List[List[str]]) -> int:
+        m = len(grid)
+        n = len(grid[0])
+        result = 0
+        dirs = [(-1, 0), (0, 1), (1, 0), (0, -1)]
+        visited = set()
+
+        def dfs(i: int, j: int) -> None:
+            if (
+                not 0 <= i < m
+                or not 0 <= j < n
+                or grid[i][j] == "0"
+                or (i, j) in visited
+            ):
+                return
+            visited.add((i, j))
+            for d in dirs:
+                dfs(i + d[0], j + d[1])
+
+        for i, row in enumerate(grid):
+            for j, cell in enumerate(row):
+                if cell == "1" and (i, j) not in visited:
+                    dfs(i, j)
+                    result += 1
+
+        return result
+
     # 684. Redundant Connection
     def findRedundantConnection(self, edges: List[List[int]]) -> List[int]:
         size = 0
