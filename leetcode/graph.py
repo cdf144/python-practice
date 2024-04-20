@@ -1,4 +1,5 @@
 import collections
+import itertools
 import math
 from typing import List
 
@@ -119,6 +120,34 @@ class Solution:
             if out_degree[i] == 0 and in_degree[i] == n - 1:
                 return i + 1
         return -1
+
+    # 1992. Find All Groups of Farmland
+    def findFarmland(self, land: List[List[int]]) -> List[List[int]]:
+        m = len(land)
+        n = len(land[0])
+        result = []
+
+        def find_corner(i: int, j: int, corner: List[int]) -> None:
+            """Find bottom right corner of current group (rectangular farmland areas)"""
+            if i >= m or j >= n or land[i][j] != 1:
+                return
+            # Mark cell as visited
+            land[i][j] = 2
+            corner[0] = max(corner[0], i)
+            corner[1] = max(corner[1], j)
+            find_corner(i + 1, j, corner)
+            find_corner(i, j + 1, corner)
+
+        for i, row in enumerate(land):
+            for j, cell in enumerate(row):
+                if cell != 1:
+                    continue
+                # Bottom right corner
+                corner = [i, j]
+                find_corner(i, j, corner)
+                result.append([i, j] + corner)
+
+        return result
 
     # 2092. Find All People With Secret
     def findAllPeople(
