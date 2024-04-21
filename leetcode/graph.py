@@ -1,5 +1,4 @@
 import collections
-import itertools
 import math
 from typing import List
 
@@ -19,15 +18,14 @@ class UF:
         return self._root(p) == self._root(q)
 
     def union(self, p: int, q: int) -> bool:
-        pr, qr = self._root(p), self._root(q)
-        if pr == qr:
+        p_r, q_r = self._root(p), self._root(q)
+        if p_r == q_r:
             return False
 
-        if self.size[pr] < self.size[qr]:
-            pr, qr = qr, pr
-
-        self.parent[qr] = pr
-        self.size[pr] += self.size[qr]
+        if self.size[p_r] < self.size[q_r]:
+            p_r, q_r = q_r, p_r
+        self.parent[q_r] = p_r
+        self.size[p_r] += self.size[q_r]
         return True
 
     def reset(self, p: int) -> None:
@@ -120,6 +118,15 @@ class Solution:
             if out_degree[i] == 0 and in_degree[i] == n - 1:
                 return i + 1
         return -1
+
+    # 1971. Find if Path Exists in Graph
+    def validPath(
+        self, n: int, edges: List[List[int]], source: int, destination: int
+    ) -> bool:
+        uf = UF(n)
+        for e in edges:
+            uf.union(e[0], e[1])
+        return uf.connected(source, destination)
 
     # 1992. Find All Groups of Farmland
     def findFarmland(self, land: List[List[int]]) -> List[List[int]]:
