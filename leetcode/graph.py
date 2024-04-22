@@ -78,6 +78,38 @@ class Solution:
 
         return result
 
+    # 752. Open the Lock
+    def openLock(self, deadends: List[str], target: str) -> int:
+        # View each state of the lock as a node in a tree, and each edge represent a
+        # wheel turn.
+        target_tuple = tuple(int(c) for c in target)
+        visited = set([tuple(int(c) for c in d) for d in deadends])
+        if target_tuple in visited or (0, 0, 0, 0) in visited:
+            return -1
+
+        queue = collections.deque()
+        state = (0, 0, 0, 0)
+
+        queue.append(state)
+        visited.add(state)
+        turns = 0
+        while queue:
+            for _ in range(len(queue)):
+                state = queue.popleft()
+                if state == target_tuple:
+                    return turns
+                for i in range(4):
+                    for delta in [-1, 1]:
+                        new_state = list(state)
+                        new_state[i] = (new_state[i] + delta) % 10
+                        new_state = tuple(new_state)
+                        if new_state not in visited:
+                            visited.add(new_state)
+                            queue.append(new_state)
+            turns += 1
+
+        return -1
+
     # 787. Cheapest Flights Within K Stops
     def findCheapestPrice(
         self, n: int, flights: List[List[int]], src: int, dst: int, k: int
