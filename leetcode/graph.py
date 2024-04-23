@@ -61,6 +61,35 @@ class Solution:
 
         return result
 
+    # 310. Minimum Height Trees
+    def findMinHeightTrees(self, n: int, edges: List[List[int]]) -> List[int]:
+        if n == 1:
+            return [0]
+        for e in edges:
+            assert len(e) == 2
+
+        graph = collections.defaultdict(set)
+        for u, v in edges:
+            graph[u].add(v)
+            graph[v].add(u)
+
+        leaves = []
+        for v, adj in graph.items():
+            if len(adj) == 1:
+                leaves.append(v)
+
+        while n > 2:
+            n -= len(leaves)
+            next_leaves = []
+            for leaf in leaves:
+                parent = graph[leaf].pop()
+                graph[parent].remove(leaf)
+                if len(graph[parent]) == 1:
+                    next_leaves.append(parent)
+            leaves = next_leaves
+
+        return leaves
+
     # 684. Redundant Connection
     def findRedundantConnection(self, edges: List[List[int]]) -> List[int]:
         size = 0
