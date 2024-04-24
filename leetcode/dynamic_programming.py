@@ -1010,6 +1010,18 @@ class Solution:
 
         return total_weight - 2 * dp[stone_num][total_weight // 2]
 
+    # 1137. N-th Tribonacci Number
+    def tribonacci(self, n: int) -> int:
+        if n < 3:
+            return 0 if n == 0 else 1
+        a, b, c = 0, 1, 1
+        d = 0
+        while n > 2:
+            d = a + b + c
+            a, b, c = b, c, d
+            n -= 1
+        return d
+
     # 1143. Longest Common Subsequence
     def longestCommonSubsequence(self, text1: str, text2: str) -> int:
         # Detailed explanation: https://ics.uci.edu/~eppstein/161/960229.html
