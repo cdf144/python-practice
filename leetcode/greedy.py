@@ -423,3 +423,8 @@ class Solution:
         while nums and curr_sum <= 2 * nums[-1]:
             curr_sum -= nums.pop()
         return curr_sum if len(nums) > 2 else -1
+
+    # 3016. Minimum Number of Pushes to Type Word II
+    def minimumPushes(self, word: str) -> int:
+        count = sorted(collections.Counter(word).values(), reverse=True)
+        return sum(cnt * (i // 8 + 1) for i, cnt in enumerate(count))
