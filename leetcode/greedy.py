@@ -248,6 +248,27 @@ class Solution:
 
         return result
 
+    # 1402. Reducing Dishes
+    def maxSatisfaction(self, satisfaction: List[int]) -> int:
+        satisfaction.sort(reverse=True)
+        result = 0
+
+        # prefix_sum[i] represents the net contribution to total satisfaction got
+        # by serving the i most satisfactory dishes.
+        prefix_sum = 0
+        for _, dish in enumerate(satisfaction):
+            prefix_sum += dish
+            # If prefix_sum ever goes to negative, that means that the remaining dishes
+            # have net negative contribution to total satisfaction, and we do not serve
+            # them.
+            if prefix_sum < 0:
+                break
+            # Every time we choose to cook a dish, the time to cook previous dishes
+            # goes up by 1, so we add prefix_sum to result.
+            result += prefix_sum
+
+        return result
+
     # 1481. Least Number of Unique Integers after K Removals
     def findLeastNumOfUniqueInts(self, arr: List[int], k: int) -> int:
         freq_heap = list(collections.Counter(arr).values())
@@ -426,5 +447,6 @@ class Solution:
 
     # 3016. Minimum Number of Pushes to Type Word II
     def minimumPushes(self, word: str) -> int:
+        # Same solution for 3014. Minimum Number of Pushes to Type Word I
         count = sorted(collections.Counter(word).values(), reverse=True)
         return sum(cnt * (i // 8 + 1) for i, cnt in enumerate(count))
