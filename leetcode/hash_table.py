@@ -517,3 +517,19 @@ class Solution:
             lower[a] and upper[b]
             for a, b in zip(string.ascii_lowercase, string.ascii_uppercase)
         )
+
+    # 3121. Count the Number of Special Characters II
+    def numberOfSpecialCharsII(self, word: str) -> int:
+        lower = collections.defaultdict(bool)
+        upper = collections.defaultdict(bool)
+
+        for c in word:
+            if c.islower():
+                lower[c] = not upper[c.upper()]
+            else:
+                upper[c] = True
+
+        return sum(
+            lower[a] and upper[b]
+            for a, b in zip(string.ascii_lowercase, string.ascii_uppercase)
+        )
