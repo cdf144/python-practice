@@ -1,6 +1,7 @@
 import collections
 import heapq
 import itertools
+import string
 from typing import List
 
 
@@ -500,3 +501,19 @@ class Solution:
     def maxFrequencyElements(self, nums: List[int]) -> int:
         count = collections.Counter(nums)
         return sum(freq for freq in count.values() if freq == max(count.values()))
+
+    # 3120. Count the Number of Special Characters I
+    def numberOfSpecialChars(self, word: str) -> int:
+        lower = collections.defaultdict(bool)
+        upper = collections.defaultdict(bool)
+
+        for c in word:
+            if c.islower():
+                lower[c] = True
+            else:
+                upper[c] = True
+
+        return sum(
+            lower[a] and upper[b]
+            for a, b in zip(string.ascii_lowercase, string.ascii_uppercase)
+        )
