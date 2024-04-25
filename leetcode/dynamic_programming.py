@@ -1334,6 +1334,25 @@ class Solution:
 
         return result
 
+    # 2370. Longest Ideal Subsequence
+    def longestIdealString(self, s: str, k: int) -> int:
+        def find_max_subsequence(i: int) -> int:
+            nonlocal dp
+            min_diff = max(0, i - k)
+            max_diff = min(25, i + k)
+            max_subsequence = 0
+            for j in range(min_diff, max_diff + 1):
+                max_subsequence = max(max_subsequence, dp[j])
+            return max_subsequence
+
+        # dp[i] will be the Longest Ideal Subsequence ending with i-th character in
+        # the alphabet
+        dp = [0] * 26
+        for c in s:
+            i = ord(c) - ord("a")
+            dp[i] = 1 + find_max_subsequence(i)
+        return max(dp)
+
     # 2466. Count Ways To Build Good Strings
     def countGoodStrings(self, low: int, high: int, zero: int, one: int) -> int:
         mod = 10**9 + 7
