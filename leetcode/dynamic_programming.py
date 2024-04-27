@@ -733,6 +733,29 @@ class Solution:
 
         return dp[n][target]
 
+    # 514. Freedom Trail
+    def findRotateSteps(self, ring: str, key: str) -> int:
+        r = len(ring)
+        n = len(key)
+
+        @functools.cache
+        def dfs(ring_state: str, key_idx: int) -> int:
+            """Returns the minimum number of ring rotates to spell key[key_idx:]"""
+            if key_idx == n:
+                return 0
+
+            result = math.inf
+            for i, c in enumerate(ring_state):
+                if c == key[key_idx]:
+                    min_path = min(i, r - i)
+                    new_ring_state = ring_state[i:] + ring_state[:i]
+                    result = min(result, min_path + dfs(new_ring_state, key_idx + 1))
+
+            assert isinstance(result, int)
+            return result
+
+        return dfs(ring, 0) + n
+
     # 518. Coin Change II
     def change(self, amount: int, coins: List[int]) -> int:
         # dp(i, j) will be the number of combinations that make up i amount
