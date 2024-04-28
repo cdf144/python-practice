@@ -167,6 +167,43 @@ class Solution:
         result = dist_to[dst]
         return result if isinstance(result, int) else -1
 
+    # 834. Sum of Distances in Tree
+    def sumOfDistancesInTree(self, n: int, edges: List[List[int]]) -> List[int]:
+        adj = collections.defaultdict(list)
+        res = [0] * n
+        # Number of nodes in subtree with root as i
+        count = [1] * n
+
+        for u, v in edges:
+            adj[u].append(v)
+            adj[v].append(u)
+
+        def dfs_init(node: int, parent: int = -1) -> None:
+            """
+            Postorder traversal to compute count[i] (node count of each subtree)
+            and res[root]
+            """
+            for child in adj[node]:
+                if child == parent:
+                    continue
+                dfs_init(child, node)
+                count[node] += count[child]
+                res[node] += res[child] + count[child]
+
+        def dfs_main(node: int, parent: int = -1) -> None:
+            """
+            Preorder traversal to compute res[i]
+            """
+            for child in adj[node]:
+                if child == parent:
+                    continue
+                res[child] = res[node] - count[child] + (n - count[child])
+                dfs_main(child, node)
+
+        dfs_init(0)
+        dfs_main(0)
+        return res
+
     # 997. Find the Town Judge
     def findJudge(self, n: int, trust: List[List[int]]) -> int:
         out_degree = [0] * n
