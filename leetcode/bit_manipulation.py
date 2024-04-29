@@ -32,3 +32,13 @@ class Solution:
         for i, num in enumerate(nums):
             result ^= i ^ num
         return result
+
+    # 2997. Minimum Number of Operations to Make Array XOR Equal to K
+    def minOperations(self, nums: List[int], k: int) -> int:
+        # General rule: no. of 1 bits is odd -> XOR bit = 0, else 1
+        xor = 0
+        for num in nums:
+            xor ^= num
+        # For every bit that is different than k in array XOR, we only need to flip
+        # one bit of an element in `nums` to make that bit equal.
+        return (xor ^ k).bit_count()
