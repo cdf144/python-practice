@@ -148,6 +148,35 @@ class Solution:
 
         return result
 
+    # 1915. Number of Wonderful Substrings
+    def wonderfulSubstrings(self, word: str) -> int:
+        result = 0
+        # The running prefix of word. Since we only care about if characters in the
+        # prefix appears even or odd number of times, we can use a bitmask. "1" means
+        # the character appears odd number of times, "0" means even number of times.
+        state = 0
+        # How many times we have run into a state. Since we only have letters from 'a'
+        # to 'j' (10 letters), there are 2^10 possible states.
+        state_count = [0] * 1024
+        state_count[0] = 1
+
+        for c in word:
+            state ^= 1 << (ord(c) - ord("a"))
+            # If we have previously run into the same state, for example word[0..i] has
+            # the same state as word[0..j], that means all characters in word[i..j]
+            # appears even number of times.
+            result += state_count[state]
+            # If a substring have one character that appears odd number of times, it is
+            # also a valid substring. To check that, we try to "flip" each bit of the
+            # current state to see if after flipping, it turns into a state which we
+            # have previously run into, that means word[i..j] contains exactly one
+            # character appearing odd times. In other words, we only need to remove one
+            # character in word[i..j] for it to be even substring.
+            result += sum(state_count[state ^ (1 << i)] for i in range(10))
+            state_count[state] += 1
+
+        return result
+
     # 1930. Unique Length-3 Palindromic Subsequences
     def countPalindromicSubsequence(self, s: str) -> int:
         # Since we are only considering subsequences of length 3, we can think of it
