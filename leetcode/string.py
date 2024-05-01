@@ -174,6 +174,15 @@ class Solution:
         count_start_one = len(s) - count_start_zero
         return min(count_start_zero, count_start_one)
 
+    # 2000. Reverse Prefix of Word
+    def reversePrefix(self, word: str, ch: str) -> str:
+        index = word.find(ch)
+        return (
+            word[: index + 1][::-1] + word[index + 1 :]
+            if 0 <= index < len(word)
+            else word
+        )
+
     # 2108. Find First Palindromic String in the Array
     def firstPalindrome(self, words: List[str]) -> str:
         def is_palindrome(s: str) -> bool:
