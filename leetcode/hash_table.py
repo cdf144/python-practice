@@ -436,6 +436,17 @@ class Solution:
 
         return result
 
+    # 2441. Largest Positive Integer That Exists With Its Negative
+    def findMaxK(self, nums: List[int]) -> int:
+        seen = set()
+        result = -1
+        for num in nums:
+            if -num in seen:
+                result = max(result, abs(num))
+            else:
+                seen.add(num)
+        return result
+
     # 2610. Convert an Array Into a 2D Array With Conditions
     def findMatrix(self, nums: List[int]) -> List[List[int]]:
         # # Brute force
