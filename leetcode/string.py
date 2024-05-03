@@ -49,6 +49,21 @@ class Solution:
     def lengthOfLastWord(self, s: str) -> int:
         return len(s.strip().split(" ")[-1])
 
+    # 165. Compare Version Numbers
+    def compareVersion(self, version1: str, version2: str) -> int:
+        v1 = version1.split(".")
+        v2 = version2.split(".")
+
+        for i in range(max(len(v1), len(v2))):
+            num1 = int(v1[i]) if i < len(v1) else 0
+            num2 = int(v2[i]) if i < len(v2) else 0
+            if num1 < num2:
+                return -1
+            if num1 > num2:
+                return 1
+
+        return 0
+
     # 214. Shortest Palindrome
     def shortestPalindrome(self, s: str) -> str:
         # reversed string for checking
