@@ -303,6 +303,12 @@ class Solution:
 
         return True
 
+    # 237. Delete Node in a Linked List
+    def deleteNode(self, node: ListNode) -> None:
+        assert node and node.next
+        node.val = node.next.val
+        node.next = node.next.next
+
     # 287. Find the Duplicate Number
     def findDuplicate(self, nums: List[int]) -> int:
         start = nums[0]
