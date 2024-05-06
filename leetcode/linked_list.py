@@ -399,6 +399,17 @@ class Solution:
         node_b.next = None
         return list1
 
+    # 2487. Remove Nodes From Linked List
+    def removeNodes(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        if not head:
+            return None
+        next = self.removeNodes(head.next)
+        if next and head.val < next.val:
+            head = next
+        else:
+            head.next = next
+        return head
+
     # 2807. Insert Greatest Common Divisors in Linked List
     def insertGreatestCommonDivisors(
         self, head: Optional[ListNode]
