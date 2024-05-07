@@ -427,3 +427,15 @@ class Solution:
             itr = next
 
         return head
+
+    # 2816. Double a Number Represented as a Linked List
+    def doubleIt(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        if head and head.val >= 5:
+            head = ListNode(0, head)
+        itr = head
+        while itr:
+            itr.val = (itr.val * 2) % 10
+            if itr.next and itr.next.val >= 5:
+                itr.val += 1
+            itr = itr.next
+        return head
