@@ -38,6 +38,15 @@ class Solution:
 
         return result
 
+    # 506. Relative Ranks
+    def findRelativeRanks(self, score: List[int]) -> List[str]:
+        sorted_score = sorted(score, reverse=True)
+        ranks = ["Gold Medal", "Silver Medal", "Bronze Medal"] + list(
+            map(str, range(4, len(score) + 1))
+        )
+        score_rank = dict(zip(sorted_score, ranks))
+        return [score_rank[sc] for sc in score]
+
     # 525. Contiguous Array
     def findMaxLength(self, nums: List[int]) -> int:
         result = 0
