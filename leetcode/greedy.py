@@ -450,3 +450,14 @@ class Solution:
         # Same solution for 3014. Minimum Number of Pushes to Type Word I
         count = sorted(collections.Counter(word).values(), reverse=True)
         return sum(cnt * (i // 8 + 1) for i, cnt in enumerate(count))
+
+    # 3075. Maximize Happiness of Selected Children
+    def maximumHappinessSum(self, happiness: List[int], k: int) -> int:
+        result = 0
+        decrement = 0
+        for h in sorted(happiness, reverse=True)[:k]:
+            if h - decrement <= 0:
+                break
+            result += h - decrement
+            decrement += 1
+        return result
