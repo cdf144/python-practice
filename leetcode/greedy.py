@@ -214,6 +214,34 @@ class Solution:
 
         return True
 
+    # 857. Minimum Cost to Hire K Workers
+    def mincostToHireWorkers(
+        self, quality: List[int], wage: List[int], k: int
+    ) -> float:
+        result = math.inf
+
+        max_heap = []
+        group_quality = 0
+        workers = sorted((w / q, q) for w, q in zip(wage, quality))
+        for wage_per_quality, q in workers:
+            heapq.heappush(max_heap, -q)
+            group_quality += q
+            if len(max_heap) > k:
+                # Since we are minimizing total wage, and the wage_per_quality is only
+                # increasing, we need to get rid of the worker with most quality
+                group_quality += heapq.heappop(max_heap)
+            if len(max_heap) == k:
+                # The wage_per_quality is the highest in the group -> Every worker in
+                # the paid group is paid at least their minimum wage expectation.
+                # We also satisfy the 2nd condition which is that each worker's pay
+                # must be directly proportional to their quality. This is true because
+                # group_quality = sum(worker_quality), and if
+                # worker_quality_1 > worker_quality_2
+                # -> worker_quality_1 * wage_per_quality > worker_quality_2 * wage_per_quality
+                result = min(result, group_quality * wage_per_quality)
+
+        return result
+
     # 881. Boats to Save People
     def numRescueBoats(self, people: List[int], limit: int) -> int:
         people.sort()
