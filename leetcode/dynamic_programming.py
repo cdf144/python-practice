@@ -1433,7 +1433,7 @@ class Solution:
         m, n = len(grid), len(grid[0])
         result = -math.inf
         # dp[i][j] will be the minimum element in the matrix which grid[i][j] is the
-        # bottom-leftmost element (because we can only move down or right).
+        # bottom-rightmost element (because we can only move down or right).
         # dp[i][j] = min(grid[i][j], dp[i - 1][j], dp[i][j - 1])
         dp = [[math.inf] * n for _ in range(m)]
         for i in range(m):
