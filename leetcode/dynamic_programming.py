@@ -1425,3 +1425,24 @@ class Solution:
             return min(cost[i] + dp(i + 1, j - time[i] - 1), dp(i + 1, j))
 
         return dp(0, n)
+
+    # 3148. Maximum Difference Score in a Grid
+    def maxScore(self, grid: List[List[int]]) -> int:
+        # From cell c1 to any cell ck:
+        # (c2 - c1) + (c3 - c2) + ... + (ck - c(k - 1)) = ck - c1
+        m, n = len(grid), len(grid[0])
+        result = -math.inf
+        # dp[i][j] will be the minimum element in the matrix which grid[i][j] is the
+        # bottom-leftmost element (because we can only move down or right).
+        # dp[i][j] = min(grid[i][j], dp[i - 1][j], dp[i][j - 1])
+        dp = [[math.inf] * n for _ in range(m)]
+        for i in range(m):
+            for j in range(n):
+                prev = min(
+                    math.inf if i == 0 else dp[i - 1][j],
+                    math.inf if j == 0 else dp[i][j - 1],
+                )
+                result = max(result, grid[i][j] - prev)
+                dp[i][j] = min(grid[i][j], prev)
+        assert isinstance(result, int)
+        return result
