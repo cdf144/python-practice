@@ -227,6 +227,23 @@ class Solution:
 
         return result
 
+    # 2373. Largest Local Values in a Matrix
+    def largestLocal(self, grid: List[List[int]]) -> List[List[int]]:
+        def find_max(y: int, x: int) -> int:
+            """Find maximum in 3x3 matrix with grid[y][x] as the center."""
+            m = 0
+            for i in range(y - 1, y + 2):
+                for j in range(x - 1, x + 2):
+                    m = max(m, grid[i][j])
+            return m
+
+        n = len(grid)
+        max_local = [[0] * (n - 2) for _ in range(n - 2)]
+        for i in range(1, n - 1):
+            for j in range(1, n - 1):
+                max_local[i - 1][j - 1] = find_max(i, j)
+        return max_local
+
     # 2391. Minimum Amount of Time to Collect Garbage
     def garbageCollection(self, garbage: List[str], travel: List[int]) -> int:
         # Prefix sum of total travel cost to index i
