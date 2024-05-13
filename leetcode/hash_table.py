@@ -1,5 +1,4 @@
 import collections
-import heapq
 import itertools
 import string
 from typing import List
@@ -544,3 +543,10 @@ class Solution:
             lower[a] and upper[b]
             for a, b in zip(string.ascii_lowercase, string.ascii_uppercase)
         )
+
+    # 3137. Minimum Number of Operations to Make Word K-Periodic
+    def minimumOperationsToMakeKPeriodic(self, word: str, k: int) -> int:
+        count = collections.Counter()
+        for i in range(0, len(word), k):
+            count[word[i : i + k]] += 1
+        return len(word) // k - max(count.values())
