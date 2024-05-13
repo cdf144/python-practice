@@ -121,6 +121,13 @@ class Solution:
             c1 == c2 for c1, c2 in zip(char_generator(word1), char_generator(word2))
         )
 
+    # 1668. Maximum Repeating Substring
+    def maxRepeating(self, sequence: str, word: str) -> int:
+        result = 0
+        while word * (result + 1) in sequence:
+            result += 1
+        return result
+
     # 1704. Determine if String Halves Are Alike
     def halvesAreAlike(self, s: str) -> bool:
         # # Straightforward counting (HashMap)
