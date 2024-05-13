@@ -242,6 +242,26 @@ class Solution:
 
         return result
 
+    # 861. Score After Flipping Matrix
+    def matrixScore(self, grid: List[List[int]]) -> int:
+        result = 0
+
+        for row in grid:
+            if row[0] == 1:
+                continue
+            for i, cell in enumerate(row):
+                row[i] = 1 if cell == 0 else 0
+
+        for j, col in enumerate(zip(*grid)):
+            if col.count(1) * 2 >= len(col):
+                continue
+            for i, cell in enumerate(col):
+                grid[i][j] = 1 if cell == 0 else 0
+
+        for row in grid:
+            result += int("".join(map(str, row)), 2)
+        return result
+
     # 881. Boats to Save People
     def numRescueBoats(self, people: List[int], limit: int) -> int:
         people.sort()
