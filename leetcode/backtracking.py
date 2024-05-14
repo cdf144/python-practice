@@ -1,5 +1,4 @@
 import collections
-from copyreg import constructor
 import functools
 import itertools
 from typing import List
@@ -324,20 +323,12 @@ class Solution:
             # Temporarily mark cell as visited
             tmp = grid[i][j]
             grid[i][j] = 0
-            max_path = tmp
-            for dy, dx in dirs:
-                max_path = max(max_path, tmp + dfs(i + dy, j + dx))
+            max_path = tmp + max(dfs(i + di, j + dj) for di, dj in dirs)
             # Backtrack
             grid[i][j] = tmp
             return max_path
 
-        result = 0
-        for i, row in enumerate(grid):
-            for j, cell in enumerate(row):
-                if cell == 0:
-                    continue
-                result = max(result, dfs(i, j))
-        return result
+        return max(dfs(i, j) for i in range(m) for j in range(n))
 
     # 1239. Maximum Length of a Concatenated String with Unique Characters
     def maxLength(self, arr: List[str]) -> int:
