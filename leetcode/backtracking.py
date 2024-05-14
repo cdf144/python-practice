@@ -1,4 +1,5 @@
 import collections
+from copyreg import constructor
 import functools
 import itertools
 from typing import List
@@ -310,6 +311,32 @@ class Solution:
                 partition.pop()
 
         dfs(0, [])
+        return result
+
+    # 1219. Path with Maximum Gold
+    def getMaximumGold(self, grid: List[List[int]]) -> int:
+        m, n = len(grid), len(grid[0])
+        dirs = [(-1, 0), (0, 1), (1, 0), (0, -1)]
+
+        def dfs(i: int, j: int) -> int:
+            if not 0 <= i < m or not 0 <= j < n or grid[i][j] == 0:
+                return 0
+            # Temporarily mark cell as visited
+            tmp = grid[i][j]
+            grid[i][j] = 0
+            max_path = tmp
+            for dy, dx in dirs:
+                max_path = max(max_path, tmp + dfs(i + dy, j + dx))
+            # Backtrack
+            grid[i][j] = tmp
+            return max_path
+
+        result = 0
+        for i, row in enumerate(grid):
+            for j, cell in enumerate(row):
+                if cell == 0:
+                    continue
+                result = max(result, dfs(i, j))
         return result
 
     # 1239. Maximum Length of a Concatenated String with Unique Characters
