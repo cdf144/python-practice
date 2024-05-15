@@ -1,4 +1,5 @@
 import collections
+import bisect
 import math
 from typing import List
 
@@ -334,3 +335,75 @@ class Solution:
                     prime_idx[fact] = i
 
         return any(uf.size[i] == n for i in range(n))
+
+    # 2812. Find the Safest Path in a Grid
+    def maximumSafenessFactor(self, grid: List[List[int]]) -> int:
+        self.dirs = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+        n = len(grid)
+        grid_safeness = self._get_dist_to_nearest_thief(grid)
+
+        def has_valid_path(min_safeness: int) -> bool:
+            if grid_safeness[0][0] < min_safeness:
+                return False
+
+            queue = collections.deque([(0, 0)])
+            visited = {(0, 0)}
+
+            while queue:
+                for _ in range(len(queue)):
+                    i, j = queue.popleft()
+                    if i == n - 1 and j == n - 1:
+                        return True
+                    for di, dj in self.dirs:
+                        x = i + di
+                        y = j + dj
+                        if (
+                            not 0 <= x < n
+                            or not 0 <= y < n
+                            or (x, y) in visited
+                            or grid_safeness[x][y] < min_safeness
+                        ):
+                            continue
+                        queue.append((x, y))
+                        visited.add((x, y))
+
+            return False
+
+        return (
+            bisect.bisect_left(
+                range(n * 2), True, key=lambda mid: not has_valid_path(mid)
+            )
+            - 1
+        )
+
+    def _get_dist_to_nearest_thief(self, grid: List[List[int]]) -> List[List[int]]:
+        """
+        Do a BFS starting from every thief to find out the nearest distance of every
+        cell to a thief.
+        """
+        n = len(grid)
+        result = [[0] * n for _ in range(n)]
+
+        queue = collections.deque()
+        visited = set()
+        for i, row in enumerate(grid):
+            for j, cell in enumerate(row):
+                if cell == 1:
+                    queue.append((i, j))
+                    visited.add((i, j))
+
+        dist = 0
+        while queue:
+            for _ in range(len(queue)):
+                i, j = queue.popleft()
+                result[i][j] = dist
+                for di, dj in self.dirs:
+                    x = i + di
+                    y = j + dj
+                    if not 0 <= x < n or not 0 <= y < n or (x, y) in visited:
+                        continue
+                    queue.append((x, y))
+                    visited.add((x, y))
+            dist += 1
+
+        return result
