@@ -710,6 +710,20 @@ class Solution:
         dfs(root)
         return result
 
+    # 2331. Evaluate Boolean Binary Tree
+    def evaluateTree(self, root: Optional[TreeNode]) -> bool:
+        def postorder(node: Optional[TreeNode]) -> bool:
+            assert node
+            if not node.left and not node.right:
+                return bool(node.val)
+            left = postorder(node.left)
+            right = postorder(node.right)
+            if node.val == 2:
+                return left or right
+            return left and right
+
+        return postorder(root)
+
     # 2385. Amount of Time for Binary Tree to Be Infected
     def amountOfTime(self, root: Optional[TreeNode], start: int) -> int:
         # Main idea: Convert to an undirected graph, then use BFS to find the
