@@ -611,6 +611,20 @@ class Solution:
 
         return max_diff(root, root.val, root.val)
 
+    # 1325. Delete Leaves With a Given Value
+    def removeLeafNodes(
+        self, root: Optional[TreeNode], target: int
+    ) -> Optional[TreeNode]:
+        def is_leaf(node: Optional[TreeNode]) -> bool:
+            assert node
+            return not node.left and not node.right
+
+        if not root:
+            return None
+        root.left = self.removeLeafNodes(root.left, target)
+        root.right = self.removeLeafNodes(root.right, target)
+        return None if is_leaf(root) and root.val == target else root
+
     # 1448. Count Good Nodes in Binary Tree
     def goodNodes(self, root: TreeNode) -> int:
         def dfs(node: Optional[TreeNode], curr_max) -> None:
