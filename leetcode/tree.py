@@ -532,6 +532,22 @@ class Solution:
             + self.rangeSumBST(root.right, low, high)
         )
 
+    # 979. Distribute Coins in Binary Tree
+    def distributeCoins(self, root: Optional[TreeNode]) -> int:
+        result = 0
+
+        def postorder(node: Optional[TreeNode]) -> int:
+            nonlocal result
+            if not node:
+                return 0
+            left = postorder(node.left)
+            right = postorder(node.right)
+            result += abs(left) + abs(right)
+            return (node.val - 1) + left + right
+
+        postorder(root)
+        return result
+
     # 988. Smallest String Starting From Leaf
     def smallestFromLeaf(self, root: Optional[TreeNode]) -> str:
         result = ""
