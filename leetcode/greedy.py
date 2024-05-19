@@ -509,3 +509,18 @@ class Solution:
             result += h - decrement
             decrement += 1
         return result
+
+    # 3068. Find the Maximum Sum of Node Values
+    def maximumValueSum(self, nums: List[int], k: int, edges: List[List[int]]) -> int:
+        result = 0
+        odd = 0
+        min_decrease = math.inf
+
+        for node in nums:
+            node_xor = node ^ k
+            result += max(node, node_xor)
+            odd ^= 1 if node < node_xor else 0
+            min_decrease = min(min_decrease, abs(node - node_xor))
+
+        assert isinstance(min_decrease, int)
+        return result - min_decrease * odd
