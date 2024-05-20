@@ -371,3 +371,18 @@ class Solution:
 
         dfs(0, set())
         return result
+
+    # 1863. Sum of All Subset XOR Totals
+    def subsetXORSum(self, nums: List[int]) -> int:
+        n = len(nums)
+        result = 0
+
+        def backtrack(i: int, curr_xor: int) -> None:
+            nonlocal result
+            result += curr_xor
+            for j in range(i + 1, n):
+                backtrack(j, curr_xor ^ nums[j])
+
+        for i in range(n):
+            backtrack(i, nums[i])
+        return result
