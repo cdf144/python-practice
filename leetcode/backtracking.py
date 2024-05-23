@@ -1,7 +1,7 @@
 import collections
 import functools
 import itertools
-from typing import List
+from typing import Dict, List
 
 
 class Solution:
@@ -385,4 +385,25 @@ class Solution:
 
         for i in range(n):
             backtrack(i, nums[i])
+        return result
+
+    # 2597. The Number of Beautiful Subsets
+    def beautifulSubsets(self, nums: List[int], k: int) -> int:
+        nums.sort()
+        n = len(nums)
+        result = 0
+
+        def backtrack(i: int, count: Dict[int, int]) -> None:
+            nonlocal result
+            if count[nums[i] - k] > 0:
+                return
+            count[nums[i]] += 1
+            result += 1
+            for j in range(i + 1, n):
+                backtrack(j, count)
+            count[nums[i]] -= 1
+
+        count = collections.defaultdict(int)
+        for i in range(n):
+            backtrack(i, count)
         return result
