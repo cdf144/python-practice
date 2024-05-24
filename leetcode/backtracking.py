@@ -372,6 +372,40 @@ class Solution:
         dfs(0, set())
         return result
 
+    # 1255. Maximum Score Words Formed by Letters
+    def maxScoreWords(
+        self, words: List[str], letters: List[str], score: List[int]
+    ) -> int:
+        n = len(words)
+        count = collections.Counter(letters)
+        result = 0
+
+        def backtrack(i: int, curr_score: int) -> None:
+            nonlocal result
+            count_word = collections.Counter(words[i])
+            # Check if word can be formed
+            for letter, cnt in count_word.items():
+                if count[letter] < cnt:
+                    return
+            # Form word and add score
+            for letter, cnt in count_word.items():
+                count[letter] -= cnt
+            curr_score += sum(
+                score[ord(letter) - ord("a")] * cnt
+                for letter, cnt in count_word.items()
+            )
+            result = max(result, curr_score)
+            # Recursive call
+            for j in range(i + 1, n):
+                backtrack(j, curr_score)
+            # Backtrack
+            for letter, cnt in count_word.items():
+                count[letter] += cnt
+
+        for i in range(n):
+            backtrack(i, 0)
+        return result
+
     # 1863. Sum of All Subset XOR Totals
     def subsetXORSum(self, nums: List[int]) -> int:
         n = len(nums)
