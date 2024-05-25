@@ -312,6 +312,25 @@ class Solution:
         dfs(0, [])
         return result
 
+    # 140. Word Break II
+    def wordBreak(self, s: str, wordDict: List[str]) -> List[str]:
+        n = len(s)
+        result = []
+
+        def backtrack(i: int, sentence: List[str]) -> None:
+            if i == n:
+                result.append(" ".join(sentence))
+                return
+            for word in wordDict:
+                if word != s[i : i + len(word)]:
+                    continue
+                sentence.append(word)
+                backtrack(i + len(word), sentence)
+                sentence.pop()
+
+        backtrack(0, [])
+        return result
+
     # 1219. Path with Maximum Gold
     def getMaximumGold(self, grid: List[List[int]]) -> int:
         m, n = len(grid), len(grid[0])
