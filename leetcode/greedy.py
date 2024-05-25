@@ -128,6 +128,15 @@ class Solution:
 
         return child
 
+    # 517. Super Washing Machines
+    def findMinMoves(self, machines: List[int]) -> int:
+        avg, r = divmod(sum(machines), len(machines))
+        if r != 0:
+            return -1
+        diff = [m - avg for m in machines]
+        in_out = map(abs, itertools.accumulate(diff))
+        return max(max(diff), max(in_out))
+
     # 678. Valid Parenthesis String
     def checkValidString(self, s: str) -> bool:
         # # DP
