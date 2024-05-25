@@ -33,6 +33,15 @@ class Solution:
             result ^= i ^ num
         return result
 
+    # 2433. Find The Original Array of Prefix Xor
+    def findArray(self, pref: List[int]) -> List[int]:
+        n = len(pref)
+        result = [0] * n
+        result[0] = pref[0]
+        for i in range(1, n):
+            result[i] = pref[i - 1] ^ pref[i]
+        return result
+
     # 2997. Minimum Number of Operations to Make Array XOR Equal to K
     def minOperations(self, nums: List[int], k: int) -> int:
         # General rule: no. of 1 bits is odd -> XOR bit = 0, else 1
