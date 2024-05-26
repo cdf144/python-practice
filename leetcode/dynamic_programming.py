@@ -771,6 +771,36 @@ class Solution:
 
         return dp(amount, len(coins) - 1)
 
+    # 552. Student Attendance Record II
+    def checkRecord(self, n: int) -> int:
+        mod = 10**9 + 7
+        # dp[i][absent][late] will be the number of elligible attendance records of
+        # length `i` with `absent` A's and ending with `late` L's
+        # Since we only need to know the previous `i - 1` state to calculate `i` state,
+        # we don't have to create a 3D array.
+        dp = [[0] * 3 for _ in range(2)]
+        dp[0][0] = 1
+
+        for _ in range(n):
+            # Deep copy, more efficient than copy.deepcopy
+            prev = [row[:] for row in dp]
+
+            # Choose "P" with 0 A's
+            dp[0][0] = sum(prev[0]) % mod
+            # Choose "P" with 1 A's
+            dp[1][0] = sum(prev[1]) % mod
+
+            # Choose "A" with 0 A's
+            dp[1][0] += sum(prev[0]) % mod
+
+            # Choose "L"
+            dp[0][1] = prev[0][0]
+            dp[0][2] = prev[0][1]
+            dp[1][1] = prev[1][0]
+            dp[1][2] = prev[1][1]
+
+        return (sum(dp[0]) + sum(dp[1])) % mod
+
     # 576. Out of Boundary Paths
     def findPaths(
         self, m: int, n: int, maxMove: int, startRow: int, startColumn: int
