@@ -305,6 +305,27 @@ class Solution:
 
         return result
 
+    # 1363. Largest Multiple of Three
+    def largestMultipleOfThree(self, digits: List[int]) -> str:
+        count = collections.Counter(digits)
+        # Prioritize removing the first 3 digits in array (if exists in `digits`),
+        # else fall back to last 3 digits in array
+        rem1 = [1, 4, 7, 2, 5, 8]
+        rem2 = [2, 5, 8, 1, 4, 7]
+        sum_digits = sum(digits)
+
+        while sum_digits % 3 != 0:
+            for digit in rem1 if sum_digits % 3 == 1 else rem2:
+                if count[digit]:
+                    sum_digits -= digit
+                    count[digit] -= 1
+                    break
+
+        result = ""
+        for digit in reversed(range(10)):
+            result += str(digit) * count[digit]
+        return "0" if result and result[0] == "0" else result
+
     # 1402. Reducing Dishes
     def maxSatisfaction(self, satisfaction: List[int]) -> int:
         satisfaction.sort(reverse=True)
