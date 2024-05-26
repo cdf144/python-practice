@@ -38,6 +38,22 @@ class Solution:
 
         return result
 
+    # 386. Lexicographical Numbers
+    def lexicalOrder(self, n: int) -> List[int]:
+        result = []
+        i = 1
+        for _ in range(n):
+            result.append(i)
+            if i * 10 <= n:
+                i *= 10
+            elif i % 10 != 9 and i + 1 <= n:
+                i += 1
+            else:
+                while i % 10 == 9 or i + 1 > n:
+                    i //= 10
+                i += 1
+        return result
+
     # 506. Relative Ranks
     def findRelativeRanks(self, score: List[int]) -> List[str]:
         sorted_score = sorted(score, reverse=True)
