@@ -126,6 +126,20 @@ class Solution:
 
         return result
 
+    # 1608. Special Array With X Elements Greater Than or Equal X
+    def specialArray(self, nums: List[int]) -> int:
+        nums.sort()
+        n = len(nums)
+        if nums[0] >= n:
+            return n
+
+        for i, (a, b) in enumerate(itertools.pairwise(nums)):
+            count = n - i - 1
+            if a < count and b >= count:
+                return count
+
+        return -1
+
     # 1685. Sum of Absolute Differences in a Sorted Array
     def getSumAbsoluteDifferences(self, nums: List[int]) -> List[int]:
         n = len(nums)
