@@ -82,6 +82,23 @@ class Solution:
     def rotateString(self, s: str, goal: str) -> bool:
         return len(s) == len(goal) and goal in s + s
 
+    # 1404. Number of Steps to Reduce a Number in Binary Representation to One
+    def numSteps(self, s: str) -> int:
+        result = 0
+
+        carry = 0
+        for i in range(len(s) - 1, 0, -1):
+            # Every bit will be shifted right (number divided by 2).
+            result += 1
+            # If s[i] is odd, or after adding carry over, it becomes odd, then we need
+            # an extra operation.
+            if ord(s[i]) - ord("0") + carry == 1:
+                carry = 1
+                result += 1
+
+        # If there is a carry left, we need to add one more operation (one more shift).
+        return result + carry
+
     # 1422. Maximum Score After Splitting a String
     def maxScore(self, s: str) -> int:
         left = 0
