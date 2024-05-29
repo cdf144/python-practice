@@ -262,6 +262,21 @@ class Solution:
 
         return result
 
+    # 1208. Get Equal Substrings Within Budget
+    def equalSubstring(self, s: str, t: str, maxCost: int) -> int:
+        n = len(s)
+        j = 0
+
+        for i in range(n):
+            maxCost -= abs(ord(s[i]) - ord(t[i]))
+            # Don't need while loop, because the length of the max window will never
+            # be smaller, it'll only get bigger.
+            if maxCost < 0:
+                maxCost += abs(ord(s[j]) - ord(t[j]))
+                j += 1
+
+        return n - j
+
     # 1838. Frequency of the Most Frequent Element
     def maxFrequency(self, nums: List[int], k: int) -> int:
         nums.sort()
