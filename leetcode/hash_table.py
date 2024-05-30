@@ -223,6 +223,15 @@ class Solution:
         char_order = {c: i for i, c in enumerate(order)}
         return "".join(sorted(s, key=lambda c: char_order.get(c, n)))
 
+    # 890. Find and Replace Pattern
+    def findAndReplacePattern(self, words: List[str], pattern: str) -> List[str]:
+        def normalize(w: str) -> List[int]:
+            word = {}
+            return [word.setdefault(c, len(word)) for c in w]
+
+        np = normalize(pattern)
+        return [w for w in words if normalize(w) == np]
+
     # 1160. Find Words That Can Be Formed by Characters
     def countCharacters(self, words: List[str], chars: str) -> int:
         count = collections.Counter(chars)
