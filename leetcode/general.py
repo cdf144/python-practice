@@ -126,6 +126,19 @@ class Solution:
 
         return result
 
+    # 1442. Count Triplets That Can Form Two Arrays of Equal XOR
+    def countTriplets(self, arr: List[int]) -> int:
+        result = 0
+
+        for i, start in enumerate(arr):
+            prefix = start
+            for k, num in enumerate(arr[i + 1 :], 1):
+                prefix ^= num
+                if prefix == 0:
+                    result += k
+
+        return result
+
     # 1608. Special Array With X Elements Greater Than or Equal X
     def specialArray(self, nums: List[int]) -> int:
         nums.sort()
