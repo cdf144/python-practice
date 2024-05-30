@@ -469,6 +469,16 @@ class Solution:
 
         return root
 
+    # 654. Maximum Binary Tree
+    def constructMaximumBinaryTree(self, nums: List[int]) -> Optional[TreeNode]:
+        if not nums:
+            return None
+        pivot = nums.index(max(nums))
+        root = TreeNode(nums[pivot])
+        root.left = self.constructMaximumBinaryTree(nums[:pivot])
+        root.right = self.constructMaximumBinaryTree(nums[pivot + 1 :])
+        return root
+
     # 872. Leaf-Similar Trees
     def leafSimilar(self, root1: Optional[TreeNode], root2: Optional[TreeNode]) -> bool:
         # # Append to List
