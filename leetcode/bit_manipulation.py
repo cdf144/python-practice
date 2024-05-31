@@ -22,6 +22,24 @@ class Solution:
             right &= right - 1
         return right
 
+    # 260. Single Number III
+    def singleNumber(self, nums: List[int]) -> List[int]:
+        # XOR of array gives XOR of the two number we need to find.
+        xor = 0
+        for num in nums:
+            xor ^= num
+        # Find the rightmost set bit in XOR. This bit is one of the place where the
+        # two numbers differ (one will have this bit '0', the other '1').
+        mask = xor & -xor
+        # Separate the two unique numbers based on the bit.
+        result = [0, 0]
+        for num in nums:
+            if num & mask:
+                result[1] ^= num
+            else:
+                result[0] ^= num
+        return result
+
     # 231. Power of Two
     def isPowerOfTwo(self, n: int) -> bool:
         return n > 0 and (n & (n - 1)) == 0
