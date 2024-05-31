@@ -23,7 +23,7 @@ class Solution:
         return right
 
     # 260. Single Number III
-    def singleNumber(self, nums: List[int]) -> List[int]:
+    def singleNumberIII(self, nums: List[int]) -> List[int]:
         # XOR of array gives XOR of the two number we need to find.
         xor = 0
         for num in nums:
@@ -49,6 +49,20 @@ class Solution:
         result = len(nums)
         for i, num in enumerate(nums):
             result ^= i ^ num
+        return result
+
+    # 1310. XOR Queries of a Subarray
+    def xorQueries(self, arr: List[int], queries: List[List[int]]) -> List[int]:
+        n = len(arr)
+        prefix = [0] * n
+        prefix[0] = arr[0]
+
+        for i, num in enumerate(arr[1:], 1):
+            prefix[i] = prefix[i - 1] ^ num
+
+        result = []
+        for i, j in queries:
+            result.append(prefix[j] ^ prefix[i - 1] if i > 0 else prefix)
         return result
 
     # 2433. Find The Original Array of Prefix Xor
