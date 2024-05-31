@@ -1355,6 +1355,31 @@ class Solution:
 
         return dp(0, k)
 
+    # 1575. Count All Possible Routes
+    def countRoutes(
+        self, locations: List[int], start: int, finish: int, fuel: int
+    ) -> int:
+        mod = 10**9 + 7
+
+        # dp(i, j) will be the number of possible routes to get to `finish` while at
+        # location `i` and `fuel` fuel left
+        @functools.cache
+        def dp(i: int, fuel: int) -> int:
+            if fuel < 0:
+                return 0
+
+            result = 1 if i == finish else 0
+            curr_pos = locations[i]
+
+            for j, next_pos in enumerate(locations):
+                if j == i:
+                    continue
+                result = (result + dp(j, fuel - abs(curr_pos - next_pos))) % mod
+
+            return result
+
+        return dp(start, fuel)
+
     # 1611. Minimum One Bit Operations to Make Integers Zero
     def minimumOneBitOperations(self, n: int) -> int:
         # required[i] is the min number of operations to make 2^i -> zero.
