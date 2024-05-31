@@ -218,6 +218,34 @@ class Solution:
                 return i + 1
         return -1
 
+    # 1061. Lexicographically Smallest Equivalent String
+    def smallestEquivalentString(self, s1: str, s2: str, baseStr: str) -> str:
+        # Custom UF that each character's root is the lexicographically smallest
+        # character in the group.
+        parent = [i for i in range(26)]
+
+        def root(p: int) -> int:
+            while p != parent[p]:
+                parent[p] = parent[parent[p]]
+                p = parent[p]
+            return p
+
+        def union(p: int, q: int) -> None:
+            pr, qr = root(p), root(q)
+            if pr < qr:
+                parent[qr] = pr
+            else:
+                parent[pr] = qr
+
+        for c1, c2 in zip(s1, s2):
+            union(ord(c1) - ord("a"), ord(c2) - ord("a"))
+
+        result = []
+        for c in baseStr:
+            result.append(chr(ord("a") + root(ord(c) - ord("a"))))
+
+        return "".join(result)
+
     # 1971. Find if Path Exists in Graph
     def validPath(
         self, n: int, edges: List[List[int]], source: int, destination: int
