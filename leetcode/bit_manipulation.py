@@ -65,6 +65,10 @@ class Solution:
             result.append(prefix[j] ^ prefix[i - 1] if i > 0 else prefix)
         return result
 
+    # 2275. Largest Combination With Bitwise AND Greater Than Zero
+    def largestCombination(self, candidates: List[int]) -> int:
+        return max(sum(num >> i & 1 for num in candidates) for i in range(24))
+
     # 2433. Find The Original Array of Prefix Xor
     def findArray(self, pref: List[int]) -> List[int]:
         n = len(pref)
