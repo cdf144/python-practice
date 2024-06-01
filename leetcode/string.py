@@ -247,3 +247,7 @@ class Solution:
             if not count["1"]
             else "1" * (count["1"] - 1) + "0" * count["0"] + "1"
         )
+
+    # 3110. Score of a String
+    def scoreOfString(self, s: str) -> int:
+        return sum(abs(ord(a) - ord(b)) for a, b in itertools.pairwise(s))
