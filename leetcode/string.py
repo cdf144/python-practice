@@ -239,6 +239,19 @@ class Solution:
             for i in range(2, len(num))
         )
 
+    # 2486. Append Characters to String to Make Subsequence
+    def appendCharacters(self, s: str, t: str) -> int:
+        n = len(t)
+
+        i = 0
+        for c in s:
+            if c == t[i]:
+                i += 1
+            if i == n:
+                return 0
+
+        return n - i
+
     # 2864. Maximum Odd Binary Number
     def maximumOddBinaryNumber(self, s: str) -> str:
         count = collections.Counter(s)
