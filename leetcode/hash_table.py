@@ -153,6 +153,15 @@ class Solution:
         # If we reach here, all characters in string have frequency >= k
         return len(s)
 
+    # 409. Longest Palindrome
+    def longestPalindrome(self, s: str) -> int:
+        result = 0
+        count = collections.Counter(s)
+        for cnt in count.values():
+            result += cnt if cnt % 2 == 0 else cnt - 1
+        has_odd_count = any(cnt % 2 == 1 for cnt in count.values())
+        return result + has_odd_count
+
     # 451. Sort Characters By Frequency
     def frequencySort(self, s: str) -> str:
         count = collections.Counter(s)
