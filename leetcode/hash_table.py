@@ -241,6 +241,20 @@ class Solution:
         np = normalize(pattern)
         return [w for w in words if normalize(w) == np]
 
+    # 1002. Find Common Characters
+    def commonChars(self, words: List[str]) -> List[str]:
+        all_count = collections.Counter(words[0])
+
+        for w in words[1:]:
+            curr_count = collections.Counter(w)
+            for c in all_count.keys():
+                all_count[c] = min(all_count[c], curr_count[c])
+
+        result = []
+        for c, cnt in all_count.items():
+            result += [c] * cnt
+        return result
+
     # 1160. Find Words That Can Be Formed by Characters
     def countCharacters(self, words: List[str], chars: str) -> int:
         count = collections.Counter(chars)
