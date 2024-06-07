@@ -467,6 +467,21 @@ class Solution:
 
         return result
 
+    # 2405. Optimal Partition of String
+    def partitionString(self, s: str) -> int:
+        result = 0
+        appeared = 0
+
+        for c in s:
+            i = ord(c) - ord("a")
+            if appeared >> i & 1:
+                result += 1
+                appeared = 1 << i
+            else:
+                appeared |= 1 << i
+
+        return result + 1
+
     # 2441. Largest Positive Integer That Exists With Its Negative
     def findMaxK(self, nums: List[int]) -> int:
         seen = set()
