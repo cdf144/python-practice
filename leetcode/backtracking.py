@@ -331,6 +331,24 @@ class Solution:
         backtrack(0, [])
         return result
 
+    # 1079. Letter Tile Possibilities
+    def numTilePossibilities(self, tiles: str) -> int:
+        count = collections.Counter(tiles)
+
+        def backtrack() -> int:
+            possible_sequences = 0
+
+            for c, cnt in count.items():
+                if cnt == 0:
+                    continue
+                count[c] -= 1
+                possible_sequences += 1 + backtrack()
+                count[c] += 1
+
+            return possible_sequences
+
+        return backtrack()
+
     # 1219. Path with Maximum Gold
     def getMaximumGold(self, grid: List[List[int]]) -> int:
         m, n = len(grid), len(grid[0])
