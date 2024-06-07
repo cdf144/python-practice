@@ -78,6 +78,33 @@ class Solution:
         # -> automatically a palindrome
         return r + s
 
+    # 648. Replace Words
+    def replaceWords(self, dictionary: List[str], sentence: str) -> str:
+        trie_root = {}
+
+        def build_trie() -> None:
+            for word in dictionary:
+                node = trie_root
+                for c in word:
+                    node = node.setdefault(c, {})
+                node["$"] = True  # is_end_of_word
+
+        def search_root(word: str) -> str:
+            node = trie_root
+            for i, c in enumerate(word):
+                if c not in node:
+                    break
+                node = node[c]
+                if node.get("$"):
+                    return word[: i + 1]
+            return word
+
+        words = sentence.split(" ")
+        build_trie()
+        for i, w in enumerate(words):
+            words[i] = search_root(w)
+        return " ".join(words)
+
     # 796. Rotate String
     def rotateString(self, s: str, goal: str) -> bool:
         return len(s) == len(goal) and goal in s + s
