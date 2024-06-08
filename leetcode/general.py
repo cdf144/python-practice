@@ -63,6 +63,24 @@ class Solution:
         score_rank = dict(zip(sorted_score, ranks))
         return [score_rank[sc] for sc in score]
 
+    # 523. Continuous Subarray Sum
+    def checkSubarraySum(self, nums: List[int], k: int) -> bool:
+        prefix = 0
+        prefix_to_idx = {0: -1}
+
+        for i, num in enumerate(nums):
+            prefix = (prefix + num) % k
+            # If the remainder stays the same, that means nums[i..j] is a good subarray
+            # since sum(nums[i..j]) % k = 0
+            if prefix in prefix_to_idx:
+                if i - prefix_to_idx[prefix] >= 2:
+                    return True
+            else:
+                # Set a new key only if it's absent since previous indices are better.
+                prefix_to_idx[prefix] = i
+
+        return False
+
     # 525. Contiguous Array
     def findMaxLength(self, nums: List[int]) -> int:
         result = 0
