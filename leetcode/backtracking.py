@@ -54,6 +54,21 @@ class Solution:
         dfs(0, [])
         return result
 
+    # 22. Generate Parentheses
+    def generateParenthesis(self, n: int) -> List[str]:
+        result = []
+
+        def dfs(open: int, close: int, s: str) -> None:
+            if open == 0 and close == 0:
+                result.append(s)
+            if open > 0:
+                dfs(open - 1, close, s + "(")
+            if open < close:
+                dfs(open, close - 1, s + ")")
+
+        dfs(n, n, "")
+        return result
+
     # 39. Combination Sum
     def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
         result = []
