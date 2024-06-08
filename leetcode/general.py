@@ -281,6 +281,22 @@ class Solution:
             result += min(person, k_person - 1)
         return result + k_person
 
+    # 2428. Maximum Sum of an Hourglass
+    def maxSum(self, grid: List[List[int]]) -> int:
+        # Can also be solved using prefix sum but this is much simpler with little
+        # performance difference
+        return max(
+            grid[i][j]
+            + grid[i][j + 1]
+            + grid[i][j + 2]
+            + grid[i + 1][j + 1]
+            + grid[i + 2][j]
+            + grid[i + 2][j + 1]
+            + grid[i + 2][j + 2]
+            for i in range(len(grid) - 2)
+            for j in range(len(grid[0]) - 2)
+        )
+
     # 3096. Minimum Levels to Gain More Points
     def minimumLevels(self, possible: List[int]) -> int:
         n = len(possible)
