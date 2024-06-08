@@ -305,6 +305,17 @@ class Solution:
 
         return result
 
+    # 1338. Reduce Array Size to The Half
+    def minSetSize(self, arr: List[int]) -> int:
+        n = len(arr)
+        count = sorted(collections.Counter(arr).values())
+        result = 0
+        removed = 0
+        while removed < n // 2:
+            result += 1
+            removed += count.pop()
+        return result
+
     # 1363. Largest Multiple of Three
     def largestMultipleOfThree(self, digits: List[int]) -> str:
         count = collections.Counter(digits)
