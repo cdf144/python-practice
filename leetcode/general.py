@@ -111,6 +111,10 @@ class Solution:
 
         return result
 
+    # 1051. Height Checker
+    def heightChecker(self, heights: List[int]) -> int:
+        return sum(a != b for a, b in zip(heights, sorted(heights)))
+
     # 1291. Sequential Digits
     def sequentialDigits(self, low: int, high: int) -> List[int]:
         # # Recursion
