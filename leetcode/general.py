@@ -94,6 +94,20 @@ class Solution:
 
         return result
 
+    # 974. Subarray Sums Divisible by K
+    def subarraysDivByK(self, nums: List[int], k: int) -> int:
+        result = 0
+        prefix_mod = 0
+        mod_count = [0] * k
+        mod_count[0] = 1
+
+        for num in nums:
+            prefix_mod = (prefix_mod + (num % k + k)) % k
+            result += mod_count[prefix_mod]
+            mod_count[prefix_mod] += 1
+
+        return result
+
     # 950. Reveal Cards In Increasing Order
     def deckRevealedIncreasing(self, deck: List[int]) -> List[int]:
         n = len(deck)
