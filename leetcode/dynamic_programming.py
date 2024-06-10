@@ -108,6 +108,32 @@ class Solution:
 
         return dp(0, 0)
 
+    # 44. Wildcard Matching
+    def isMatchWildcard(self, s: str, p: str) -> bool:
+        m = len(s)
+        n = len(p)
+
+        # dp[i][j]: does s[i..m) match p[j..n)
+        @functools.cache
+        def dp(i: int, j: int) -> bool:
+            if i == m and j == n:
+                return True
+            elif j == n:
+                return False
+            elif i == m:
+                if p[j] == "*":
+                    return dp(i, j + 1)
+                return False
+
+            if p[j] == "?" or s[i] == p[j]:
+                return dp(i + 1, j + 1)
+            elif p[j] == "*":
+                return dp(i, j + 1) or dp(i + 1, j + 1) or dp(i + 1, j)
+
+            return False
+
+        return dp(0, 0)
+
     # 53. Maximum Subarray
     def maxSubArray(self, nums: List[int]) -> int:
         # # Extra space
