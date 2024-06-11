@@ -129,6 +129,22 @@ class Solution:
     def heightChecker(self, heights: List[int]) -> int:
         return sum(a != b for a, b in zip(heights, sorted(heights)))
 
+    # 1122. Relative Sort Array
+    def relativeSortArray(self, arr1: List[int], arr2: List[int]) -> List[int]:
+        res = []
+        count = [0] * 1001
+        for num in arr1:
+            count[num] += 1
+
+        for num in arr2:
+            res += [num] * count[num]
+            count[num] = 0
+
+        for num in range(1001):
+            res += [num] * count[num]
+
+        return res
+
     # 1291. Sequential Digits
     def sequentialDigits(self, low: int, high: int) -> List[int]:
         # # Recursion
