@@ -1,5 +1,3 @@
-import bisect
-import collections
 import math
 from typing import List, Optional
 
@@ -176,18 +174,6 @@ class Solution:
 
     # 75. Sort Colors
     def sortColors(self, nums: List[int]) -> None:
-        # # Counting sort
-        # count = [0] * 3
-        # for num in nums:
-        #     count[num] += 1
-        #
-        # itr = 0
-        # for i, cnt in enumerate(count):
-        #     for _ in range(cnt):
-        #         nums[itr] = i
-        #         itr += 1
-
-        # Two pointers
         left, right = 0, len(nums) - 1
         i = 0
         while i <= right:
