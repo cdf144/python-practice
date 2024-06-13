@@ -482,6 +482,10 @@ class Solution:
                 return num[: len(num) - i]
         return ""
 
+    # 2037. Minimum Number of Moves to Seat Everyone
+    def minMovesToSeat(self, seats: List[int], students: List[int]) -> int:
+        return sum(abs(a - b) for a, b in zip(sorted(seats), sorted(students)))
+
     # 2895. Minimum Processing Time
     def minProcessingTime(self, processorTime: List[int], tasks: List[int]) -> int:
         assert len(tasks) == len(processorTime) * 4
