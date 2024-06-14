@@ -286,6 +286,20 @@ class Solution:
 
         return result
 
+    # 945. Minimum Increment to Make Array Unique
+    def minIncrementForUnique(self, nums: List[int]) -> int:
+        nums.sort()
+        result = 0
+
+        prev = nums[0]
+        for num in nums[1:]:
+            if num < prev + 1:
+                result += prev + 1 - num
+                num = prev + 1
+            prev = num
+
+        return result
+
     # 948. Bag of Tokens
     def bagOfTokensScore(self, tokens: List[int], power: int) -> int:
         queue = collections.deque(sorted(tokens))
