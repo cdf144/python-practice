@@ -128,6 +128,27 @@ class Solution:
 
         return child
 
+    # 502. IPO
+    def findMaximizedCapital(
+        self, k: int, w: int, profits: List[int], capital: List[int]
+    ) -> int:
+        min_heap = []
+        max_heap = []
+
+        for cap, pro in zip(capital, profits):
+            heapq.heappush(min_heap, (cap, pro))
+
+        while k:
+            while min_heap and min_heap[0][0] <= w:
+                _, pro = heapq.heappop(min_heap)
+                heapq.heappush(max_heap, -pro)
+            if not max_heap:
+                break
+            w += -heapq.heappop(max_heap)
+            k -= 1
+
+        return w
+
     # 517. Super Washing Machines
     def findMinMoves(self, machines: List[int]) -> int:
         avg, r = divmod(sum(machines), len(machines))
