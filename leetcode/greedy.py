@@ -477,6 +477,19 @@ class Solution:
             arr[i] = min(arr[i], arr[i - 1] + 1)
         return arr[-1]
 
+    # 1827. Minimum Operations to Make the Array Increasing
+    def minOperations(self, nums: List[int]) -> int:
+        result = 0
+
+        prev = nums[0]
+        for num in nums[1:]:
+            if num <= prev:
+                result += prev - num + 1
+                num = prev + 1
+            prev = num
+
+        return result
+
     # 1899. Merge Triplets to Form Target Triplet
     def mergeTriplets(self, triplets: List[List[int]], target: List[int]) -> bool:
         found = [False] * 3
