@@ -97,6 +97,22 @@ class Solution:
 
         return start if gas_cost >= 0 else -1
 
+    # 330. Patching Array
+    def minPatches(self, nums: List[int], n: int) -> int:
+        result = 0
+        i = 0
+        missing = 1
+
+        while missing <= n:
+            if i == len(nums) or nums[i] > missing:
+                missing += missing
+                result += 1
+            else:
+                missing += nums[i]
+                i += 1
+
+        return result
+
     # 452. Minimum Number of Arrows to Burst Balloons
     def findMinArrowShots(self, points: List[List[int]]) -> int:
         points.sort(key=lambda point: point[1])
