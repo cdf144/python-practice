@@ -271,6 +271,21 @@ class Solution:
 
         return left
 
+    # 633. Sum of Square Numbers
+    def judgeSquareSum(self, c: int) -> bool:
+        left, right = 0, int(math.sqrt(c))
+
+        while left <= right:
+            summ = left * left + right * right
+            if summ == c:
+                return True
+            if summ < c:
+                left += 1
+            else:
+                right -= 1
+
+        return False
+
     # 977. Squares of a Sorted Array
     def sortedSquares(self, nums: List[int]) -> List[int]:
         n = len(nums)
