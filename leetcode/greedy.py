@@ -243,6 +243,26 @@ class Solution:
 
         return result
 
+    # 826. Most Profit Assigning Work
+    def maxProfitAssignment(
+        self, difficulty: List[int], profit: List[int], worker: List[int]
+    ) -> int:
+        res = 0
+        # Sorted by difficulty first
+        jobs = sorted(zip(difficulty, profit))
+
+        i, max_profit = 0, 0
+        for w in sorted(worker):
+            # Scan through all the jobs the worker can complete, take the max profit
+            # jobs[i][0] = job.difficulty
+            # jobs[i][1] = job.profit
+            while i < len(jobs) and w >= jobs[i][0]:
+                max_profit = max(max_profit, jobs[i][1])
+                i += 1
+            res += max_profit
+
+        return res
+
     # 846. Hand of Straights
     def isNStraightHand(self, hand: List[int], groupSize: int) -> bool:
         count = collections.Counter(hand)
