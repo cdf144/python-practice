@@ -292,3 +292,39 @@ class Solution:
             bisect.bisect_left(range(low, high), True, key=lambda mid: can_ship(mid))
             + low
         )
+
+    # 1482. Minimum Number of Days to Make m Bouquets
+    def minDays(self, bloomDay: List[int], m: int, k: int) -> int:
+        if len(bloomDay) < m * k:
+            return -1
+
+        def get_bouquet_count(wait_days: int) -> int:
+            """
+            Return the number of bouquets (number of k adjacent bloomed flowers we can
+            find) we can make if we wait `wait_days` days
+            """
+            bouquet_count = 0
+            required_flowers = k
+
+            for day in bloomDay:
+                if day > wait_days:
+                    # Reset `required_flowers` since there's not enough adjacent flowers
+                    required_flowers = k
+                else:
+                    required_flowers -= 1
+                if required_flowers == 0:
+                    required_flowers = k
+                    bouquet_count += 1
+
+            return bouquet_count
+
+        left, right = min(bloomDay), max(bloomDay)
+
+        while left < right:
+            mid = left + (right - left) // 2
+            if get_bouquet_count(mid) >= mid:
+                right = mid
+            else:
+                left = mid + 1
+
+        return left
