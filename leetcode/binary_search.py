@@ -328,3 +328,37 @@ class Solution:
                 left = mid + 1
 
         return left
+
+    # 1552. Magnetic Force Between Two Balls
+    def maxDistance(self, position: List[int], m: int) -> int:
+        position.sort()
+
+        def can_distribute(force: int) -> bool:
+            """
+            Return `True` if it is possible to distribute `m` balls so that the
+            minimum magnetic force between any two balls is `force`, else `False`.
+            """
+            balls_left = m
+            prev = -force
+
+            for pos in position:
+                if pos >= prev + force:
+                    balls_left -= 1
+                    prev = pos
+                if balls_left == 0:
+                    break
+
+            if balls_left != 0:
+                return False
+            return True
+
+        left, right = 1, position[-1] + position[0]
+
+        while left < right:
+            mid = left + (right - left) // 2
+            if not can_distribute(mid):
+                right = mid
+            else:
+                left = mid + 1
+
+        return left - 1
