@@ -186,7 +186,7 @@ class Solution:
         # The isBadVersion API is already defined for you.
         def isBadVersion(version: int) -> bool:
             """
-            Fake isBadVersion API to stop Linter from warning. Do not
+            Fake `isBadVersion` API to stop Linter from warning. Do not
             include this on LeetCode.
             """
             return True
@@ -217,19 +217,6 @@ class Solution:
 
     # 875. Koko Eating Bananas
     def minEatingSpeed(self, piles: List[int], h: int) -> int:
-        # # Naive linear search, TLE
-        # speed = max(piles)
-        # hours_finish = len(piles)
-        #
-        # while hours_finish <= h:
-        #     speed -= 1
-        #     hours_finish = 0
-        #     for pile in piles:
-        #         hours_finish += math.ceil(pile / speed)
-        #
-        # return speed + 1
-
-        # Binary search
         low, high = 1, max(piles)
 
         # There can be cases where there are multiple speeds which Koko can eat
@@ -248,28 +235,6 @@ class Solution:
 
     # 1011. Capacity To Ship Packages Within D Days
     def shipWithinDays(self, weights: List[int], days: int) -> int:
-        # # Manual Binary Search
-        # low, high = max(weights), sum(weights)
-        #
-        # while low < high:
-        #     capacity = low + (high - low) // 2
-        #
-        #     days_needed = 1
-        #     curr_weight = 0
-        #     for weight in weights:
-        #         curr_weight += weight
-        #         if curr_weight > capacity:
-        #             days_needed += 1
-        #             curr_weight = weight
-        #
-        #     if days_needed <= days:
-        #         high = capacity
-        #     else:
-        #         low = capacity + 1
-        #
-        # return low
-
-        # Library (bisect)
         def can_ship(capacity: int) -> bool:
             """
             Calculate if it is possible to ship within the number of days
