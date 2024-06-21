@@ -262,6 +262,24 @@ class Solution:
 
         return result
 
+    # 1052. Grumpy Bookstore Owner
+    def maxSatisfied(
+        self, customers: List[int], grumpy: List[int], minutes: int
+    ) -> int:
+        satisfied = sum(c for i, c in enumerate(customers) if grumpy[i] == 0)
+        # number of customers satisfied by keeping the owner not grumpy
+        keep_satisfied = 0
+        window_satisfied = 0
+
+        for i, c in enumerate(customers):
+            if grumpy[i] == 1:
+                window_satisfied += c
+            if i >= minutes and grumpy[i - minutes] == 1:
+                window_satisfied -= customers[i - minutes]
+            keep_satisfied = max(keep_satisfied, window_satisfied)
+
+        return satisfied + keep_satisfied
+
     # 1208. Get Equal Substrings Within Budget
     def equalSubstring(self, s: str, t: str, maxCost: int) -> int:
         n = len(s)
