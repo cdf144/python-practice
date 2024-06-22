@@ -295,6 +295,27 @@ class Solution:
 
         return n - j
 
+    # 1248. Count Number of Nice Subarrays
+    def numberOfSubarrays(self, nums: List[int], k: int) -> int:
+        def at_most_k_odd(k: int) -> int:
+            """
+            Count the number of subarrays with at most `k` odd numbers.
+            """
+            result = 0
+            count_odd = 0
+            left = 0
+
+            for right, num in enumerate(nums):
+                count_odd += num % 2
+                while count_odd > k:
+                    count_odd -= nums[left] % 2
+                    left += 1
+                result += right - left + 1
+
+            return result
+
+        return at_most_k_odd(k) - at_most_k_odd(k - 1)
+
     # 1838. Frequency of the Most Frequent Element
     def maxFrequency(self, nums: List[int], k: int) -> int:
         nums.sort()
