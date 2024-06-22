@@ -136,17 +136,6 @@ class Solution:
 
     # 53. Maximum Subarray
     def maxSubArray(self, nums: List[int]) -> int:
-        # # Extra space
-        # length = len(nums)
-        # dp = [0] * length
-        #
-        # dp[0] = nums[0]
-        # for i in range(1, length):
-        #     dp[i] = max(nums[i], dp[i-1] + nums[i])
-        #
-        # return max(dp)
-
-        # Constant space
         curr_sum = 0
         max_sum = -math.inf
 
@@ -167,7 +156,7 @@ class Solution:
         #     if i + 1 == m or j + 1 == n:
         #         return 1
         #     return dp(i + 1, j) + dp(i, j + 1)
-
+        #
         # return dp(0, 0)
 
         # Combinatorics
@@ -177,19 +166,6 @@ class Solution:
     def climbStairs(self, n: int) -> int:
         # dp[i] will be the number of distinct ways to climb to i. This problem
         # can also be thought of as calculating the nth Fibonacci
-
-        # # Memoization
-        # @functools.lru_cache(None)
-        # def dp(i: int) -> int:
-        #     if i == 1:
-        #         return 1
-        #     if i == 2:
-        #         return 2
-        #     return dp(i - 1) + dp(i - 2)
-        #
-        # return dp(n)
-
-        # Tabulation
         if n == 1:
             return 1
         if n == 2:
@@ -226,25 +202,7 @@ class Solution:
         length = len(s)
         if s[0] == "0":
             return 0
-        # dp[i] will be the number of decoding ways of string length = i
-        # dp[0] = 1 for base case, dp[1] = 1 because for a single character
-        # '1' - '9' we can only decode one way.
 
-        # # O(n) space
-        # dp = [1, 1]
-        # for i in range(1, length):
-        #     curr_decode_way = 0
-        #     if s[i] != '0':
-        #         curr_decode_way += dp[-1]
-        #     if s[i - 1] != '0' and int(s[i - 1:i + 1]) <= 26:
-        #         curr_decode_way += dp[-2]
-        #     if curr_decode_way == 0:
-        #         return 0
-        #     dp.append(curr_decode_way)
-        #
-        # return dp[-1]
-
-        # O(1) space
         prev_1 = prev_2 = 1
         for i in range(1, length):
             # If a 1-digit or 2-digit can be decoded by itself, it can be
@@ -357,31 +315,6 @@ class Solution:
     # 198. House Robber
     def rob1(self, nums: List[int]) -> int:
         house_num = len(nums)
-
-        # # Memoization
-        # @functools.lru_cache(None)
-        # def dp(i: int) -> int:
-        #     if i == house_num - 1:
-        #         return nums[i]
-        #     if i == house_num - 2:
-        #         return max(nums[i], nums[i + 1])
-        #
-        #     max_money = max(nums[i] + dp(i + 2), dp(i + 1))
-        #     return max_money
-        #
-        # return dp(0)
-
-        # Tabulation
-        # # O(n) space
-        # dp = [0] * (house_num + 1)
-        # dp[-2] = nums[-1]
-        #
-        # for i in range(house_num - 2, -1, -1):
-        #     dp[i] = max(nums[i] + dp[i + 2], dp[i + 1])
-        #
-        # return dp[0]
-
-        # O(1) space
         prev_1 = nums[-1]  # dp[i + 1]
         prev_2 = 0  # dp[i + 2]
 
@@ -423,12 +356,12 @@ class Solution:
 
         # # DP, Similar to the 'Coin Change' problem
         # squares = [i ** 2 for i in range(1, math.floor(math.sqrt(n) + 1))]
-
+        #
         # @functools.cache
         # def dp(i: int) -> int:
         #     if i <= 1:
         #         return i
-
+        #
         #     result = i
         #     for square in squares:
         #         if square > i:
@@ -465,28 +398,11 @@ class Solution:
         # ends with nums[i] (in other words, with nums[i] being the greatest
         # number in the subsequence)
         # dp[i] = max(dp[j]) + 1 for all j preceding i and nums[j] < nums[i]
-        nums_len = len(nums)
-
-        # # Memoization, Memory Limit Exceeded
-        # @functools.lru_cache(None)
-        # def dp(i: int, nxt: int) -> int:
-        #     if i < 0:
-        #         return 0
+        # # DP
+        # n = len(nums)
+        # dp = [1] * n
         #
-        #     result = max(
-        #         1 + dp(i - 1, i)
-        #         if nxt == nums_len or nums[i] < nums[nxt]
-        #         else 0,
-        #         dp(i - 1, nxt)
-        #     )
-        #     return result
-        #
-        # return dp(nums_len - 1, nums_len)
-
-        # # Tabulation
-        # dp = [1] * nums_len
-        #
-        # for i in range(1, nums_len):
+        # for i in range(1, n):
         #     for j in range(i):
         #         if nums[j] < nums[i]:
         #             dp[i] = max(dp[i], dp[j] + 1)
@@ -557,29 +473,6 @@ class Solution:
     # 322. Coin Change
     def coinChange(self, coins: List[int], amount: int) -> int:
         # dp[i] is the fewest number of coins needed to make up i money
-
-        # # Memoization / Top-Down
-        # @functools.lru_cache(None)
-        # def dp(i: int) -> int:
-        #     if i == 0:
-        #         return 0
-        #
-        #     result = -1
-        #     for coin in coins:
-        #         if coin <= i:
-        #             coin_needed = dp(i - coin) + 1
-        #             if coin_needed <= 0:
-        #                 continue
-        #             if result == -1:
-        #                 result = coin_needed
-        #             else:
-        #                 result = min(result, coin_needed)
-        #
-        #     return result
-        #
-        # return dp(amount)
-
-        # Tabulation / Bottom-Up
         dp = [amount + 1] * (amount + 1)
         dp[0] = 0
 
@@ -640,18 +533,8 @@ class Solution:
         length = len(nums)
         if length < 3:
             return 0
+
         # dp[i] is the number of arithmetic slices ending with nums[i]
-
-        # # O(n) space
-        # dp = [0] * length
-        #
-        # for i in range(2, length):
-        #     if nums[i] - nums[i - 1] == nums[i - 1] - nums[i - 2]:
-        #         dp[i] = dp[i - 1] + 1
-        #
-        # return sum(dp)
-
-        # O(1) space
         result = 0
         dp = 0
 
@@ -909,30 +792,8 @@ class Solution:
     # 746. Min Cost Climbing Stairs
     def minCostClimbingStairs(self, cost: List[int]) -> int:
         top = len(cost)
-
-        # # Memoization
-        # @functools.lru_cache(None)
-        # def dp(i: int) -> int:
-        #     if i <= 1:
-        #         return 0
-        #
-        #     min_cost = min(cost[i - 1] + dp(i - 1), cost[i - 2] + dp(i - 2))
-        #     return min_cost
-        #
-        # return dp(top)
-
-        # Tabulation
-        # O(n) space
-        # dp = [0] * (top + 1)
-        # dp[0] = dp[1] = 0
-        #
-        # for i in range(2, top + 1):
-        #     dp[i] = min(cost[i - 1] + dp[i - 1], cost[i - 2] + dp[i - 2])
-        #
-        # return dp[-1]
-
-        # O(1) space
         prev_1 = prev_2 = 0  # dp[i - 1] and dp[i - 2]
+
         for i in range(2, top + 1):
             dp = min(cost[i - 1] + prev_1, cost[i - 2] + prev_2)
             prev_2 = prev_1
@@ -944,42 +805,7 @@ class Solution:
     def minFallingPathSum(self, matrix: List[List[int]]) -> int:
         # Since n == len(matrix) == len(matrix[i]), n is both row and col count.
         n = len(matrix)
-        # dp[i][j] will be the min sum path ending at matrix[i][j]
 
-        # # Memoization, TLE
-        # @functools.lru_cache
-        # def dp(i: int, j: int) -> int:
-        #     if i == 0:
-        #         return matrix[i][j]
-        #
-        #     min_s = 10005
-        #     for k in range(max(0, j - 1), min(n, j + 2)):
-        #         min_s = min(min_s, matrix[i][j] + dp(i - 1, k))
-        #
-        #     return min_s
-        #
-        # min_sum = 10005
-        # for col in range(n):
-        #     min_sum = min(min_sum, dp(n - 1, col))
-        #
-        # return min_sum
-
-        # Tabulation
-        # # O(n) space
-        # dp = [[0] * n for _ in range(n)]
-        # for i in range(n):
-        #     dp[0][i] = matrix[0][i]
-        #
-        # for row in range(1, n):
-        #     for col in range(n):
-        #         prev_min_sum = 10005
-        #         for k in range(max(0, col - 1), min(n, col + 2)):
-        #             prev_min_sum = min(prev_min_sum, dp[row - 1][k])
-        #         dp[row][col] = prev_min_sum + matrix[row][col]
-        #
-        # return min(dp[n - 1])
-
-        # O(1) space
         for row in range(1, n):
             for col in range(n):
                 prev_min_sum = 10005
@@ -1104,19 +930,6 @@ class Solution:
     # 1143. Longest Common Subsequence
     def longestCommonSubsequence(self, text1: str, text2: str) -> int:
         # Detailed explanation: https://ics.uci.edu/~eppstein/161/960229.html
-
-        # # Memoization
-        # @functools.lru_cache(None)
-        # def dp(i: int, j: int) -> int:
-        #     if i == len(text1) or j == len(text2):
-        #         return 0
-        #     if text1[i] == text2[j]:
-        #         return 1 + dp(i + 1, j + 1)
-        #     return max(dp(i + 1, j), dp(i, j + 1))
-        #
-        # return dp(0, 0)
-
-        # Tabulation
         m = len(text1)
         n = len(text2)
         dp = [[0] * (n + 1) for _ in range(m + 1)]
@@ -1135,24 +948,6 @@ class Solution:
         mod = 10**9 + 7
         # dp[i][j] will be the number of ways to roll to target j with i dices
         # that have k sides
-
-        # # DP Top-Down
-        # @functools.lru_cache(None)
-        # def dp(i: int, j: int) -> int:
-        #     if i == 0:
-        #         return 1 if j == 0 else 0
-        #     if i > j or j < 0:
-        #         return 0
-
-        #     result = 0
-        #     for roll in range(1, k + 1):
-        #         result += dp(i - 1, j - roll)
-
-        #     return result % mod
-
-        # return dp(n, target)
-
-        # Knapsack
         dp = [[0] * (target + 1) for _ in range(n + 1)]
         dp[0][0] = 1
 
@@ -1171,28 +966,6 @@ class Solution:
         # from time (interval) i
         job_intervals = sorted(zip(startTime, endTime, profit))
         num_intervals = len(job_intervals)
-
-        # # Memoization
-        # @functools.lru_cache(None)
-        # def dp(i: int) -> int:
-        #     # No job left
-        #     if i == num_intervals:
-        #         return 0
-        #
-        #     # At each interval, we have 2 choices
-        #     # Not taking the job that is at this interval:
-        #     result = dp(i + 1)
-        #
-        #     # Taking the job:
-        #     # Find the next job that does not overlap with current job
-        #     j = bisect.bisect(job_intervals, (job_intervals[i][1], -1, -1))
-        #     result = max(result, job_intervals[i][2] + dp(j))
-        #
-        #     return result
-        #
-        # return dp(0)
-
-        # Tabulation
         dp = [0] * (num_intervals + 1)
 
         for i in range(num_intervals - 1, -1, -1):
@@ -1305,15 +1078,14 @@ class Solution:
         # def dp(i: int, j: int, k: int) -> int:
         #     if i == m or not 0 <= j < n or not 0 <= k < n:
         #         return 0
-
+        #
         #     curr_row_sum = grid[i][j] + (grid[i][k] if j != k else 0)
         #     result = 0
         #     for r1 in range(j - 1, j + 2):
         #         for r2 in range(k - 1, k + 2):
         #             result = max(result, curr_row_sum + dp(i + 1, r1, r2))
-
         #     return result
-
+        #
         # return dp(0, 0, n - 1)
 
         # Bottom-up, slower but more memory-efficient
@@ -1462,20 +1234,6 @@ class Solution:
         mod = 10**9 + 7
         # dp[i] will be the number of good strings of length i that can be
         # constructed
-
-        # # Memoization
-        # @functools.cache
-        # def dp(i: int) -> int:
-        #     if i <= 0:
-        #         return 1 if i == 0 else 0
-        #     return dp(i - zero) % mod + dp(i - one) % mod
-
-        # result = 0
-        # for length in range(low, high + 1):
-        #     result = (result + dp(length)) % mod
-        # return result % mod
-
-        # Tabulation
         dp = [0] * (high + 1)
         dp[0] = 1
 
