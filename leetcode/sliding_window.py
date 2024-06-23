@@ -316,6 +316,32 @@ class Solution:
 
         return at_most_k_odd(k) - at_most_k_odd(k - 1)
 
+    # 1438. Longest Continuous Subarray With Absolute Diff Less Than or Equal to Limit
+    def longestSubarray(self, nums: List[int], limit: int) -> int:
+        result = 0
+        min_queue, max_queue = collections.deque(), collections.deque()
+        left = 0
+
+        for right, num in enumerate(nums):
+            while min_queue and num < min_queue[-1]:
+                min_queue.pop()
+            min_queue.append(num)
+
+            while max_queue and num > max_queue[-1]:
+                max_queue.pop()
+            max_queue.append(num)
+
+            while abs(max_queue[0] - min_queue[0]) > limit:
+                if nums[left] == max_queue[0]:
+                    max_queue.popleft()
+                if nums[left] == min_queue[0]:
+                    min_queue.popleft()
+                left += 1
+
+            result = max(result, right - left + 1)
+
+        return result
+
     # 1838. Frequency of the Most Frequent Element
     def maxFrequency(self, nums: List[int], k: int) -> int:
         nums.sort()
