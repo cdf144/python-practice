@@ -376,6 +376,28 @@ class Solution:
 
         return result
 
+    # 995. Minimum Number of K Consecutive Bit Flips
+    def minKBitFlips(self, nums: List[int], k: int) -> int:
+        result = 0
+        # Track the number of flips that affect the current bit
+        flips = 0
+
+        for i, num in enumerate(nums):
+            # The previous flip at nums[i - k] does not affect the current bit
+            if i >= k and nums[i - k] == 2:
+                flips -= 1
+            # If current bit needs to be flipped
+            if flips % 2 == num:
+                # Unable to flip the window starting with nums[i]
+                if i + k > len(nums):
+                    return -1
+                # Able to flip
+                result += 1
+                flips += 1
+                nums[i] = 2
+
+        return result
+
     # 1338. Reduce Array Size to The Half
     def minSetSize(self, arr: List[int]) -> int:
         n = len(arr)
