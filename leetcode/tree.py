@@ -46,32 +46,6 @@ class Solution:
     def isSameTree(self, p: Optional[TreeNode], q: Optional[TreeNode]) -> bool:
         if not p or not q:
             return p == q
-
-        # # BFS, list check
-        # def bfs(x: Optional[TreeNode]) -> List[int]:
-        #     result = [x.val]
-        #     queue = collections.deque()
-        #     queue.append(x)
-        #
-        #     while queue:
-        #         node = queue.popleft()
-        #         if node.left:
-        #             result.append(node.left.val)
-        #             queue.append(node.left)
-        #         else:
-        #             result.append(10 ** 4 + 1)
-        #
-        #         if node.right:
-        #             result.append(node.right.val)
-        #             queue.append(node.right)
-        #         else:
-        #             result.append(10 ** 4 + 1)
-        #
-        #     return result
-        #
-        # return bfs(p) == bfs(q)
-
-        # DFS in-place check
         return (
             p.val == q.val
             and self.isSameTree(p.left, q.left)
@@ -247,27 +221,6 @@ class Solution:
 
     # 199. Binary Tree Right Side View
     def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
-        # # BFS
-        # if not root:
-        #     return []
-        #
-        # queue = collections.deque([root])
-        # result = []
-        #
-        # while queue:
-        #     level_size = len(queue)
-        #     for i in range(level_size):
-        #         node = queue.popleft()
-        #         if i == level_size - 1:
-        #             result.append(node.val)
-        #         if node.left:
-        #             queue.append(node.left)
-        #         if node.right:
-        #             queue.append(node.right)
-        #
-        # return result
-
-        # DFS
         result = []
 
         def dfs(node: Optional[TreeNode], depth: int) -> None:
@@ -285,22 +238,6 @@ class Solution:
 
     # 226. Invert Binary Tree
     def invertTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
-        # # BFS
-        # queue = collections.deque()
-        # if root:
-        #     queue.append(root)
-        #
-        # while queue:
-        #     node = queue.popleft()
-        #     node.left, node.right = node.right, node.left
-        #     if node.left:
-        #         queue.append(node.left)
-        #     if node.right:
-        #         queue.append(node.right)
-        #
-        # return root
-
-        # DFS
         if not root:
             return
 
@@ -481,21 +418,6 @@ class Solution:
 
     # 872. Leaf-Similar Trees
     def leafSimilar(self, root1: Optional[TreeNode], root2: Optional[TreeNode]) -> bool:
-        # # Append to List
-        # def dfs(root: Optional[TreeNode], leaf: List[int]) -> None:
-        #     if root:
-        #         if not root.left and not root.right:
-        #             leaf.append(root.val)
-        #             return
-        #         dfs(root.left, leaf)
-        #         dfs(root.right, leaf)
-        #
-        # leaf1, leaf2 = [], []
-        # dfs(root1, leaf1)
-        # dfs(root2, leaf2)
-        # return leaf1 == leaf2
-
-        # Generator
         def dfs(root: Optional[TreeNode]) -> Generator[int, TreeNode, None]:
             if root:
                 if not root.left and not root.right:
@@ -509,27 +431,6 @@ class Solution:
 
     # 938. Range Sum of BST
     def rangeSumBST(self, root: Optional[TreeNode], low: int, high: int) -> int:
-        # # BFS
-        # queue = collections.deque()
-        # result = 0
-        # queue.append(root)
-        #
-        # while queue:
-        #     node = queue.popleft()
-        #     if not node:
-        #         continue
-        #     if node.val > high:
-        #         queue.append(node.left)
-        #     elif node.val < low:
-        #         queue.append(node.right)
-        #     else:
-        #         result += node.val
-        #         queue.append(node.left)
-        #         queue.append(node.right)
-        #
-        # return result
-
-        # DFS
         if not root:
             return 0
         if root.val > high:
@@ -585,47 +486,6 @@ class Solution:
         if not root:
             return 0
 
-        # # Lengthy 2 HashMap 2-pass DFS, but somehow efficient
-        # map_ancestor_to_min = {}
-        # map_ancestor_to_max = {}
-        #
-        # def dfs_min(node: Optional[TreeNode]) -> int:
-        #     if not node:
-        #         return 100001
-        #
-        #     map_ancestor_to_min[node.val] = min(
-        #         node.val,
-        #         dfs_min(node.left),
-        #         dfs_min(node.right)
-        #     )
-        #
-        #     return map_ancestor_to_min[node.val]
-        #
-        # def dfs_max(node: Optional[TreeNode]) -> int:
-        #     if not node:
-        #         return -1
-        #
-        #     map_ancestor_to_max[node.val] = max(
-        #         node.val,
-        #         dfs_max(node.left),
-        #         dfs_max(node.right)
-        #     )
-        #
-        #     return map_ancestor_to_max[node.val]
-        #
-        # dfs_min(root)
-        # dfs_max(root)
-        # max_diff = 0
-        #
-        # for ancestor, min_descendant in map_ancestor_to_min.items():
-        #     max_diff = max(max_diff, ancestor - min_descendant)
-        #
-        # for ancestor, max_descendant in map_ancestor_to_max.items():
-        #     max_diff = max(max_diff, max_descendant - ancestor)
-        #
-        # return max_diff
-
-        # More concise 1-pass DFS
         def max_diff(node: Optional[TreeNode], min_node: int, max_node: int) -> int:
             if not node:
                 return 0
