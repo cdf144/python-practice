@@ -637,6 +637,23 @@ class Solution:
 
         return max_diff(root, root.val, root.val)
 
+    # 1038. Binary Search Tree to Greater Sum Tree
+    def bstToGst(self, root: TreeNode) -> TreeNode:
+        total = 0
+
+        def dfs(node: Optional[TreeNode]) -> None:
+            nonlocal total
+            if not node:
+                return
+
+            dfs(node.right)
+            total += node.val
+            node.val = total
+            dfs(node.left)
+
+        dfs(root)
+        return root
+
     # 1325. Delete Leaves With a Given Value
     def removeLeafNodes(
         self, root: Optional[TreeNode], target: int
