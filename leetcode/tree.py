@@ -528,6 +528,22 @@ class Solution:
         root.right = self.removeLeafNodes(root.right, target)
         return None if is_leaf(root) and root.val == target else root
 
+    # 1382. Balance a Binary Search Tree
+    def balanceBST(self, root: TreeNode) -> TreeNode:
+        def inorder(node: Optional[TreeNode]) -> List[int]:
+            if not node:
+                return []
+            return inorder(node.left) + [node.val] + inorder(node.right)
+
+        def build_tree(arr: List[int]) -> TreeNode:
+            mid = len(arr) // 2
+            root = TreeNode(arr[len(arr) // 2])
+            root.left = build_tree(arr[:mid]) if mid > 0 else None
+            root.right = build_tree(arr[mid + 1 :]) if mid < len(arr) - 1 else None
+            return root
+
+        return build_tree(inorder(root))
+
     # 1448. Count Good Nodes in Binary Tree
     def goodNodes(self, root: TreeNode) -> int:
         def dfs(node: Optional[TreeNode], curr_max) -> None:
