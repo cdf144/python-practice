@@ -246,6 +246,10 @@ class Solution:
 
         return "".join(result)
 
+    # 1791. Find Center of Star Graph
+    def findCenter(self, edges: List[List[int]]) -> int:
+        return edges[0][0] if edges[0][0] in edges[1] else edges[0][1]
+
     # 1971. Find if Path Exists in Graph
     def validPath(
         self, n: int, edges: List[List[int]], source: int, destination: int
