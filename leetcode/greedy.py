@@ -548,14 +548,6 @@ class Solution:
 
         return result
 
-    # 1846. Maximum Element After Decreasing and Rearranging
-    def maximumElementAfterDecrementingAndRearranging(self, arr: List[int]) -> int:
-        arr.sort()
-        arr[0] = 1
-        for i in range(1, len(arr)):
-            arr[i] = min(arr[i], arr[i - 1] + 1)
-        return arr[-1]
-
     # 1827. Minimum Operations to Make the Array Increasing
     def minOperations(self, nums: List[int]) -> int:
         result = 0
@@ -568,6 +560,14 @@ class Solution:
             prev = num
 
         return result
+
+    # 1846. Maximum Element After Decreasing and Rearranging
+    def maximumElementAfterDecrementingAndRearranging(self, arr: List[int]) -> int:
+        arr.sort()
+        arr[0] = 1
+        for i in range(1, len(arr)):
+            arr[i] = min(arr[i], arr[i - 1] + 1)
+        return arr[-1]
 
     # 1899. Merge Triplets to Form Target Triplet
     def mergeTriplets(self, triplets: List[List[int]], target: List[int]) -> bool:
