@@ -592,6 +592,15 @@ class Solution:
     def minMovesToSeat(self, seats: List[int], students: List[int]) -> int:
         return sum(abs(a - b) for a, b in zip(sorted(seats), sorted(students)))
 
+    # 2285. Maximum Total Importance of Roads
+    def maximumImportance(self, n: int, roads: List[List[int]]) -> int:
+        city_roads = [0] * n
+        for u, v in roads:
+            city_roads[u] += 1
+            city_roads[v] += 1
+        city_roads.sort()
+        return sum((i + 1) * city for i, city in enumerate(city_roads))
+
     # 2895. Minimum Processing Time
     def minProcessingTime(self, processorTime: List[int], tasks: List[int]) -> int:
         assert len(tasks) == len(processorTime) * 4
