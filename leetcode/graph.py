@@ -1,7 +1,7 @@
 import collections
 import bisect
 import math
-from typing import List
+from typing import List, Set
 
 
 class UF:
@@ -312,6 +312,26 @@ class Solution:
                     uf.reset(p)
 
         return [i for i in range(n) if uf.connected(0, i)]
+
+    # 2192. All Ancestors of a Node in a Directed Acyclic Graph
+    def getAncestors(self, n: int, edges: List[List[int]]) -> List[List[int]]:
+        result = [[] for _ in range(n)]
+
+        adj = collections.defaultdict(list)
+        for u, v in edges:
+            adj[u].append(v)
+
+        def dfs(u: int, ancestor: int, visited: Set[int]) -> None:
+            for v in adj[u]:
+                if v in visited:
+                    continue
+                result[v].append(ancestor)
+                visited.add(v)
+                dfs(v, ancestor, visited)
+
+        for i in range(n):
+            dfs(i, i, set())
+        return result
 
     # 2709. Greatest Common Divisor Traversal
     def canTraverseAllPairs(self, nums: List[int]) -> bool:
