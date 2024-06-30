@@ -8,6 +8,7 @@ class UF:
     def __init__(self, n: int):
         self.parent = [i for i in range(n)]
         self.size = [1 for _ in range(n)]
+        self.count_edges = 0
 
     def _root(self, x: int) -> int:
         while x != self.parent[x]:
@@ -27,6 +28,7 @@ class UF:
             x, y = y, x
         self.parent[y] = x
         self.size[x] += self.size[y]
+        self.count_edges += 1
         return True
 
     def reset(self, x: int) -> None:
@@ -245,6 +247,35 @@ class Solution:
             result.append(chr(ord("a") + root(ord(c) - ord("a"))))
 
         return "".join(result)
+
+    # 1579. Remove Max Number of Edges to Keep Graph Fully Traversable
+    def maxNumEdgesToRemove(self, n: int, edges: List[List[int]]) -> int:
+        alice, bob = UF(n), UF(n)
+        edges_required = 0
+
+        # Greedy, use edges that benefit both Alice and Bob first, then individually.
+        for type, x, y in sorted(edges, reverse=True):
+            x = x - 1
+            y = y - 1
+            if type == 3:  # Alice and Bob
+                # Use `|` instead of `or` because with `or`, due to short-circuiting,
+                # if the first expression is `True`, the second expression won't be
+                # evaluated.
+                if alice.union(x, y) | bob.union(x, y):
+                    edges_required += 1
+            elif type == 2:  # Bob
+                if bob.union(x, y):
+                    edges_required += 1
+            else:  # Alice
+                if alice.union(x, y):
+                    edges_required += 1
+
+        # In the end, both Alice and Bob graph should be MSTs
+        return (
+            len(edges) - edges_required
+            if alice.count_edges == n - 1 and bob.count_edges == n - 1
+            else -1
+        )
 
     # 1791. Find Center of Star Graph
     def findCenter(self, edges: List[List[int]]) -> int:
