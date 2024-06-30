@@ -3,26 +3,26 @@ class UF:
         self.parent = list(range(n))
         self.size = [1 for i in range(n)]
 
-    def _root(self, p: int) -> int:
-        while p != self.parent[p]:
-            self.parent[p] = self.parent[self.parent[p]]
-            p = self.parent[p]
-        return p
+    def _root(self, x: int) -> int:
+        while x != self.parent[x]:
+            self.parent[x] = self.parent[self.parent[x]]
+            x = self.parent[x]
+        return x
 
-    def connected(self, p: int, q: int) -> bool:
-        return self._root(p) == self._root(q)
+    def connected(self, x: int, y: int) -> bool:
+        return self._root(x) == self._root(y)
 
-    def union(self, p: int, q: int) -> bool:
-        pr, qr = self._root(p), self._root(q)
-        if pr == qr:
+    def union(self, x: int, y: int) -> bool:
+        x, y = self._root(x), self._root(y)
+        if x == y:
             return False
 
-        if self.size[pr] < self.size[qr]:
-            pr, qr = qr, pr
+        if self.size[x] < self.size[y]:
+            x, y = y, x
 
-        self.parent[qr] = pr
-        self.size[pr] += self.size[qr]
+        self.parent[y] = x
+        self.size[x] += self.size[y]
         return True
 
-    def reset(self, p: int) -> None:
-        self.parent[p] = p
+    def reset(self, x: int) -> None:
+        self.parent[x] = x

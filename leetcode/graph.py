@@ -9,28 +9,28 @@ class UF:
         self.parent = [i for i in range(n)]
         self.size = [1 for _ in range(n)]
 
-    def _root(self, p: int) -> int:
-        while p != self.parent[p]:
-            self.parent[p] = self.parent[self.parent[p]]
-            p = self.parent[p]
-        return p
+    def _root(self, x: int) -> int:
+        while x != self.parent[x]:
+            self.parent[x] = self.parent[self.parent[x]]
+            x = self.parent[x]
+        return x
 
-    def connected(self, p: int, q: int) -> bool:
-        return self._root(p) == self._root(q)
+    def connected(self, x: int, y: int) -> bool:
+        return self._root(x) == self._root(y)
 
-    def union(self, p: int, q: int) -> bool:
-        p_r, q_r = self._root(p), self._root(q)
-        if p_r == q_r:
+    def union(self, x: int, y: int) -> bool:
+        x, y = self._root(x), self._root(y)
+        if x == y:
             return False
 
-        if self.size[p_r] < self.size[q_r]:
-            p_r, q_r = q_r, p_r
-        self.parent[q_r] = p_r
-        self.size[p_r] += self.size[q_r]
+        if self.size[x] < self.size[y]:
+            x, y = y, x
+        self.parent[y] = x
+        self.size[x] += self.size[y]
         return True
 
-    def reset(self, p: int) -> None:
-        self.parent[p] = p
+    def reset(self, x: int) -> None:
+        self.parent[x] = x
 
 
 class Solution:
