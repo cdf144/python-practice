@@ -144,6 +144,15 @@ class Solution:
 
         return result
 
+    # 1550. Three Consecutive Odds
+    def threeConsecutiveOdds(self, arr: List[int]) -> bool:
+        count_odd = 0
+        for num in arr:
+            count_odd = count_odd + 1 if num & 1 else 0
+            if count_odd == 3:
+                return True
+        return False
+
     # 1582. Special Positions in a Binary Matrix
     def num_special(self, mat: List[List[int]]) -> int:
         result = 0
