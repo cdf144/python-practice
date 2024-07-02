@@ -231,10 +231,6 @@ class Solution:
 
         return slow
 
-    # 349. Intersection of Two Arrays
-    def intersection(self, nums1: List[int], nums2: List[int]) -> List[int]:
-        return list(set(nums1) & set(nums2))
-
     # 392. Is Subsequence
     def isSubsequence(self, s: str, t: str) -> bool:
         length = len(s)

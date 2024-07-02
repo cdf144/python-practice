@@ -116,6 +116,10 @@ class Solution:
             bucket[-freq].append(num)
         return list((itertools.chain(*bucket)))[:k]
 
+    # 349. Intersection of Two Arrays
+    def intersection(self, nums1: List[int], nums2: List[int]) -> List[int]:
+        return list(set(nums1) & set(nums2))
+
     # 383. Ransom Note
     def canConstruct(self, ransomNote: str, magazine: str) -> bool:
         magazine_char_counter = collections.Counter(magazine)
